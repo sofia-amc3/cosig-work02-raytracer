@@ -86,6 +86,7 @@ namespace work02_raytracer
             tabControl1.SelectedIndex = 1; // goes to application
         }
 
+        // GLOBAL ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         private void loadImgBtn_Click(object sender, EventArgs e)
         {
             // open file dialog
@@ -100,7 +101,6 @@ namespace work02_raytracer
             }
         }
 
-        // GLOBAL ----------------------------------------------------------------------------------------------------------------------------------------------------------------
         private void saveImgBtn_Click(object sender, EventArgs e)
         {
             if(imageUploaded.BackgroundImage != null)
