@@ -23,28 +23,28 @@ namespace work02_raytracer
         public void setY(double y) { this.y = y; }
         public void setZ(double z) { this.z = z; }
 
-        public Vector3 addVectors(Vector3 v1, Vector3 v2)
+        public static Vector3 addVectors(Vector3 v1, Vector3 v2)
         {
             return new Vector3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
         }
 
-        public Vector3 subtractVectors(Vector3 v1, Vector3 v2)
+        public static Vector3 subtractVectors(Vector3 v1, Vector3 v2)
         {
             return new Vector3(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
         }
 
-        public Vector3 multiplyVectorByScalar(int scalar, Vector3 v1)
+        public static Vector3 multiplyVectorByScalar(double scalar, Vector3 v1)
         {
             return new Vector3(scalar * v1.x, scalar * v1.y, scalar * v1.z);
         }
 
-        public double calculateDotProduct(Vector3 v1, Vector3 v2)
+        public static double calculateDotProduct(Vector3 v1, Vector3 v2)
         {
             // in portuguese: produto escalar - resultado é um escalar
             return (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
         }
 
-        public Vector3 calculateCrossProduct(Vector3 v1, Vector3 v2)
+        public static Vector3 calculateCrossProduct(Vector3 v1, Vector3 v2)
         {
             // in portuguese: produto vetorial - resultado é um vetor
             double newX = (v1.y * v2.z) - (v1.z * v2.y),
@@ -54,13 +54,13 @@ namespace work02_raytracer
             return new Vector3(newX, newY, newZ);
         }
 
-        public double calculateVectorLength(Vector3 v1) 
+        public static double calculateVectorLength(Vector3 v1) 
         {
             // the length is equal to the squareroot of the dot product of the vector with itself
             return Math.Sqrt(calculateDotProduct(v1, v1));
         }
 
-        public Vector3 normalizeVector(Vector3 v1) 
+        public static Vector3 normalizeVector(Vector3 v1) 
         {
             // unit vector: a vector divided by its length
             return new Vector3(v1.x / calculateVectorLength(v1), v1.y / calculateVectorLength(v1), v1.z / calculateVectorLength(v1));

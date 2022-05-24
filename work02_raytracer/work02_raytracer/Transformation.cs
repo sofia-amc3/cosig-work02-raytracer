@@ -6,5 +6,6 @@ namespace work02_raytracer
 {
     class Transformation
     {
+
     }
 }
