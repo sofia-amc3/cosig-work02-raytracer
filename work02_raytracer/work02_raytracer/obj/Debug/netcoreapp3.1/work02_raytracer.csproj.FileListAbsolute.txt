@@ -13,3 +13,4 @@ D:\01. Work\01. University - ISEP (MEI)\02. 1st Year\05. Complementos de Sistema
 D:\01. Work\01. University - ISEP (MEI)\02. 1st Year\05. Complementos de Sistemas Gráficos\cosig-work02\work02_raytracer\work02_raytracer\obj\Debug\netcoreapp3.1\work02_raytracer.dll
 D:\01. Work\01. University - ISEP (MEI)\02. 1st Year\05. Complementos de Sistemas Gráficos\cosig-work02\work02_raytracer\work02_raytracer\obj\Debug\netcoreapp3.1\work02_raytracer.pdb
 D:\01. Work\01. University - ISEP (MEI)\02. 1st Year\05. Complementos de Sistemas Gráficos\cosig-work02\work02_raytracer\work02_raytracer\obj\Debug\netcoreapp3.1\work02_raytracer.genruntimeconfig.cache
+D:\01. Work\01. University - ISEP (MEI)\02. 1st Year\05. Complementos de Sistemas Gráficos\cosig-work02\work02_raytracer\work02_raytracer\obj\Debug\netcoreapp3.1\work02_raytracer.Properties.Resources.resources
