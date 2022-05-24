@@ -76,14 +76,16 @@ namespace work02_raytracer
             this.cameraLabel = new System.Windows.Forms.Label();
             this.dividerTop = new System.Windows.Forms.Label();
             this.dividerBottom = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
-            this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-            this.label3 = new System.Windows.Forms.Label();
-            this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.bgColorBInput = new System.Windows.Forms.NumericUpDown();
+            this.bgColorBLabel = new System.Windows.Forms.Label();
+            this.bgColorGInput = new System.Windows.Forms.NumericUpDown();
+            this.bgColorGLabel = new System.Windows.Forms.Label();
+            this.bgColorRInput = new System.Windows.Forms.NumericUpDown();
+            this.bgColorRLabel = new System.Windows.Forms.Label();
+            this.colorComponentsLabel = new System.Windows.Forms.Label();
+            this.backgroundColorLabel = new System.Windows.Forms.Label();
+            this.progressBarLabel = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.tabControl1.SuspendLayout();
             this.mainMenu.SuspendLayout();
             this.application.SuspendLayout();
@@ -98,9 +100,9 @@ namespace work02_raytracer
             ((System.ComponentModel.ISupportInitialize)(this.transformHInput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.camFieldInput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.camDistanceInput)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bgColorBInput)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bgColorGInput)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bgColorRInput)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -165,14 +167,16 @@ namespace work02_raytracer
             // application
             // 
             this.application.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.application.Controls.Add(this.label1);
-            this.application.Controls.Add(this.numericUpDown1);
-            this.application.Controls.Add(this.label2);
-            this.application.Controls.Add(this.numericUpDown2);
-            this.application.Controls.Add(this.label3);
-            this.application.Controls.Add(this.numericUpDown3);
-            this.application.Controls.Add(this.label4);
-            this.application.Controls.Add(this.label5);
+            this.application.Controls.Add(this.progressBar1);
+            this.application.Controls.Add(this.progressBarLabel);
+            this.application.Controls.Add(this.backgroundColorLabel);
+            this.application.Controls.Add(this.bgColorBInput);
+            this.application.Controls.Add(this.bgColorBLabel);
+            this.application.Controls.Add(this.bgColorGInput);
+            this.application.Controls.Add(this.bgColorGLabel);
+            this.application.Controls.Add(this.bgColorRInput);
+            this.application.Controls.Add(this.bgColorRLabel);
+            this.application.Controls.Add(this.colorComponentsLabel);
             this.application.Controls.Add(this.dividerBottom);
             this.application.Controls.Add(this.dividerTop);
             this.application.Controls.Add(this.camFieldInput);
@@ -406,6 +410,11 @@ namespace work02_raytracer
             this.imageResHInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.imageResHInput.ForeColor = System.Drawing.Color.White;
             this.imageResHInput.Location = new System.Drawing.Point(900, 191);
+            this.imageResHInput.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
             this.imageResHInput.Name = "imageResHInput";
             this.imageResHInput.Size = new System.Drawing.Size(43, 18);
             this.imageResHInput.TabIndex = 21;
@@ -426,6 +435,11 @@ namespace work02_raytracer
             this.imageResVInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.imageResVInput.ForeColor = System.Drawing.Color.White;
             this.imageResVInput.Location = new System.Drawing.Point(900, 217);
+            this.imageResVInput.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
             this.imageResVInput.Name = "imageResVInput";
             this.imageResVInput.Size = new System.Drawing.Size(43, 18);
             this.imageResVInput.TabIndex = 23;
@@ -446,6 +460,16 @@ namespace work02_raytracer
             this.transformYInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.transformYInput.ForeColor = System.Drawing.Color.White;
             this.transformYInput.Location = new System.Drawing.Point(842, 347);
+            this.transformYInput.Maximum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            0});
+            this.transformYInput.Minimum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            -2147483648});
             this.transformYInput.Name = "transformYInput";
             this.transformYInput.Size = new System.Drawing.Size(43, 18);
             this.transformYInput.TabIndex = 28;
@@ -466,6 +490,16 @@ namespace work02_raytracer
             this.transformXInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.transformXInput.ForeColor = System.Drawing.Color.White;
             this.transformXInput.Location = new System.Drawing.Point(842, 321);
+            this.transformXInput.Maximum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            0});
+            this.transformXInput.Minimum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            -2147483648});
             this.transformXInput.Name = "transformXInput";
             this.transformXInput.Size = new System.Drawing.Size(43, 18);
             this.transformXInput.TabIndex = 26;
@@ -496,6 +530,16 @@ namespace work02_raytracer
             this.transformZInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.transformZInput.ForeColor = System.Drawing.Color.White;
             this.transformZInput.Location = new System.Drawing.Point(842, 374);
+            this.transformZInput.Maximum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            0});
+            this.transformZInput.Minimum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            -2147483648});
             this.transformZInput.Name = "transformZInput";
             this.transformZInput.Size = new System.Drawing.Size(43, 18);
             this.transformZInput.TabIndex = 30;
@@ -646,87 +690,121 @@ namespace work02_raytracer
             this.dividerBottom.Text = " ";
             this.dividerBottom.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // numericUpDown1
+            // bgColorBInput
             // 
-            this.numericUpDown1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.numericUpDown1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.numericUpDown1.ForeColor = System.Drawing.Color.White;
-            this.numericUpDown1.Location = new System.Drawing.Point(1093, 260);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(43, 18);
-            this.numericUpDown1.TabIndex = 50;
+            this.bgColorBInput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.bgColorBInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.bgColorBInput.ForeColor = System.Drawing.Color.White;
+            this.bgColorBInput.Location = new System.Drawing.Point(1093, 260);
+            this.bgColorBInput.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.bgColorBInput.Name = "bgColorBInput";
+            this.bgColorBInput.Size = new System.Drawing.Size(43, 18);
+            this.bgColorBInput.TabIndex = 50;
             // 
-            // label2
+            // bgColorBLabel
             // 
-            this.label2.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label2.Location = new System.Drawing.Point(1068, 251);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(26, 33);
-            this.label2.TabIndex = 49;
-            this.label2.Text = "B";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.bgColorBLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.bgColorBLabel.Location = new System.Drawing.Point(1068, 251);
+            this.bgColorBLabel.Name = "bgColorBLabel";
+            this.bgColorBLabel.Size = new System.Drawing.Size(26, 33);
+            this.bgColorBLabel.TabIndex = 49;
+            this.bgColorBLabel.Text = "B";
+            this.bgColorBLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // numericUpDown2
+            // bgColorGInput
             // 
-            this.numericUpDown2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.numericUpDown2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.numericUpDown2.ForeColor = System.Drawing.Color.White;
-            this.numericUpDown2.Location = new System.Drawing.Point(1093, 233);
-            this.numericUpDown2.Name = "numericUpDown2";
-            this.numericUpDown2.Size = new System.Drawing.Size(43, 18);
-            this.numericUpDown2.TabIndex = 48;
+            this.bgColorGInput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.bgColorGInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.bgColorGInput.ForeColor = System.Drawing.Color.White;
+            this.bgColorGInput.Location = new System.Drawing.Point(1093, 233);
+            this.bgColorGInput.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.bgColorGInput.Name = "bgColorGInput";
+            this.bgColorGInput.Size = new System.Drawing.Size(43, 18);
+            this.bgColorGInput.TabIndex = 48;
             // 
-            // label3
+            // bgColorGLabel
             // 
-            this.label3.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label3.Location = new System.Drawing.Point(1068, 224);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(26, 33);
-            this.label3.TabIndex = 47;
-            this.label3.Text = "G";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.bgColorGLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.bgColorGLabel.Location = new System.Drawing.Point(1068, 224);
+            this.bgColorGLabel.Name = "bgColorGLabel";
+            this.bgColorGLabel.Size = new System.Drawing.Size(26, 33);
+            this.bgColorGLabel.TabIndex = 47;
+            this.bgColorGLabel.Text = "G";
+            this.bgColorGLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // numericUpDown3
+            // bgColorRInput
             // 
-            this.numericUpDown3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.numericUpDown3.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.numericUpDown3.ForeColor = System.Drawing.Color.White;
-            this.numericUpDown3.Location = new System.Drawing.Point(1093, 207);
-            this.numericUpDown3.Name = "numericUpDown3";
-            this.numericUpDown3.Size = new System.Drawing.Size(43, 18);
-            this.numericUpDown3.TabIndex = 46;
+            this.bgColorRInput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.bgColorRInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.bgColorRInput.ForeColor = System.Drawing.Color.White;
+            this.bgColorRInput.Location = new System.Drawing.Point(1093, 207);
+            this.bgColorRInput.Maximum = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.bgColorRInput.Name = "bgColorRInput";
+            this.bgColorRInput.Size = new System.Drawing.Size(43, 18);
+            this.bgColorRInput.TabIndex = 46;
             // 
-            // label4
+            // bgColorRLabel
             // 
-            this.label4.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label4.Location = new System.Drawing.Point(1068, 198);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(26, 33);
-            this.label4.TabIndex = 45;
-            this.label4.Text = "R";
-            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.bgColorRLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.bgColorRLabel.Location = new System.Drawing.Point(1068, 198);
+            this.bgColorRLabel.Name = "bgColorRLabel";
+            this.bgColorRLabel.Size = new System.Drawing.Size(26, 33);
+            this.bgColorRLabel.TabIndex = 45;
+            this.bgColorRLabel.Text = "R";
+            this.bgColorRLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label5
+            // colorComponentsLabel
             // 
-            this.label5.Font = new System.Drawing.Font("Montserrat SemiBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label5.Location = new System.Drawing.Point(1068, 148);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(204, 33);
-            this.label5.TabIndex = 44;
-            this.label5.Text = "Color Components";
-            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.colorComponentsLabel.Font = new System.Drawing.Font("Montserrat SemiBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.colorComponentsLabel.Location = new System.Drawing.Point(1068, 148);
+            this.colorComponentsLabel.Name = "colorComponentsLabel";
+            this.colorComponentsLabel.Size = new System.Drawing.Size(204, 33);
+            this.colorComponentsLabel.TabIndex = 44;
+            this.colorComponentsLabel.Text = "Color Components";
+            this.colorComponentsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // label1
+            // backgroundColorLabel
             // 
-            this.label1.BackColor = System.Drawing.Color.Transparent;
-            this.label1.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.label1.Location = new System.Drawing.Point(1068, 181);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(99, 23);
-            this.label1.TabIndex = 51;
-            this.label1.Text = "Background";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.backgroundColorLabel.BackColor = System.Drawing.Color.Transparent;
+            this.backgroundColorLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.backgroundColorLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.backgroundColorLabel.Location = new System.Drawing.Point(1068, 181);
+            this.backgroundColorLabel.Name = "backgroundColorLabel";
+            this.backgroundColorLabel.Size = new System.Drawing.Size(99, 23);
+            this.backgroundColorLabel.TabIndex = 51;
+            this.backgroundColorLabel.Text = "Background";
+            this.backgroundColorLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // progressBarLabel
+            // 
+            this.progressBarLabel.Font = new System.Drawing.Font("Montserrat SemiBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.progressBarLabel.Location = new System.Drawing.Point(528, 574);
+            this.progressBarLabel.Name = "progressBarLabel";
+            this.progressBarLabel.Size = new System.Drawing.Size(204, 33);
+            this.progressBarLabel.TabIndex = 52;
+            this.progressBarLabel.Text = "Progress Bar";
+            this.progressBarLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.progressBar1.Location = new System.Drawing.Point(530, 610);
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(172, 31);
+            this.progressBar1.TabIndex = 53;
+            this.progressBar1.UseWaitCursor = true;
             // 
             // RayTracer
             // 
@@ -754,9 +832,9 @@ namespace work02_raytracer
             ((System.ComponentModel.ISupportInitialize)(this.transformHInput)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.camFieldInput)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.camDistanceInput)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bgColorBInput)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bgColorGInput)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bgColorRInput)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -809,14 +887,16 @@ namespace work02_raytracer
         private System.Windows.Forms.PictureBox imageUploaded;
         private System.Windows.Forms.Button exitBtn;
         private System.Windows.Forms.Button saveImgBtn;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.NumericUpDown numericUpDown3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label backgroundColorLabel;
+        private System.Windows.Forms.NumericUpDown bgColorBInput;
+        private System.Windows.Forms.Label bgColorBLabel;
+        private System.Windows.Forms.NumericUpDown bgColorGInput;
+        private System.Windows.Forms.Label bgColorGLabel;
+        private System.Windows.Forms.NumericUpDown bgColorRInput;
+        private System.Windows.Forms.Label bgColorRLabel;
+        private System.Windows.Forms.Label colorComponentsLabel;
+        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.Label progressBarLabel;
     }
 }
 
