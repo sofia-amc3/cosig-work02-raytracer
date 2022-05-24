@@ -1,0 +1,15 @@
+D:\01. Work\01. University - ISEP (MEI)\02. 1st Year\05. Complementos de Sistemas Gráficos\cosig-work02\work02_raytracer\work02_raytracer\bin\Debug\netcoreapp3.1\work02_raytracer.exe
+D:\01. Work\01. University - ISEP (MEI)\02. 1st Year\05. Complementos de Sistemas Gráficos\cosig-work02\work02_raytracer\work02_raytracer\bin\Debug\netcoreapp3.1\work02_raytracer.deps.json
+D:\01. Work\01. University - ISEP (MEI)\02. 1st Year\05. Complementos de Sistemas Gráficos\cosig-work02\work02_raytracer\work02_raytracer\bin\Debug\netcoreapp3.1\work02_raytracer.runtimeconfig.json
+D:\01. Work\01. University - ISEP (MEI)\02. 1st Year\05. Complementos de Sistemas Gráficos\cosig-work02\work02_raytracer\work02_raytracer\bin\Debug\netcoreapp3.1\work02_raytracer.runtimeconfig.dev.json
+D:\01. Work\01. University - ISEP (MEI)\02. 1st Year\05. Complementos de Sistemas Gráficos\cosig-work02\work02_raytracer\work02_raytracer\bin\Debug\netcoreapp3.1\work02_raytracer.dll
+D:\01. Work\01. University - ISEP (MEI)\02. 1st Year\05. Complementos de Sistemas Gráficos\cosig-work02\work02_raytracer\work02_raytracer\bin\Debug\netcoreapp3.1\work02_raytracer.pdb
+D:\01. Work\01. University - ISEP (MEI)\02. 1st Year\05. Complementos de Sistemas Gráficos\cosig-work02\work02_raytracer\work02_raytracer\obj\Debug\netcoreapp3.1\work02_raytracer.csprojAssemblyReference.cache
+D:\01. Work\01. University - ISEP (MEI)\02. 1st Year\05. Complementos de Sistemas Gráficos\cosig-work02\work02_raytracer\work02_raytracer\obj\Debug\netcoreapp3.1\work02_raytracer.RayTracer.resources
+D:\01. Work\01. University - ISEP (MEI)\02. 1st Year\05. Complementos de Sistemas Gráficos\cosig-work02\work02_raytracer\work02_raytracer\obj\Debug\netcoreapp3.1\work02_raytracer.csproj.GenerateResource.cache
+D:\01. Work\01. University - ISEP (MEI)\02. 1st Year\05. Complementos de Sistemas Gráficos\cosig-work02\work02_raytracer\work02_raytracer\obj\Debug\netcoreapp3.1\work02_raytracer.AssemblyInfoInputs.cache
+D:\01. Work\01. University - ISEP (MEI)\02. 1st Year\05. Complementos de Sistemas Gráficos\cosig-work02\work02_raytracer\work02_raytracer\obj\Debug\netcoreapp3.1\work02_raytracer.AssemblyInfo.cs
+D:\01. Work\01. University - ISEP (MEI)\02. 1st Year\05. Complementos de Sistemas Gráficos\cosig-work02\work02_raytracer\work02_raytracer\obj\Debug\netcoreapp3.1\work02_raytracer.csproj.CoreCompileInputs.cache
+D:\01. Work\01. University - ISEP (MEI)\02. 1st Year\05. Complementos de Sistemas Gráficos\cosig-work02\work02_raytracer\work02_raytracer\obj\Debug\netcoreapp3.1\work02_raytracer.dll
+D:\01. Work\01. University - ISEP (MEI)\02. 1st Year\05. Complementos de Sistemas Gráficos\cosig-work02\work02_raytracer\work02_raytracer\obj\Debug\netcoreapp3.1\work02_raytracer.pdb
+D:\01. Work\01. University - ISEP (MEI)\02. 1st Year\05. Complementos de Sistemas Gráficos\cosig-work02\work02_raytracer\work02_raytracer\obj\Debug\netcoreapp3.1\work02_raytracer.genruntimeconfig.cache

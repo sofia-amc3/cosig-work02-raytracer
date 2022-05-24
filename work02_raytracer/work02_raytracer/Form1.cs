@@ -10,12 +10,16 @@ using System.Windows.Forms;
 
 namespace work02_raytracer
 {
-    public partial class Form1 : Form
+    public partial class RayTracer : Form
     {
-        public Form1()
+        public RayTracer()
         {
             InitializeComponent();
         }
 
+        private void startBtn_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedIndex = 1; // goes to application
+        }
     }
 }
