@@ -24,6 +24,8 @@ namespace work02_raytracer
         public Vector3 getOrigin() { return origin; }
         public Vector3 getDirection() { return direction; }
 
+        // if t > 0.0, P(t) is after the radius' origin
+        // if t < 0.0, P(t) is behind the radius' origin
         public Vector3 pointAtParameter(double t)
         {
             return Vector3.addVectors(origin, Vector3.multiplyVectorByScalar(t, direction));
