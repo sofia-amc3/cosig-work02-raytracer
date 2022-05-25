@@ -198,5 +198,105 @@ namespace work02_raytracer
 
             multiplyByMatrix(scaleMatrix);
         }
+
+        // calculates and returns transpose matrix AT
+        public static double[,] calculateTranspose(double[,] matrix)
+        {
+            int w = matrix.GetLength(0),
+                h = matrix.GetLength(1);
+
+            double[,] transposeMatrix = new double[h, w];
+
+            for (int i = 0; i < w; i++)
+                for (int j = 0; j < h; j++)
+                    transposeMatrix[j, i] = matrix[i, j];
+
+            return transposeMatrix;
+        }
+
+        public static double[,] getMinorMatrix(double[,] matrix, int row, int column)
+        {
+            double[,] minor = new double[matrix.GetLength(0) - 1, matrix.GetLength(0) - 1];
+
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                row = i;
+
+                if (i > row)
+                    row--;
+
+                for (int j = 0; j < matrix.GetLength(0); j++)
+                {
+                    column = j;
+
+                    if (j > column)
+                        column--;
+
+                    if (i != row && j != column)
+                        minor[row, column] = matrix[i, j];
+                }
+            }
+
+            return minor;
+        }
+
+        // calculates det(A) (must have same number of lines and columns)
+        public static double calculateDeterminant(double[,] matrix)
+        {
+            if (matrix.GetLength(0) != matrix.GetLength(1))
+            {
+                throw new ArgumentOutOfRangeException("Can't calculate determinant due to invalid Matrix Dimension: Number of lines is not equal to the number of columns.");
+            }
+            else
+            {
+                if (matrix.GetLength(0) == 1)
+                    return matrix[0, 0];
+
+                else if (matrix.GetLength(0) == 2)
+                    return (matrix[0, 0] * matrix[1, 1]) - (matrix[0, 1] * matrix[1, 0]);
+
+                else
+                {
+                    double det = 0;
+                    for (int i = 0; i < matrix.GetLength(0); i++)
+                        det += Math.Pow(-1, i) * matrix[0, i] * calculateDeterminant(getMinorMatrix(matrix, 0, i));
+                    return det;
+                }
+            }
+        }
+
+        // calculates and returns inverse matrix A-1 (must have same number of lines and columns && det != 0)
+        public double[,] calculateInverse(double[,] matrix)
+        {
+            if (matrix.GetLength(0) != matrix.GetLength(1))
+            {
+                throw new ArgumentOutOfRangeException("Can't calculate inverse due to invalid Matrix Dimension: Number of lines is not equal to the number of columns.");
+            }
+            else if(calculateDeterminant(matrix) == 0)
+            {
+                throw new ArgumentOutOfRangeException("Can't calculate inverse due to the determinant being 0.");
+            }
+            else
+            {
+                double[,] inverseMatrix = new double[matrix.GetLength(0), matrix.GetLength(1)]; // copy of original matrix
+
+                // minors and cofactors
+                for (int i = 0; i < matrix.GetLength(0); i++)
+                    for (int j = 0; j < matrix.GetLength(1); j++)
+                        inverseMatrix[i, j] = Math.Pow(-1, i + j) * calculateDeterminant(getMinorMatrix(transformMatrix, i, j));
+
+                double det = 1.0 / calculateDeterminant(transformMatrix);
+
+                for(int i = 0; i < inverseMatrix.GetLength(0); i++)
+                    for(int j = 0; j <= i; j++)
+                    {
+                        double temp = inverseMatrix[i, j];
+                        inverseMatrix[i, j] = inverseMatrix[j, i] * det;
+                        inverseMatrix[j, i] = temp * det;
+                    }
+
+                return inverseMatrix;
+            }
+        }
     }
 }
