@@ -792,7 +792,7 @@ namespace work02_raytracer
             this.loadSceneBtn.TabIndex = 5;
             this.loadSceneBtn.Text = "LOAD SCENE";
             this.loadSceneBtn.UseVisualStyleBackColor = false;
-            this.loadSceneBtn.Click += new System.EventHandler(this.loadImgBtn_Click);
+            this.loadSceneBtn.Click += new System.EventHandler(this.loadSceneBtn_Click);
             // 
             // rendererLabel
             // 

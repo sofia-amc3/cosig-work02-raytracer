@@ -87,7 +87,7 @@ namespace work02_raytracer
         }
 
         // GLOBAL ----------------------------------------------------------------------------------------------------------------------------------------------------------------
-        private void loadImgBtn_Click(object sender, EventArgs e)
+        private void loadSceneBtn_Click(object sender, EventArgs e)
         {
             // open file dialog
             OpenFileDialog open = new OpenFileDialog();
