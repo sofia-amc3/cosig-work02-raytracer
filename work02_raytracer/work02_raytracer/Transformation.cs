@@ -6,21 +6,15 @@ namespace work02_raytracer
 {
     class Transformation
     {
-        private double numberOfSegments;
         private double[,] transformMatrix = new double[4, 4];
 
-        public Transformation(double numberOfSegments)
+        public Transformation()
         {
-            this.numberOfSegments = numberOfSegments;
             createIdentityMatrix(); // initialization
             translate(0.0, 0.0, -74.0);
             rotateX(-60.0);
             rotateZ(45.0);
         }
-
-        public double transf_getNumberOfSegments() { return numberOfSegments; }
-
-        public void transf_setNumberOfSegments(double numberOfSegments) { this.numberOfSegments = numberOfSegments; }
 
         // creates matrix corresponding to the identity transformation
         public void createIdentityMatrix()
