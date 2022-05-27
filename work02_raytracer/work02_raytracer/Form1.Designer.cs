@@ -83,9 +83,10 @@ namespace work02_raytracer
             this.imageUploaded = new System.Windows.Forms.PictureBox();
             this.exitBtn = new System.Windows.Forms.Button();
             this.saveImgBtn = new System.Windows.Forms.Button();
-            this.loadImgBtn = new System.Windows.Forms.Button();
+            this.loadSceneBtn = new System.Windows.Forms.Button();
             this.rendererLabel = new System.Windows.Forms.Label();
             this.globalLabel = new System.Windows.Forms.Label();
+            this.saveSceneBtn = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.mainMenu.SuspendLayout();
             this.application.SuspendLayout();
@@ -167,6 +168,7 @@ namespace work02_raytracer
             // application
             // 
             this.application.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.application.Controls.Add(this.saveSceneBtn);
             this.application.Controls.Add(this.progressBar1);
             this.application.Controls.Add(this.progressBarLabel);
             this.application.Controls.Add(this.backgroundColorLabel);
@@ -214,7 +216,7 @@ namespace work02_raytracer
             this.application.Controls.Add(this.imageUploaded);
             this.application.Controls.Add(this.exitBtn);
             this.application.Controls.Add(this.saveImgBtn);
-            this.application.Controls.Add(this.loadImgBtn);
+            this.application.Controls.Add(this.loadSceneBtn);
             this.application.Controls.Add(this.rendererLabel);
             this.application.Controls.Add(this.globalLabel);
             this.application.Location = new System.Drawing.Point(4, 25);
@@ -776,21 +778,21 @@ namespace work02_raytracer
             this.saveImgBtn.UseVisualStyleBackColor = false;
             this.saveImgBtn.Click += new System.EventHandler(this.saveImgBtn_Click);
             // 
-            // loadImgBtn
+            // loadSceneBtn
             // 
-            this.loadImgBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.loadImgBtn.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.loadImgBtn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.loadImgBtn.FlatAppearance.BorderSize = 0;
-            this.loadImgBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.loadImgBtn.Font = new System.Drawing.Font("Montserrat SemiBold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.loadImgBtn.Location = new System.Drawing.Point(51, 598);
-            this.loadImgBtn.Name = "loadImgBtn";
-            this.loadImgBtn.Size = new System.Drawing.Size(159, 44);
-            this.loadImgBtn.TabIndex = 5;
-            this.loadImgBtn.Text = "LOAD IMAGE";
-            this.loadImgBtn.UseVisualStyleBackColor = false;
-            this.loadImgBtn.Click += new System.EventHandler(this.loadImgBtn_Click);
+            this.loadSceneBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.loadSceneBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.loadSceneBtn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.loadSceneBtn.FlatAppearance.BorderSize = 0;
+            this.loadSceneBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.loadSceneBtn.Font = new System.Drawing.Font("Montserrat SemiBold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.loadSceneBtn.Location = new System.Drawing.Point(51, 598);
+            this.loadSceneBtn.Name = "loadSceneBtn";
+            this.loadSceneBtn.Size = new System.Drawing.Size(159, 44);
+            this.loadSceneBtn.TabIndex = 5;
+            this.loadSceneBtn.Text = "LOAD SCENE";
+            this.loadSceneBtn.UseVisualStyleBackColor = false;
+            this.loadSceneBtn.Click += new System.EventHandler(this.loadImgBtn_Click);
             // 
             // rendererLabel
             // 
@@ -811,6 +813,22 @@ namespace work02_raytracer
             this.globalLabel.TabIndex = 3;
             this.globalLabel.Text = "Global";
             this.globalLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // saveSceneBtn
+            // 
+            this.saveSceneBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.saveSceneBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.saveSceneBtn.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.saveSceneBtn.FlatAppearance.BorderSize = 0;
+            this.saveSceneBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.saveSceneBtn.Font = new System.Drawing.Font("Montserrat SemiBold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.saveSceneBtn.Location = new System.Drawing.Point(225, 598);
+            this.saveSceneBtn.Name = "saveSceneBtn";
+            this.saveSceneBtn.Size = new System.Drawing.Size(159, 44);
+            this.saveSceneBtn.TabIndex = 54;
+            this.saveSceneBtn.Text = "SAVE SCENE";
+            this.saveSceneBtn.UseVisualStyleBackColor = false;
+            this.saveSceneBtn.Visible = false;
             // 
             // RayTracer
             // 
@@ -853,7 +871,7 @@ namespace work02_raytracer
         private System.Windows.Forms.Label projectTitle;
         private System.Windows.Forms.TabPage application;
         private System.Windows.Forms.Button startBtn;
-        private System.Windows.Forms.Button loadImgBtn;
+        private System.Windows.Forms.Button loadSceneBtn;
         private System.Windows.Forms.Label rendererLabel;
         private System.Windows.Forms.Label globalLabel;
         private System.Windows.Forms.Label dividerBottom;
@@ -903,6 +921,7 @@ namespace work02_raytracer
         private System.Windows.Forms.Label colorComponentsLabel;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label progressBarLabel;
+        private System.Windows.Forms.Button saveSceneBtn;
     }
 }
 

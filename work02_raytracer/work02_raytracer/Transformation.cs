@@ -214,33 +214,26 @@ namespace work02_raytracer
             return transposeMatrix;
         }
 
+        // in portuguese: menor complementar Dij 
         public static double[,] getMinorMatrix(double[,] matrix, int row, int column)
         {
+            int currentColumn = 0;
             double[,] minor = new double[matrix.GetLength(0) - 1, matrix.GetLength(0) - 1];
 
-            for (int i = 0; i < matrix.GetLength(0); i++)
+            for (int j = 0; j < matrix.GetLength(1); j++)
             {
-                row = i;
+                if (j == column) continue; // skips this iteration
 
-                if (i > row)
-                    row--;
+                for (int i = 1; i < matrix.GetLength(1); i++)
+                    minor[i - 1, currentColumn] = matrix[i, j];
 
-                for (int j = 0; j < matrix.GetLength(0); j++)
-                {
-                    column = j;
-
-                    if (j > column)
-                        column--;
-
-                    if (i != row && j != column)
-                        minor[row, column] = matrix[i, j];
-                }
+                currentColumn++;
             }
 
             return minor;
         }
 
-        // calculates det(A) (must have same number of lines and columns)
+        // calculates det(A) or |A| (must have same number of lines and columns)
         public static double calculateDeterminant(double[,] matrix)
         {
             if (matrix.GetLength(0) != matrix.GetLength(1))
@@ -255,7 +248,7 @@ namespace work02_raytracer
                 else if (matrix.GetLength(0) == 2)
                     return (matrix[0, 0] * matrix[1, 1]) - (matrix[0, 1] * matrix[1, 0]);
 
-                else
+                else // 3 or > : Laplace Rule
                 {
                     double det = 0;
                     for (int i = 0; i < matrix.GetLength(0); i++)
@@ -266,6 +259,7 @@ namespace work02_raytracer
         }
 
         // calculates and returns inverse matrix A-1 (must have same number of lines and columns && det != 0)
+        // formula: (1 / det(A)) * Adj(A)
         public double[,] calculateInverse(double[,] matrix)
         {
             if (matrix.GetLength(0) != matrix.GetLength(1))
@@ -280,19 +274,19 @@ namespace work02_raytracer
             {
                 double[,] inverseMatrix = new double[matrix.GetLength(0), matrix.GetLength(1)]; // copy of original matrix
 
-                // minors and cofactors
+                // in portuguese: matriz adjunta -> Adj(A)
                 for (int i = 0; i < matrix.GetLength(0); i++)
                     for (int j = 0; j < matrix.GetLength(1); j++)
                         inverseMatrix[i, j] = Math.Pow(-1, i + j) * calculateDeterminant(getMinorMatrix(transformMatrix, i, j));
 
-                double det = 1.0 / calculateDeterminant(transformMatrix);
+                double inverseDet = 1.0 / calculateDeterminant(transformMatrix);
 
                 for(int i = 0; i < inverseMatrix.GetLength(0); i++)
                     for(int j = 0; j <= i; j++)
                     {
                         double temp = inverseMatrix[i, j];
-                        inverseMatrix[i, j] = inverseMatrix[j, i] * det;
-                        inverseMatrix[j, i] = temp * det;
+                        inverseMatrix[i, j] = inverseMatrix[j, i] * inverseDet;
+                        inverseMatrix[j, i] = temp * inverseDet;
                     }
 
                 return inverseMatrix;
