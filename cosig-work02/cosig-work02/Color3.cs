@@ -11,17 +11,34 @@ namespace cosig_work02
 
        public Color3(double r, double g, double b)
         {
-            this.r = r;
-            this.g = g;
-            this.b = b;
+            setR(r);
+            setG(g);
+            setB(b);
         }
 
         public double getR() { return r; }
         public double getG() { return g; }
         public double getB() { return b; }
 
-        public void setR(double r) { this.r = r; }
-        public void setG(double g) { this.g = g; }
-        public void setB(double b) { this.b = b; }
+        public void setR(double r) 
+        {
+            if (r < 0) this.r = 0;
+            else if (r > 1) this.r = 1;
+            else this.r = r;
+        }
+
+        public void setG(double g) 
+        {
+            if (g < 0) this.g = 0;
+            else if (g > 1) this.g = 1;
+            else this.g = g;
+        }
+
+        public void setB(double b) 
+        {
+            if (b < 0) this.b = 0;
+            else if (b > 1) this.b = 1;
+            else this.b = b;
+        }
     }
 }

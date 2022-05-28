@@ -6,23 +6,33 @@ namespace cosig_work02
 {
     class Image
     {
-        private int imageResWidth,
-                    imageResHeight;
-        private Color3 imageColor;
+        private int w,
+                    h;
+        private Color3 color;
 
         public Image()
         {
-            this.imageResWidth = 0;
-            this.imageResHeight = 0;
-            this.imageColor = new Color3(0, 0, 0);
+            this.w = 0;
+            this.h = 0;
+            this.color = new Color3(0, 0, 0);
         }
 
-        public int getImageResWidth() { return imageResWidth; }
-        public int getImageResHeight() { return imageResHeight; }
-        public Color3 getImageColor() { return imageColor; }
+        public int getWidth() { return w; }
+        public int getHeight() { return h; }
+        public Color3 getColor() { return color; }
 
-        public void setImageResWidth(int imageResWidth) { this.imageResWidth = imageResWidth; }
-        public void setImageResHeight(int imageResHeight) { this.imageResHeight = imageResHeight; }
-        public void setImageColor(Color3 imageColor) { this.imageColor = imageColor; }
+        public void setWidth(int w) 
+        {
+            if (w < 0) this.w = 0;
+            this.w = w; 
+        }
+
+        public void setHeight(int h) 
+        {
+            if (h < 0) this.w = 0;
+            this.h = h; 
+        }
+
+        public void setColor(Color3 color) { this.color = color; }
     }
 }

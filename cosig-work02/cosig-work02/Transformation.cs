@@ -11,9 +11,9 @@ namespace cosig_work02
         public Transformation()
         {
             createIdentityMatrix(); // initialization
-            translate(0.0, 0.0, -74.0);
-            rotateX(-60.0);
-            rotateZ(45.0);
+            //translate(0.0, 0.0, -74.0);
+            //rotateX(-60.0);
+            //rotateZ(45.0);
         }
 
         // creates matrix corresponding to the identity transformation
