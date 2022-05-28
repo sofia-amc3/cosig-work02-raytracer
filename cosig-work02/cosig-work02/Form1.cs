@@ -16,6 +16,15 @@ namespace cosig_work02
 {
     public partial class RayTracer : Form
     {
+        private List<Image> images = new List<Image>();
+        private List<Transformation> transformations = new List<Transformation>();
+        private List<Material> materials = new List<Material>();
+        private List<Camera> cameras = new List<Camera>();
+        private List<Light> lights = new List<Light>();
+        private List<Sphere> spheres = new List<Sphere>();
+        private List<Box> boxes = new List<Box>();
+        private List<Triangles> triangles = new List<Triangles>();
+
         public RayTracer()
         {
             InitializeComponent();
@@ -27,7 +36,7 @@ namespace cosig_work02
             tabControl1.SelectedIndex = 1; // goes to application
         }
 
-        // GLOBAL ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+        // SCENE -----------------------------------------------------------------------------------------------------------------------------------------------------------------
         private void loadSceneBtn_Click(object sender, EventArgs e)
         {
             // open file dialog
@@ -36,7 +45,16 @@ namespace cosig_work02
 
             if(open.ShowDialog() == DialogResult.OK)
             {
-                Parser.parseFile(open.FileName); // FileName = path
+                Parser parser = new Parser(open.FileName); // FileName -> File path
+
+                images = parser.images;
+                transformations = parser.transformations;
+                materials = parser.materials;
+                cameras = parser.cameras;
+                lights = parser.lights;
+                spheres = parser.spheres;
+                boxes = parser.boxes;
+                triangles = parser.triangles;
 
                 // display 3D Scene #############################################################################################
             }

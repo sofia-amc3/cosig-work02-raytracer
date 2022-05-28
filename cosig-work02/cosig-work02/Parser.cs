@@ -8,17 +8,22 @@ namespace cosig_work02
 {
     class Parser
     {
-        public static void parseFile(String path)
-        {
-            List<Image> images = new List<Image>();
-            List<Transformation> transformations = new List<Transformation>();
-            List<Material> materials = new List<Material>();
-            List<Camera> cameras = new List<Camera>();
-            List<Light> lights = new List<Light>();
-            List<Sphere> spheres = new List<Sphere>();
-            List<Box> boxes = new List<Box>();
-            List<Triangles> triangles = new List<Triangles>();
+        public List<Image> images = new List<Image>();
+        public List<Transformation> transformations = new List<Transformation>();
+        public List<Material> materials = new List<Material>();
+        public List<Camera> cameras = new List<Camera>();
+        public List<Light> lights = new List<Light>();
+        public List<Sphere> spheres = new List<Sphere>();
+        public List<Box> boxes = new List<Box>();
+        public List<Triangles> triangles = new List<Triangles>();
 
+        public Parser(String path)
+        {
+            parseFile(path);
+        }
+
+        private void parseFile(String path)
+        {
             StreamReader streamReader = new StreamReader(path);
             string line;
 
@@ -326,6 +331,7 @@ namespace cosig_work02
 
                             case 3:
                                 triangle.setV3(new Vector3(Double.Parse(values[0]), Double.Parse(values[1]), Double.Parse(values[2])));
+                                triangle.calculateNormal();
                                 triangles.Add(triangle);
                                 break;
                         }
