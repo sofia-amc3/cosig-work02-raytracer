@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\cosig-work02\\cosig-work02\\cosig-work02.csproj",
+      "projectUniqueName": "D:\\cosig-work02-git\\cosig-work02\\cosig-work02\\cosig-work02\\cosig-work02.csproj",
       "projectName": "cosig-work02",
-      "projectPath": "D:\\cosig-work02\\cosig-work02\\cosig-work02.csproj",
+      "projectPath": "D:\\cosig-work02-git\\cosig-work02\\cosig-work02\\cosig-work02\\cosig-work02.csproj",
       "packagesPath": "C:\\Users\\SAP-PSC6-G7\\.nuget\\packages\\",
-      "outputPath": "D:\\cosig-work02\\cosig-work02\\obj\\",
+      "outputPath": "D:\\cosig-work02-git\\cosig-work02\\cosig-work02\\cosig-work02\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\SAP-PSC6-G7\\AppData\\Roaming\\NuGet\\NuGet.Config",
