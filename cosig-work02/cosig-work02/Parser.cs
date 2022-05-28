@@ -17,6 +17,7 @@ namespace cosig_work02
             List<Light> lights = new List<Light>();
             List<Sphere> spheres = new List<Sphere>();
             List<Box> boxes = new List<Box>();
+            List<Triangles> triangles = new List<Triangles>();
 
             StreamReader streamReader = new StreamReader(path);
             string line;
@@ -46,6 +47,7 @@ namespace cosig_work02
                         break;
 
                     case "Triangles":
+                        triangles.AddRange(readTriangles(streamReader));
                         break;
 
                     case "Sphere":
@@ -286,6 +288,57 @@ namespace cosig_work02
             }
 
             return box;
+        }
+
+        private static List<Triangles> readTriangles(StreamReader streamReader)
+        {
+            List<Triangles> triangles = new List<Triangles>();
+            Triangles triangle = new Triangles();
+            string line;
+            bool isInsideBrackets = false;
+            int lineIndex = 0;
+            int? indexOfTransformation = null;
+
+            while ((line = streamReader.ReadLine()) != null && line.Trim() != "}")
+            {
+                if (isInsideBrackets)
+                {
+                    string[] values = line.Trim().Split(" ");
+
+                    if (indexOfTransformation == null) indexOfTransformation = Int32.Parse(values[0]);
+                    else
+                    {
+                        switch (lineIndex)
+                        {
+                            case 0:
+                                triangle = new Triangles();
+                                triangle.setIndexOfTransformation(indexOfTransformation ?? default(int));
+                                triangle.setIndexOfMaterial(Int32.Parse(values[0]));
+                                break;
+
+                            case 1:
+                                triangle.setV1(new Vector3(Double.Parse(values[0]), Double.Parse(values[1]), Double.Parse(values[2])));
+                                break;
+
+                            case 2:
+                                triangle.setV2(new Vector3(Double.Parse(values[0]), Double.Parse(values[1]), Double.Parse(values[2])));
+                                break;
+
+                            case 3:
+                                triangle.setV3(new Vector3(Double.Parse(values[0]), Double.Parse(values[1]), Double.Parse(values[2])));
+                                triangles.Add(triangle);
+                                break;
+                        }
+
+                        if (lineIndex == 3) lineIndex = 0;
+                        else lineIndex++;
+                    }
+                }
+
+                if (line.Trim() == "{") isInsideBrackets = true;
+            }
+
+            return triangles;
         }
     }
 }

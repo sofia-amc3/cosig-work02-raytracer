@@ -6,6 +6,41 @@ namespace cosig_work02
 {
     class Triangles
     {
+        private int indexOfTransformation,
+                    indexOfMaterial;
+        private Vector3 v1,
+                        v2,
+                        v3;
+  
+        public Triangles()
+        {
+            this.indexOfTransformation = 0;
+            this.indexOfMaterial = 0;
+            this.v1 = new Vector3(0, 0, 0);
+            this.v2 = new Vector3(0, 0, 0);
+            this.v3 = new Vector3(0, 0, 0);
+        }
 
+        public int getIndexOfTransformation() { return indexOfTransformation; }
+        public int getIndexOfMaterial() { return indexOfMaterial; }
+        public Vector3 getV1() { return v1; }
+        public Vector3 getV2() { return v2; }
+        public Vector3 getV3() { return v3; }
+
+        public void setIndexOfTransformation(int indexOfTransformation)
+        {
+            if (indexOfTransformation < 0) indexOfTransformation = 0;
+            else this.indexOfTransformation = indexOfTransformation;
+        }
+
+        public void setIndexOfMaterial(int indexOfMaterial)
+        {
+            if (indexOfMaterial < 0) indexOfMaterial = 0;
+            else this.indexOfMaterial = indexOfMaterial;
+        }
+
+        public void setV1(Vector3 v1) { this.v1 = v1; }
+        public void setV2(Vector3 v2) { this.v2 = v2; }
+        public void setV3(Vector3 v3) { this.v3 = v3; }
     }
 }
