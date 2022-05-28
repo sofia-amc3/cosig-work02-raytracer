@@ -6,5 +6,6 @@ namespace cosig_work02
 {
     class Triangles
     {
+
     }
 }

@@ -13,6 +13,10 @@ namespace cosig_work02
             List<Image> images = new List<Image>();
             List<Transformation> transformations = new List<Transformation>();
             List<Material> materials = new List<Material>();
+            List<Camera> cameras = new List<Camera>();
+            List<Light> lights = new List<Light>();
+            List<Sphere> spheres = new List<Sphere>();
+            List<Box> boxes = new List<Box>();
 
             StreamReader streamReader = new StreamReader(path);
             string line;
@@ -30,9 +34,11 @@ namespace cosig_work02
                         break;
 
                     case "Camera":
+                        cameras.Add(readCamera(streamReader));
                         break;
 
                     case "Light":
+                        lights.Add(readLight(streamReader));
                         break;
 
                     case "Material":
@@ -43,9 +49,11 @@ namespace cosig_work02
                         break;
 
                     case "Sphere":
+                        spheres.Add(readSphere(streamReader));
                         break;
 
                     case "Box":
+                        boxes.Add(readBox(streamReader));
                         break;
                 }
             }
@@ -147,6 +155,137 @@ namespace cosig_work02
             }
 
             return material;
+        }
+
+        private static Camera readCamera(StreamReader streamReader)
+        {
+            Camera camera = new Camera();
+            string line;
+            bool isInsideBrackets = false;
+            int lineIndex = 0;
+
+            while ((line = streamReader.ReadLine()) != null && line.Trim() != "}")
+            {
+                if (isInsideBrackets)
+                {
+                    string[] values = line.Trim().Split(" ");
+
+                    switch(lineIndex)
+                    {
+                        case 0:
+                            camera.setIndexOfTransformation(Int32.Parse(values[0]));
+                            break;
+
+                        case 1:
+                            camera.setDistance(Double.Parse(values[0]));
+                            break;
+
+                        case 2:
+                            camera.setFieldOfVision(Double.Parse(values[0]));
+                            break;
+                    }
+
+                    lineIndex++;
+                }
+
+                if (line.Trim() == "{") isInsideBrackets = true;
+            }
+
+            return camera;
+        }
+
+        private static Light readLight(StreamReader streamReader)
+        {
+            Light light = new Light();
+            string line;
+            bool isInsideBrackets = false;
+
+            while ((line = streamReader.ReadLine()) != null && line.Trim() != "}")
+            {
+                if (isInsideBrackets)
+                {
+                    string[] values = line.Trim().Split(" ");
+
+                    if (values.Length == 1)
+                    {
+                        light.setIndexOfTransformation(Int32.Parse(values[0]));
+                    }
+                    else if (values.Length == 3)
+                    {
+                        light.setColor(new Color3(Double.Parse(values[0]), Double.Parse(values[1]), Double.Parse(values[2])));
+                    }
+                }
+
+                if (line.Trim() == "{") isInsideBrackets = true;
+            }
+
+            return light;
+        }
+
+        private static Sphere readSphere(StreamReader streamReader)
+        {
+            Sphere sphere = new Sphere();
+            string line;
+            bool isInsideBrackets = false;
+            int lineIndex = 0;
+
+            while ((line = streamReader.ReadLine()) != null && line.Trim() != "}")
+            {
+                if (isInsideBrackets)
+                {
+                    string[] values = line.Trim().Split(" ");
+
+                    switch (lineIndex)
+                    {
+                        case 0:
+                            sphere.setIndexOfTransformation(Int32.Parse(values[0]));
+                            break;
+
+                        case 1:
+                            sphere.setIndexOfMaterial(Int32.Parse(values[0]));
+                            break;
+                    }
+
+                    lineIndex++;
+                }
+
+                if (line.Trim() == "{") isInsideBrackets = true;
+            }
+
+            return sphere;
+        }
+
+        private static Box readBox(StreamReader streamReader)
+        {
+            Box box = new Box();
+            string line;
+            bool isInsideBrackets = false;
+            int lineIndex = 0;
+
+            while ((line = streamReader.ReadLine()) != null && line.Trim() != "}")
+            {
+                if (isInsideBrackets)
+                {
+                    string[] values = line.Trim().Split(" ");
+
+                    switch (lineIndex)
+                    {
+                        case 0:
+                            box.setIndexOfTransformation(Int32.Parse(values[0]));
+                            break;
+
+                        case 1:
+                            box.setIndexOfMaterial(Int32.Parse(values[0]));
+                            break;
+                    }
+
+                    lineIndex++;
+                }
+
+                if (line.Trim() == "{") isInsideBrackets = true;
+            }
+
+            return box;
         }
     }
 }
