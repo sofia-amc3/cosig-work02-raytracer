@@ -46,7 +46,6 @@ namespace cosig_work02
             this.bgColorGLabel = new System.Windows.Forms.Label();
             this.bgColorRInput = new System.Windows.Forms.NumericUpDown();
             this.bgColorRLabel = new System.Windows.Forms.Label();
-            this.colorComponentsLabel = new System.Windows.Forms.Label();
             this.dividerBottom = new System.Windows.Forms.Label();
             this.dividerTop = new System.Windows.Forms.Label();
             this.camFieldInput = new System.Windows.Forms.NumericUpDown();
@@ -71,7 +70,7 @@ namespace cosig_work02
             this.imageResVLabel = new System.Windows.Forms.Label();
             this.imageResHInput = new System.Windows.Forms.NumericUpDown();
             this.imageResHLabel = new System.Windows.Forms.Label();
-            this.imageResLabel = new System.Windows.Forms.Label();
+            this.imageLabel = new System.Windows.Forms.Label();
             this.refractionCheckbox = new System.Windows.Forms.CheckBox();
             this.specularCheckbox = new System.Windows.Forms.CheckBox();
             this.diffuseCheckbox = new System.Windows.Forms.CheckBox();
@@ -178,7 +177,6 @@ namespace cosig_work02
             this.application.Controls.Add(this.bgColorGLabel);
             this.application.Controls.Add(this.bgColorRInput);
             this.application.Controls.Add(this.bgColorRLabel);
-            this.application.Controls.Add(this.colorComponentsLabel);
             this.application.Controls.Add(this.dividerBottom);
             this.application.Controls.Add(this.dividerTop);
             this.application.Controls.Add(this.camFieldInput);
@@ -203,7 +201,7 @@ namespace cosig_work02
             this.application.Controls.Add(this.imageResVLabel);
             this.application.Controls.Add(this.imageResHInput);
             this.application.Controls.Add(this.imageResHLabel);
-            this.application.Controls.Add(this.imageResLabel);
+            this.application.Controls.Add(this.imageLabel);
             this.application.Controls.Add(this.refractionCheckbox);
             this.application.Controls.Add(this.specularCheckbox);
             this.application.Controls.Add(this.diffuseCheckbox);
@@ -268,7 +266,7 @@ namespace cosig_work02
             this.backgroundColorLabel.BackColor = System.Drawing.Color.Transparent;
             this.backgroundColorLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.backgroundColorLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.backgroundColorLabel.Location = new System.Drawing.Point(1068, 181);
+            this.backgroundColorLabel.Location = new System.Drawing.Point(1061, 252);
             this.backgroundColorLabel.Name = "backgroundColorLabel";
             this.backgroundColorLabel.Size = new System.Drawing.Size(99, 23);
             this.backgroundColorLabel.TabIndex = 51;
@@ -280,7 +278,7 @@ namespace cosig_work02
             this.bgColorBInput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.bgColorBInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.bgColorBInput.ForeColor = System.Drawing.Color.White;
-            this.bgColorBInput.Location = new System.Drawing.Point(1093, 260);
+            this.bgColorBInput.Location = new System.Drawing.Point(1086, 331);
             this.bgColorBInput.Maximum = new decimal(new int[] {
             255,
             0,
@@ -293,7 +291,7 @@ namespace cosig_work02
             // bgColorBLabel
             // 
             this.bgColorBLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.bgColorBLabel.Location = new System.Drawing.Point(1068, 251);
+            this.bgColorBLabel.Location = new System.Drawing.Point(1061, 322);
             this.bgColorBLabel.Name = "bgColorBLabel";
             this.bgColorBLabel.Size = new System.Drawing.Size(26, 33);
             this.bgColorBLabel.TabIndex = 49;
@@ -305,7 +303,7 @@ namespace cosig_work02
             this.bgColorGInput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.bgColorGInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.bgColorGInput.ForeColor = System.Drawing.Color.White;
-            this.bgColorGInput.Location = new System.Drawing.Point(1093, 233);
+            this.bgColorGInput.Location = new System.Drawing.Point(1086, 304);
             this.bgColorGInput.Maximum = new decimal(new int[] {
             255,
             0,
@@ -318,7 +316,7 @@ namespace cosig_work02
             // bgColorGLabel
             // 
             this.bgColorGLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.bgColorGLabel.Location = new System.Drawing.Point(1068, 224);
+            this.bgColorGLabel.Location = new System.Drawing.Point(1061, 295);
             this.bgColorGLabel.Name = "bgColorGLabel";
             this.bgColorGLabel.Size = new System.Drawing.Size(26, 33);
             this.bgColorGLabel.TabIndex = 47;
@@ -330,7 +328,7 @@ namespace cosig_work02
             this.bgColorRInput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.bgColorRInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.bgColorRInput.ForeColor = System.Drawing.Color.White;
-            this.bgColorRInput.Location = new System.Drawing.Point(1093, 207);
+            this.bgColorRInput.Location = new System.Drawing.Point(1086, 278);
             this.bgColorRInput.Maximum = new decimal(new int[] {
             255,
             0,
@@ -343,22 +341,12 @@ namespace cosig_work02
             // bgColorRLabel
             // 
             this.bgColorRLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.bgColorRLabel.Location = new System.Drawing.Point(1068, 198);
+            this.bgColorRLabel.Location = new System.Drawing.Point(1061, 269);
             this.bgColorRLabel.Name = "bgColorRLabel";
             this.bgColorRLabel.Size = new System.Drawing.Size(26, 33);
             this.bgColorRLabel.TabIndex = 45;
             this.bgColorRLabel.Text = "R";
             this.bgColorRLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // colorComponentsLabel
-            // 
-            this.colorComponentsLabel.Font = new System.Drawing.Font("Montserrat SemiBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.colorComponentsLabel.Location = new System.Drawing.Point(1068, 148);
-            this.colorComponentsLabel.Name = "colorComponentsLabel";
-            this.colorComponentsLabel.Size = new System.Drawing.Size(204, 33);
-            this.colorComponentsLabel.TabIndex = 44;
-            this.colorComponentsLabel.Text = "Color Components";
-            this.colorComponentsLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // dividerBottom
             // 
@@ -387,7 +375,7 @@ namespace cosig_work02
             this.camFieldInput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.camFieldInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.camFieldInput.ForeColor = System.Drawing.Color.White;
-            this.camFieldInput.Location = new System.Drawing.Point(1167, 379);
+            this.camFieldInput.Location = new System.Drawing.Point(916, 215);
             this.camFieldInput.Name = "camFieldInput";
             this.camFieldInput.Size = new System.Drawing.Size(43, 18);
             this.camFieldInput.TabIndex = 41;
@@ -395,7 +383,7 @@ namespace cosig_work02
             // camFieldLabel
             // 
             this.camFieldLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.camFieldLabel.Location = new System.Drawing.Point(1068, 370);
+            this.camFieldLabel.Location = new System.Drawing.Point(817, 206);
             this.camFieldLabel.Name = "camFieldLabel";
             this.camFieldLabel.Size = new System.Drawing.Size(96, 33);
             this.camFieldLabel.TabIndex = 40;
@@ -407,7 +395,7 @@ namespace cosig_work02
             this.camDistanceInput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.camDistanceInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.camDistanceInput.ForeColor = System.Drawing.Color.White;
-            this.camDistanceInput.Location = new System.Drawing.Point(1167, 353);
+            this.camDistanceInput.Location = new System.Drawing.Point(916, 189);
             this.camDistanceInput.Name = "camDistanceInput";
             this.camDistanceInput.Size = new System.Drawing.Size(43, 18);
             this.camDistanceInput.TabIndex = 39;
@@ -415,7 +403,7 @@ namespace cosig_work02
             // camDistanceLabel
             // 
             this.camDistanceLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.camDistanceLabel.Location = new System.Drawing.Point(1068, 344);
+            this.camDistanceLabel.Location = new System.Drawing.Point(817, 180);
             this.camDistanceLabel.Name = "camDistanceLabel";
             this.camDistanceLabel.Size = new System.Drawing.Size(77, 33);
             this.camDistanceLabel.TabIndex = 38;
@@ -425,7 +413,7 @@ namespace cosig_work02
             // cameraLabel
             // 
             this.cameraLabel.Font = new System.Drawing.Font("Montserrat SemiBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.cameraLabel.Location = new System.Drawing.Point(1068, 310);
+            this.cameraLabel.Location = new System.Drawing.Point(817, 146);
             this.cameraLabel.Name = "cameraLabel";
             this.cameraLabel.Size = new System.Drawing.Size(204, 33);
             this.cameraLabel.TabIndex = 37;
@@ -601,7 +589,7 @@ namespace cosig_work02
             this.imageResVInput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.imageResVInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.imageResVInput.ForeColor = System.Drawing.Color.White;
-            this.imageResVInput.Location = new System.Drawing.Point(900, 217);
+            this.imageResVInput.Location = new System.Drawing.Point(1144, 215);
             this.imageResVInput.Maximum = new decimal(new int[] {
             500,
             0,
@@ -614,7 +602,7 @@ namespace cosig_work02
             // imageResVLabel
             // 
             this.imageResVLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.imageResVLabel.Location = new System.Drawing.Point(817, 208);
+            this.imageResVLabel.Location = new System.Drawing.Point(1061, 206);
             this.imageResVLabel.Name = "imageResVLabel";
             this.imageResVLabel.Size = new System.Drawing.Size(77, 33);
             this.imageResVLabel.TabIndex = 22;
@@ -626,7 +614,7 @@ namespace cosig_work02
             this.imageResHInput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.imageResHInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.imageResHInput.ForeColor = System.Drawing.Color.White;
-            this.imageResHInput.Location = new System.Drawing.Point(900, 191);
+            this.imageResHInput.Location = new System.Drawing.Point(1144, 189);
             this.imageResHInput.Maximum = new decimal(new int[] {
             500,
             0,
@@ -639,22 +627,22 @@ namespace cosig_work02
             // imageResHLabel
             // 
             this.imageResHLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.imageResHLabel.Location = new System.Drawing.Point(817, 182);
+            this.imageResHLabel.Location = new System.Drawing.Point(1061, 180);
             this.imageResHLabel.Name = "imageResHLabel";
             this.imageResHLabel.Size = new System.Drawing.Size(77, 33);
             this.imageResHLabel.TabIndex = 20;
             this.imageResHLabel.Text = "Width";
             this.imageResHLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // imageResLabel
+            // imageLabel
             // 
-            this.imageResLabel.Font = new System.Drawing.Font("Montserrat SemiBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.imageResLabel.Location = new System.Drawing.Point(817, 148);
-            this.imageResLabel.Name = "imageResLabel";
-            this.imageResLabel.Size = new System.Drawing.Size(204, 33);
-            this.imageResLabel.TabIndex = 19;
-            this.imageResLabel.Text = "Image Resolution";
-            this.imageResLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.imageLabel.Font = new System.Drawing.Font("Montserrat SemiBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.imageLabel.Location = new System.Drawing.Point(1061, 146);
+            this.imageLabel.Name = "imageLabel";
+            this.imageLabel.Size = new System.Drawing.Size(204, 33);
+            this.imageLabel.TabIndex = 19;
+            this.imageLabel.Text = "Image";
+            this.imageLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // refractionCheckbox
             // 
@@ -898,7 +886,7 @@ namespace cosig_work02
         private System.Windows.Forms.Label imageResVLabel;
         private System.Windows.Forms.NumericUpDown imageResHInput;
         private System.Windows.Forms.Label imageResHLabel;
-        private System.Windows.Forms.Label imageResLabel;
+        private System.Windows.Forms.Label imageLabel;
         private System.Windows.Forms.CheckBox refractionCheckbox;
         private System.Windows.Forms.CheckBox specularCheckbox;
         private System.Windows.Forms.CheckBox diffuseCheckbox;
@@ -918,7 +906,6 @@ namespace cosig_work02
         private System.Windows.Forms.Label bgColorGLabel;
         private System.Windows.Forms.NumericUpDown bgColorRInput;
         private System.Windows.Forms.Label bgColorRLabel;
-        private System.Windows.Forms.Label colorComponentsLabel;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label progressBarLabel;
         private System.Windows.Forms.Button saveSceneBtn;
