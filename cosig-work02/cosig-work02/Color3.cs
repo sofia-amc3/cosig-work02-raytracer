@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 
 namespace cosig_work02
@@ -39,6 +40,11 @@ namespace cosig_work02
             if (b < 0) this.b = 0;
             else if (b > 1) this.b = 1;
             else this.b = b;
+        }
+
+        public Color convertToColor()
+        {
+            return Color.FromArgb((int) Math.Round(255.0 * this.r), (int) Math.Round(255.0 * this.g), (int) Math.Round(255.0 * this.b));
         }
     }
 }

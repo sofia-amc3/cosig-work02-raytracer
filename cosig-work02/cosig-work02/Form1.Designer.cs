@@ -80,7 +80,7 @@ namespace cosig_work02
             this.startRenderBtn = new System.Windows.Forms.Button();
             this.recursionDepthInput = new System.Windows.Forms.NumericUpDown();
             this.recursionDepthLabel = new System.Windows.Forms.Label();
-            this.imageUploaded = new System.Windows.Forms.PictureBox();
+            this.imageRender = new System.Windows.Forms.PictureBox();
             this.exitBtn = new System.Windows.Forms.Button();
             this.saveImgBtn = new System.Windows.Forms.Button();
             this.loadSceneBtn = new System.Windows.Forms.Button();
@@ -102,7 +102,7 @@ namespace cosig_work02
             ((System.ComponentModel.ISupportInitialize)(this.imageResVInput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageResHInput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.recursionDepthInput)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageUploaded)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageRender)).BeginInit();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -211,7 +211,7 @@ namespace cosig_work02
             this.application.Controls.Add(this.startRenderBtn);
             this.application.Controls.Add(this.recursionDepthInput);
             this.application.Controls.Add(this.recursionDepthLabel);
-            this.application.Controls.Add(this.imageUploaded);
+            this.application.Controls.Add(this.imageRender);
             this.application.Controls.Add(this.exitBtn);
             this.application.Controls.Add(this.saveImgBtn);
             this.application.Controls.Add(this.loadSceneBtn);
@@ -740,15 +740,15 @@ namespace cosig_work02
             this.recursionDepthLabel.Text = "Recursion Depth";
             this.recursionDepthLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // imageUploaded
+            // imageRender
             // 
-            this.imageUploaded.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.imageUploaded.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.imageUploaded.Location = new System.Drawing.Point(48, 107);
-            this.imageUploaded.Name = "imageUploaded";
-            this.imageUploaded.Size = new System.Drawing.Size(440, 440);
-            this.imageUploaded.TabIndex = 9;
-            this.imageUploaded.TabStop = false;
+            this.imageRender.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.imageRender.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.imageRender.Location = new System.Drawing.Point(48, 107);
+            this.imageRender.Name = "imageRender";
+            this.imageRender.Size = new System.Drawing.Size(440, 440);
+            this.imageRender.TabIndex = 9;
+            this.imageRender.TabStop = false;
             // 
             // exitBtn
             // 
@@ -846,7 +846,7 @@ namespace cosig_work02
             ((System.ComponentModel.ISupportInitialize)(this.imageResVInput)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageResHInput)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.recursionDepthInput)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageUploaded)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageRender)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -896,7 +896,7 @@ namespace cosig_work02
         private System.Windows.Forms.Button startRenderBtn;
         private System.Windows.Forms.NumericUpDown recursionDepthInput;
         private System.Windows.Forms.Label recursionDepthLabel;
-        private System.Windows.Forms.PictureBox imageUploaded;
+        private System.Windows.Forms.PictureBox imageRender;
         private System.Windows.Forms.Button exitBtn;
         private System.Windows.Forms.Button saveImgBtn;
         private System.Windows.Forms.Label backgroundColorLabel;

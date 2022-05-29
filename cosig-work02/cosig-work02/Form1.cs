@@ -24,6 +24,7 @@ namespace cosig_work02
         private List<Sphere> spheres = new List<Sphere>();
         private List<Box> boxes = new List<Box>();
         private List<Triangles> triangles = new List<Triangles>();
+        private Ray[,] rays;
 
         public RayTracer()
         {
@@ -56,20 +57,34 @@ namespace cosig_work02
                 boxes = parser.boxes;
                 triangles = parser.triangles;
 
-                // display 3D Scene #############################################################################################
+                // display 3D Scene 
+                rays = Ray.createRays(cameras[0], images[0]);
+
+                Bitmap image = new Bitmap(images[0].getHRes(), images[0].getVRes());
+
+                for (int i = 0; i < rays.GetLength(0); i++) 
+                {
+                    for (int j = 0; j < rays.GetLength(1); j++) 
+                    {
+                        Color3 pixel = Ray.traceRay(rays[i, j], 1);
+                        image.SetPixel(i, j, pixel.convertToColor());
+                    }
+                }
+
+                imageRender.Image = image;
             }
         }
 
         private void saveImgBtn_Click(object sender, EventArgs e)
         {
-            if(imageUploaded.BackgroundImage != null)
+            if(imageRender.BackgroundImage != null)
             {
                 SaveFileDialog dialog = new SaveFileDialog
                 {
                     Filter = "Images|*.png;*.bmp;*.jpg"
                 };
 
-                if (dialog.ShowDialog() == DialogResult.OK) imageUploaded.BackgroundImage.Save(dialog.FileName, ImageFormat.Png);
+                if (dialog.ShowDialog() == DialogResult.OK) imageRender.BackgroundImage.Save(dialog.FileName, ImageFormat.Png);
             }
         }
 

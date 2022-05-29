@@ -80,8 +80,8 @@ namespace cosig_work02
 
                     if(values.Length == 2)
                     {
-                        image.setWidth(Int32.Parse(values[0]));
-                        image.setHeight(Int32.Parse(values[1]));
+                        image.setHRes(Int32.Parse(values[0]));
+                        image.setVRes(Int32.Parse(values[1]));
                     } else if(values.Length == 3)
                     {
                         image.setColor(new Color3(Double.Parse(values[0]), Double.Parse(values[1]), Double.Parse(values[2])));
