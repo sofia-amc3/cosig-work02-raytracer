@@ -29,17 +29,5 @@ namespace cosig_work02
             if (indexOfMaterial < 0) indexOfMaterial = 0;
             else this.indexOfMaterial = indexOfMaterial;
         }
-
-        public bool intersect(Ray ray, Hit hit)
-        {
-            // checks if ray is intersecting the object in analysis
-
-
-            // checks if distance hit.t from the intersection point to the ray's origin is > 0.0
-            // and if hit.t < hit.tmin
-
-
-            return true;
-        }
     }
 }

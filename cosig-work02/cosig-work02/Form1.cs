@@ -23,7 +23,7 @@ namespace cosig_work02
         private List<Light> lights = new List<Light>();
         private List<Sphere> spheres = new List<Sphere>();
         private List<Box> boxes = new List<Box>();
-        private List<Triangles> triangles = new List<Triangles>();
+        private List<Triangle> triangles = new List<Triangle>();
         private Ray[,] rays;
 
         public RayTracer()
@@ -77,14 +77,14 @@ namespace cosig_work02
 
         private void saveImgBtn_Click(object sender, EventArgs e)
         {
-            if(imageRender.BackgroundImage != null)
+            if(imageRender.Image != null)
             {
                 SaveFileDialog dialog = new SaveFileDialog
                 {
                     Filter = "Images|*.png;*.bmp;*.jpg"
                 };
 
-                if (dialog.ShowDialog() == DialogResult.OK) imageRender.BackgroundImage.Save(dialog.FileName, ImageFormat.Png);
+                if (dialog.ShowDialog() == DialogResult.OK) imageRender.Image.Save(dialog.FileName, ImageFormat.Png);
             }
         }
 

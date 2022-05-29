@@ -15,7 +15,7 @@ namespace cosig_work02
         public List<Light> lights = new List<Light>();
         public List<Sphere> spheres = new List<Sphere>();
         public List<Box> boxes = new List<Box>();
-        public List<Triangles> triangles = new List<Triangles>();
+        public List<Triangle> triangles = new List<Triangle>();
 
         public Parser(String path)
         {
@@ -295,10 +295,10 @@ namespace cosig_work02
             return box;
         }
 
-        private static List<Triangles> readTriangles(StreamReader streamReader)
+        private static List<Triangle> readTriangles(StreamReader streamReader)
         {
-            List<Triangles> triangles = new List<Triangles>();
-            Triangles triangle = new Triangles();
+            List<Triangle> triangles = new List<Triangle>();
+            Triangle triangle = new Triangle();
             string line;
             bool isInsideBrackets = false;
             int lineIndex = 0;
@@ -316,7 +316,7 @@ namespace cosig_work02
                         switch (lineIndex)
                         {
                             case 0:
-                                triangle = new Triangles();
+                                triangle = new Triangle();
                                 triangle.setIndexOfTransformation(indexOfTransformation ?? default(int));
                                 triangle.setIndexOfMaterial(Int32.Parse(values[0]));
                                 break;

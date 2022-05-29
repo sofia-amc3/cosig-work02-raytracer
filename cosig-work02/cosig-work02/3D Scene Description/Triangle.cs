@@ -4,7 +4,7 @@ using System.Text;
 
 namespace cosig_work02
 {
-    class Triangles : Object3D
+    class Triangle : Object3D
     {
         private int indexOfTransformation,
                     indexOfMaterial;
@@ -13,7 +13,7 @@ namespace cosig_work02
                         v3,
                         normalVector;
   
-        public Triangles()
+        public Triangle()
         {
             this.indexOfTransformation = 0;
             this.indexOfMaterial = 0;
@@ -39,6 +39,18 @@ namespace cosig_work02
                     normal = Vector3.calculateCrossProduct(edge12, edge13);
 
             this.normalVector = Vector3.normalizeVector(normal);
+        }
+
+        public bool intersect(Ray ray, Hit hit)
+        {
+            // checks if ray is intersecting the object in analysis
+
+
+            // checks if distance hit.t from the intersection point to the ray's origin is > 0.0
+            // and if hit.t < hit.tmin
+
+
+            return true;
         }
     }
 }

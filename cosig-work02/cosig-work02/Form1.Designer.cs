@@ -747,6 +747,7 @@ namespace cosig_work02
             this.imageRender.Location = new System.Drawing.Point(48, 107);
             this.imageRender.Name = "imageRender";
             this.imageRender.Size = new System.Drawing.Size(440, 440);
+            this.imageRender.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imageRender.TabIndex = 9;
             this.imageRender.TabStop = false;
             // 
