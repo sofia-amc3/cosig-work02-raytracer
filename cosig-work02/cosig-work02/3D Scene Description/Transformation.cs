@@ -224,8 +224,11 @@ namespace cosig_work02
             {
                 if (j == column) continue; // skips this iteration
 
-                for (int i = 1; i < matrix.GetLength(1); i++)
-                    minor[i - 1, currentColumn] = matrix[i, j];
+                //for (int i = 1; i < matrix.GetLength(1); i++)
+                //    minor[i - 1, currentColumn] = matrix[i, j];
+
+                for (int i = 0; i < matrix.GetLength(1) - 1; i++)
+                    minor[i, currentColumn] = matrix[i < row ? i : i + 1, j];
 
                 currentColumn++;
             }
