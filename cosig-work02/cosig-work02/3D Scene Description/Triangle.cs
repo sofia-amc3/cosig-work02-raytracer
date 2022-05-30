@@ -13,7 +13,7 @@ namespace cosig_work02
                         v3,
                         normalVector;
   
-        public Triangle()
+        public Triangle() 
         {
             this.indexOfTransformation = 0;
             this.indexOfMaterial = 0;
@@ -41,6 +41,27 @@ namespace cosig_work02
             this.normalVector = Vector3.normalizeVector(normal);
         }
 
+        public void calculateBarycentricCoordinates()
+        {
+            // Barycentric definition of a plane: P(α, β, γ) = αa + βb + γc, with α + β + γ = 1, meaning that 0 < α, β, γ < 1
+            // Since α + β + γ = 1, we can write α = 1 - β - γ, and P(β, γ) = (1 - β - γ)a + βb + γc
+            // This simplifies to: P(β, γ) = P(t) = a + β(b - a) + γ(c - a)
+            // There is an intersection if β + γ < 1, with 0 < β and 0 < γ
+           /* double[,] matrixA = new double[3, 3];
+
+            matrixA[0, 0] = (ax - bx);
+            matrixA[0, 1] = 0.0;
+            matrixA[0, 2] = 0.0;
+
+            matrixA[1, 0] = 0.0;
+            matrixA[1, 1] = 1.0;
+            matrixA[1, 2] = 0.0;
+
+            matrixA[2, 0] = 0.0;
+            matrixA[2, 1] = 0.0;
+            matrixA[2, 2] = 1.0;*/
+        }
+
         public bool intersect(Ray ray, Hit hit)
         {
             // checks if ray is intersecting the object in analysis
@@ -50,7 +71,7 @@ namespace cosig_work02
             // and if hit.t < hit.tmin
 
 
-            return true;
+            return true; // if intersection is found
         }
     }
 }
