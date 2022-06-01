@@ -6,13 +6,8 @@ namespace cosig_work02
 {
     class Box : Object3D
     {
-        private int indexOfTransformation,
-                    indexOfMaterial;
-
-        public Box()
+        public Box() : base()
         {
-            this.indexOfTransformation = 0;
-            this.indexOfMaterial = 0;
         }
     }
 }

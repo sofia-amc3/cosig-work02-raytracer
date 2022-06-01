@@ -6,8 +6,8 @@ namespace cosig_work02
 {
     class Object3D
     {
-        private int indexOfTransformation,
-                    indexOfMaterial;
+        protected int indexOfTransformation,
+                      indexOfMaterial;
 
         public Object3D()
         {

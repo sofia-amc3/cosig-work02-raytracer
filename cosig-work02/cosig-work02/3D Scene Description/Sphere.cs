@@ -6,13 +6,8 @@ namespace cosig_work02
 {
     class Sphere : Object3D
     {
-        private int indexOfTransformation,
-                    indexOfMaterial;
-
-        public Sphere()
+        public Sphere() : base()
         {
-            this.indexOfTransformation = 0;
-            this.indexOfMaterial = 0;
         }
     }
 }
