@@ -4,7 +4,7 @@ using System.Text;
 
 namespace cosig_work02
 {
-    class Object3D
+    abstract class Object3D
     {
         protected int indexOfTransformation,
                       indexOfMaterial;
@@ -29,5 +29,7 @@ namespace cosig_work02
             if (indexOfMaterial < 0) indexOfMaterial = 0;
             else this.indexOfMaterial = indexOfMaterial;
         }
+
+        public abstract bool intersect(Ray ray, Hit hit);
     }
 }

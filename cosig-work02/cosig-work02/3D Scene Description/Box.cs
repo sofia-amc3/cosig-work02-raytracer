@@ -9,5 +9,10 @@ namespace cosig_work02
         public Box() : base()
         {
         }
+
+        public override bool intersect(Ray ray, Hit hit)
+        {
+            
+        }
     }
 }
