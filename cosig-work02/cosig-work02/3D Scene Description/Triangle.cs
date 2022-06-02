@@ -105,7 +105,7 @@ namespace cosig_work02
             return Transformation.calculateDeterminant(matrix) / detA;
         }
 
-        public bool intersect(Ray ray, Hit hit)
+        public override bool intersect(Ray ray, Hit hit)
         {
             // Barycentric definition of a plane: P(α, β, γ) = αa + βb + γc, with α + β + γ = 1, meaning that 0 < α, β, γ < 1
             // Since α + β + γ = 1, we can write α = 1 - β - γ, and P(β, γ) = (1 - β - γ)a + βb + γc

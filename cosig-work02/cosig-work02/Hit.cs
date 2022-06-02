@@ -20,10 +20,20 @@ namespace cosig_work02
             this.color = color;
         }
 
+        public bool getFoundState() { return found; }
+        public Material getMaterial() { return material; }
+        public Vector3 getPoint() { return point; }
+        public Vector3 getNormal() { return normal; }
         public double getT() { return t; }
+        public double getTMin() { return tmin; }
         public Color3 getColor() { return color; }
 
+        public void setFoundState(bool found) { this.found = found; }
+        public void setMaterial(Material material) { this.material = material; }
+        public void setPoint(Vector3 point) { this.point = point; }
+        public void setNormal(Vector3 normal) { this.normal = normal; }
         public void setT(double t) { this.t = t; }
+        public void setTMin(double tmin) { this.tmin = tmin; }
         public void setColor(Color3 color) { this.color = color; }
     }
 }
