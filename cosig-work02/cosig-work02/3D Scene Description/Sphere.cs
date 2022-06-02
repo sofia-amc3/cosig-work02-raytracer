@@ -29,22 +29,26 @@ namespace cosig_work02
                 {
                     double t0 = -b / 2 * a;
 
-                    hit.setT(t0);
                     hit.setTMin(t0);
                 } else if (delta > 0)
                 {
                     double t0 = (-b + Math.Sqrt(delta)) / 2 * a,
                            t1 = (-b - Math.Sqrt(delta)) / 2 * a;
                    
-                    hit.setT(Math.Min(t0, t1));
                     hit.setTMin(Math.Min(t0, t1));
                 }
                 Vector3 intersectionPoint = Vector3.addVectors(ray.getOrigin(), Vector3.multiplyVectorByScalar(hit.getTMin(), ray.getDirection())),
-                        normal = Vector3.normalizeVector(Vector3.subtractVectors(intersectionPoint, center));
+                        normal = Vector3.normalizeVector(Vector3.subtractVectors(intersectionPoint, center)),
+                        v = Vector3.subtractVectors(intersectionPoint, ray.getOrigin());
+                double  t = Vector3.calculateVectorLength(v),
+                        epsilon = 1.0 * Math.Pow(10, -6);
+
+                if (t > epsilon && t < hit.getTMin()) hit.setTMin(t);
 
                 hit.setFoundState(true);
                 hit.setPoint(intersectionPoint);
                 hit.setNormal(normal);
+                hit.setT(t);
                 return true;
             }
             else

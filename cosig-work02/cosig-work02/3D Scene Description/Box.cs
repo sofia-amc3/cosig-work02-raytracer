@@ -12,7 +12,7 @@ namespace cosig_work02
 
         public override bool intersect(Ray ray, Hit hit)
         {
-            
+            return false;
         }
     }
 }
