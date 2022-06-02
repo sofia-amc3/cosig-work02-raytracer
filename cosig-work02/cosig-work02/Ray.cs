@@ -7,6 +7,7 @@ namespace cosig_work02
     class Ray 
     {
         private Vector3 origin, direction;
+        private Vector4 origin_v4, direction_v4;
 
         // Must contain a 3D point (ray's origin) and a 3D vector (ray's direction)
         public Ray(Vector3 origin, Vector3 direction)
@@ -15,8 +16,21 @@ namespace cosig_work02
             this.direction = direction;
         }
 
+        public Ray(Vector4 origin_v4, Vector4 direction_v4)
+        {
+            this.origin_v4 = origin_v4;
+            this.direction_v4 = direction_v4;
+        }
+
         public Vector3 getOrigin() { return origin; }
         public Vector3 getDirection() { return direction; }
+        public Vector4 getOrigin_v4() { return origin_v4; }
+        public Vector4 getDirection_v4() { return direction_v4; }
+
+        public void setOrigin(Vector3 origin) { this.origin = origin; }
+        public void setDirection(Vector3 direction) { this.direction = direction; }
+        public void setOrigin_v4(Vector4 origin_v4) { this.origin_v4 = origin_v4; }
+        public void setDirection_v4(Vector4 direction_v4) { this.direction_v4 = direction_v4; }
 
         // if t > 0.0, P(t) is after the radius' origin
         // if t < 0.0, P(t) is behind the radius' origin
