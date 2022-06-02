@@ -105,6 +105,18 @@ namespace cosig_work02
             return Transformation.calculateDeterminant(matrix) / detA;
         }
 
+        private Vector3 calculateIntersectionPoint(double beta, double gamma)
+        {
+            // P(t) = a + β(b - a) + γ(c - a)
+            Vector3 bminusa = Vector3.subtractVectors(this.v2, this.v1);
+            Vector3 cminusa = Vector3.subtractVectors(this.v3, this.v1);
+            Vector3 betaMultiplies = Vector3.multiplyVectorByScalar(beta, bminusa);
+            Vector3 gammaMultiplies = Vector3.multiplyVectorByScalar(gamma, cminusa);
+            Vector3 final = Vector3.addVectors(Vector3.addVectors(this.v1, betaMultiplies), gammaMultiplies);
+
+            return final;
+        }
+
         public override bool intersect(Ray ray, Hit hit)
         {
             // Barycentric definition of a plane: P(α, β, γ) = αa + βb + γc, with α + β + γ = 1, meaning that 0 < α, β, γ < 1
@@ -116,26 +128,33 @@ namespace cosig_work02
                    epsilon = 1.0 * Math.Pow(10, -6);
 
             // checks if ray is intersecting the object in analysis
-            if (beta <= -epsilon) return false;
+            if (beta <= -epsilon)
+            {
+                hit.setFoundState(false);
+                return false;
+            }
 
             double gamma = getGamma(ray, detA);
 
-            if (gamma <= -epsilon) return false;
+            if (gamma <= -epsilon)
+            {
+                hit.setFoundState(false);
+                return false;
+            }
 
-            if (beta + gamma < 1.0 + epsilon) return true; // intersection found
-            else return false;
-        }
-
-        private Vector3 calculateIntersectionPointsCoordinates(double beta, double gamma)
-        {
-            // P(t) = a + β(b - a) + γ(c - a)
-            Vector3 bminusa = Vector3.subtractVectors(this.v2, this.v1);
-            Vector3 cminusa = Vector3.subtractVectors(this.v3, this.v1);
-            Vector3 betaMultiplies = Vector3.multiplyVectorByScalar(beta, bminusa);
-            Vector3 gammaMultiplies = Vector3.multiplyVectorByScalar(gamma, cminusa);
-            Vector3 final = Vector3.addVectors(Vector3.addVectors(this.v1, betaMultiplies), gammaMultiplies);
-
-            return final;
+            if (beta + gamma < 1.0 + epsilon)
+            {
+                hit.setFoundState(true);
+                hit.setPoint(calculateIntersectionPoint(beta, gamma));
+                hit.setNormal(this.normalVector);
+                hit.setT(getT(ray, detA));
+                return true; // intersection found
+            }
+            else
+            {
+                hit.setFoundState(false);
+                return false;
+            }
         }
     }
 }
