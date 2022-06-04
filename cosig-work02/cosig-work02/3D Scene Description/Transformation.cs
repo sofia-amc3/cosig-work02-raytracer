@@ -14,6 +14,15 @@ namespace cosig_work02
         }
 
         public double[,] getTransformationMatrix() { return transformMatrix; }
+        public Vector3 getTranslate() { return new Vector3(this.transformMatrix[0, 3], this.transformMatrix[1, 3], this.transformMatrix[2, 3]); }
+        public Vector3 getScale() 
+        {
+            double x = Math.Sqrt(Math.Pow(this.transformMatrix[0, 0], 2) + Math.Pow(this.transformMatrix[0, 1], 2) + Math.Pow(this.transformMatrix[0, 2], 2)),
+                   y = Math.Sqrt(Math.Pow(this.transformMatrix[1, 0], 2) + Math.Pow(this.transformMatrix[1, 1], 2) + Math.Pow(this.transformMatrix[1, 2], 2)),
+                   z = Math.Sqrt(Math.Pow(this.transformMatrix[2, 0], 2) + Math.Pow(this.transformMatrix[2, 1], 2) + Math.Pow(this.transformMatrix[2, 2], 2));
+            return new Vector3(x, y, z); 
+        }
+
         public void setTransformationMatrix(double[,] transformMatrix) { this.transformMatrix = transformMatrix; }
 
         // creates matrix corresponding to the identity transformation
@@ -201,7 +210,13 @@ namespace cosig_work02
         public Transformation clone()
         {
             Transformation transformation = new Transformation();
-            transformation.setTransformationMatrix(this.transformMatrix);
+            double[,] transformMatrix = new double[4, 4];
+
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 4; j++)
+                    transformMatrix[i, j] = this.transformMatrix[i, j];
+
+            transformation.setTransformationMatrix(transformMatrix);
             return transformation;
         }
 

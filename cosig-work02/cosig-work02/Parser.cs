@@ -66,6 +66,14 @@ namespace cosig_work02
             }
         }
 
+        private Transformation getFinalObjectTransformation(int indexOfTransformation)
+        {
+            Transformation objectTransformation = this.transformations[indexOfTransformation],
+                           transformation = this.cameras[0].getTransformation().clone();
+            transformation.multiplyByMatrix(objectTransformation.getTransformationMatrix());
+            return transformation;
+        }
+
         private Image readImage(StreamReader streamReader)
         {
             Image image = new Image();
@@ -248,7 +256,7 @@ namespace cosig_work02
                     {
                         case 0:
                             sphere.setIndexOfTransformation(Int32.Parse(values[0]));
-                            sphere.setTransformation(this.transformations[Int32.Parse(values[0])]);
+                            sphere.setTransformation(getFinalObjectTransformation(Int32.Parse(values[0])));
                             break;
 
                         case 1:
@@ -283,7 +291,7 @@ namespace cosig_work02
                     {
                         case 0:
                             box.setIndexOfTransformation(Int32.Parse(values[0]));
-                            box.setTransformation(this.transformations[Int32.Parse(values[0])]);
+                            box.setTransformation(getFinalObjectTransformation(Int32.Parse(values[0])));
                             break;
 
                         case 1:
@@ -323,11 +331,8 @@ namespace cosig_work02
                         {
                             case 0:
                                 triangle = new Triangle();
-                                triangle.setIndexOfTransformation(indexOfTransformation ?? default(int));
-                                Transformation triangleTransformation = this.transformations[indexOfTransformation ?? default(int)],
-                                               transformation = this.cameras[0].getTransformation().clone();
-                                transformation.multiplyByMatrix(triangleTransformation.getTransformationMatrix());
-                                triangle.setTransformation(transformation);
+                                triangle.setIndexOfTransformation(indexOfTransformation ?? default);
+                                triangle.setTransformation(getFinalObjectTransformation(indexOfTransformation ?? default));
                                 triangle.setIndexOfMaterial(Int32.Parse(values[0]));
                                 triangle.setMaterial(this.materials[Int32.Parse(values[0])]);
                                 break;

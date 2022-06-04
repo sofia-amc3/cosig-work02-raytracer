@@ -63,7 +63,7 @@ namespace cosig_work02
                 materials = parser.materials;
                 cameras = parser.cameras;
                 lights = parser.lights;
-                //objects.AddRange(parser.spheres);
+                objects.AddRange(parser.spheres);
                 //objects.AddRange(parser.boxes);
                 objects.AddRange(parser.triangles);
 

@@ -13,9 +13,8 @@ namespace cosig_work02
 
         public override bool intersect(Ray ray, Hit hit)
         {
-            // sphere's radius is 1 and it's centered at the origin
-            double radius = 1;
-            Vector3 center = new Vector3(0, 0, 0),
+            double radius = this.transformation.getScale().getX();
+            Vector3 center = this.transformation.getTranslate(),
                     direction = ray.getDirection(),
                     distance = Vector3.subtractVectors(ray.getOrigin(), center);
 
@@ -35,19 +34,20 @@ namespace cosig_work02
                    
                     t0 = Math.Min(t1, t2);
                 }
-                Vector3 intersectionPoint = Vector3.addVectors(ray.getOrigin(), Vector3.multiplyVectorByScalar(t0, ray.getDirection())),
-                        normal = Vector3.normalizeVector(Vector3.subtractVectors(intersectionPoint, center)),
-                        v = Vector3.subtractVectors(intersectionPoint, ray.getOrigin());
+                Vector3 p = Vector3.addVectors(ray.getOrigin(), Vector3.multiplyVectorByScalar(t0, ray.getDirection())),
+                        normal = Vector3.normalizeVector(Vector3.subtractVectors(p, center)),
+                        v = Vector3.subtractVectors(p, ray.getOrigin());
                 double  t = Vector3.calculateVectorLength(v),
                         epsilon = 1.0 * Math.Pow(10, -6);
 
                 hit.setT(t);
+
                 if (t > epsilon && t < hit.getTMin())
                 {
-                    hit.setTMin(t);
                     hit.setFoundState(true);
-                    hit.setPoint(intersectionPoint);
-                    hit.setNormal(normal);
+                    hit.setTMin(t);
+                    hit.setPoint(p);
+                    hit.setNormal(Vector3.normalizeVector(normal));
                     hit.setMaterial(this.material);
                     return true;
                 } else return false;

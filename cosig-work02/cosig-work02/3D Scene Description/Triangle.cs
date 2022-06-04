@@ -168,7 +168,7 @@ namespace cosig_work02
                     hit.setPoint(p);
                     hit.setNormal(Vector3.normalizeVector(normal));
                     hit.setMaterial(this.material);
-                    return true; // intersection found
+                    return true; 
                 }
                 else return false;
             }
