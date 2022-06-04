@@ -43,13 +43,19 @@ namespace cosig_work02
                 double  t = Vector3.calculateVectorLength(v),
                         epsilon = 1.0 * Math.Pow(10, -6);
 
-                if (t > epsilon && t < hit.getTMin()) hit.setTMin(t);
-
-                hit.setFoundState(true);
-                hit.setPoint(intersectionPoint);
-                hit.setNormal(normal);
-                hit.setT(t);
-                return true;
+                if (t > epsilon && t < hit.getTMin())
+                {
+                    hit.setTMin(t);
+                    hit.setFoundState(true);
+                    hit.setPoint(intersectionPoint);
+                    hit.setNormal(normal);
+                    hit.setT(t);
+                    return true;
+                } else
+                {
+                    hit.setFoundState(false);
+                    return false;
+                }
             }
             else
             {

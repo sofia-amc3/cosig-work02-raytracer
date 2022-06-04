@@ -144,11 +144,20 @@ namespace cosig_work02
 
             if (beta + gamma < 1.0 + epsilon)
             {
-                hit.setFoundState(true);
-                hit.setPoint(calculateIntersectionPoint(beta, gamma));
-                hit.setNormal(this.normalVector);
-                hit.setT(getT(ray, detA));
-                return true; // intersection found
+                double t = getT(ray, detA);
+                if(t > epsilon)
+                {
+                    hit.setFoundState(true);
+                    hit.setPoint(calculateIntersectionPoint(beta, gamma));
+                    hit.setNormal(this.normalVector);
+                    hit.setT(getT(ray, detA));
+                    return true; // intersection found
+                }
+                else
+                {
+                    hit.setFoundState(false);
+                    return false;
+                }
             }
             else
             {

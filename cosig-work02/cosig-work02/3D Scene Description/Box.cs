@@ -33,6 +33,8 @@ namespace cosig_work02
                 t2x = tempx;
             }
 
+            //if(t1x > x1) x1
+
             // y axis ------------------------------------------------------------
             double y1 = center.getY() - height / 2,
                    y2 = center.getY() + height / 2,
