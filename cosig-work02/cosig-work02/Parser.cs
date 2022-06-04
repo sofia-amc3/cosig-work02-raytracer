@@ -66,7 +66,7 @@ namespace cosig_work02
             }
         }
 
-        private static Image readImage(StreamReader streamReader)
+        private Image readImage(StreamReader streamReader)
         {
             Image image = new Image();
             string line;
@@ -94,7 +94,7 @@ namespace cosig_work02
             return image;
         }
 
-        private static Transformation readTransformation(StreamReader streamReader)
+        private Transformation readTransformation(StreamReader streamReader)
         {
             Transformation transformation = new Transformation();
             string line;
@@ -132,7 +132,7 @@ namespace cosig_work02
             return transformation;
         }
 
-        private static Material readMaterial(StreamReader streamReader)
+        private Material readMaterial(StreamReader streamReader)
         {
             Material material = new Material();
             string line;
@@ -164,7 +164,7 @@ namespace cosig_work02
             return material;
         }
 
-        private static Camera readCamera(StreamReader streamReader)
+        private Camera readCamera(StreamReader streamReader)
         {
             Camera camera = new Camera();
             string line;
@@ -181,6 +181,7 @@ namespace cosig_work02
                     {
                         case 0:
                             camera.setIndexOfTransformation(Int32.Parse(values[0]));
+                            camera.setTransformation(this.transformations[Int32.Parse(values[0])]);
                             break;
 
                         case 1:
@@ -201,7 +202,7 @@ namespace cosig_work02
             return camera;
         }
 
-        private static Light readLight(StreamReader streamReader)
+        private Light readLight(StreamReader streamReader)
         {
             Light light = new Light();
             string line;
@@ -216,6 +217,7 @@ namespace cosig_work02
                     if (values.Length == 1)
                     {
                         light.setIndexOfTransformation(Int32.Parse(values[0]));
+                        light.setTransformation(this.transformations[Int32.Parse(values[0])]);
                     }
                     else if (values.Length == 3)
                     {
@@ -229,7 +231,7 @@ namespace cosig_work02
             return light;
         }
 
-        private static Sphere readSphere(StreamReader streamReader)
+        private Sphere readSphere(StreamReader streamReader)
         {
             Sphere sphere = new Sphere();
             string line;
@@ -246,10 +248,12 @@ namespace cosig_work02
                     {
                         case 0:
                             sphere.setIndexOfTransformation(Int32.Parse(values[0]));
+                            sphere.setTransformation(this.transformations[Int32.Parse(values[0])]);
                             break;
 
                         case 1:
                             sphere.setIndexOfMaterial(Int32.Parse(values[0]));
+                            sphere.setMaterial(this.materials[Int32.Parse(values[0])]);
                             break;
                     }
 
@@ -262,7 +266,7 @@ namespace cosig_work02
             return sphere;
         }
 
-        private static Box readBox(StreamReader streamReader)
+        private Box readBox(StreamReader streamReader)
         {
             Box box = new Box();
             string line;
@@ -279,10 +283,12 @@ namespace cosig_work02
                     {
                         case 0:
                             box.setIndexOfTransformation(Int32.Parse(values[0]));
+                            box.setTransformation(this.transformations[Int32.Parse(values[0])]);
                             break;
 
                         case 1:
                             box.setIndexOfMaterial(Int32.Parse(values[0]));
+                            box.setMaterial(this.materials[Int32.Parse(values[0])]);
                             break;
                     }
 
@@ -295,7 +301,7 @@ namespace cosig_work02
             return box;
         }
 
-        private static List<Triangle> readTriangles(StreamReader streamReader)
+        private List<Triangle> readTriangles(StreamReader streamReader)
         {
             List<Triangle> triangles = new List<Triangle>();
             Triangle triangle = new Triangle();
@@ -318,7 +324,12 @@ namespace cosig_work02
                             case 0:
                                 triangle = new Triangle();
                                 triangle.setIndexOfTransformation(indexOfTransformation ?? default(int));
+                                Transformation triangleTransformation = this.transformations[indexOfTransformation ?? default(int)],
+                                               transformation = this.cameras[0].getTransformation().clone();
+                                transformation.multiplyByMatrix(triangleTransformation.getTransformationMatrix());
+                                triangle.setTransformation(transformation);
                                 triangle.setIndexOfMaterial(Int32.Parse(values[0]));
+                                triangle.setMaterial(this.materials[Int32.Parse(values[0])]);
                                 break;
 
                             case 1:

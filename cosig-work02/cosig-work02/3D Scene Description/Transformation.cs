@@ -11,10 +11,10 @@ namespace cosig_work02
         public Transformation()
         {
             createIdentityMatrix(); // initialization
-            //translate(0.0, 0.0, -74.0);
-            //rotateX(-60.0);
-            //rotateZ(45.0);
         }
+
+        public double[,] getTransformationMatrix() { return transformMatrix; }
+        public void setTransformationMatrix(double[,] transformMatrix) { this.transformMatrix = transformMatrix; }
 
         // creates matrix corresponding to the identity transformation
         public void createIdentityMatrix()
@@ -37,57 +37,28 @@ namespace cosig_work02
             transformMatrix[3, 3] = 1.0;
         }
 
-        // multiplies a 4x4 matrix for a column matrix representative of a point or vector in homogeneous coordinates
-        public void multiplyByColumnMatrix(double[] pointA, double[] pointB)
-        {
-            for(int i = 0; i < 4; i++)
-                pointB[i] = 0.0;
-
-            for (int i = 0; i < 4; i++)
-                for (int j = 0; j < 4; j++)
-                    pointB[i] += transformMatrix[i, j] * pointA[j];
-        }
-
-        // multiplies two 4x4 matrixes
-        public void multiplyByMatrix(double[,] matrixA)
-        {
-            double[,] matrixB = new double[4, 4];
-
-            for(int i = 0; i < 4; i++) 
-                for(int j = 0; j < 4; j++)
-                {
-                    matrixB[i, j] = transformMatrix[i, j];
-                    transformMatrix[i, j] = 0.0;
-                }
-
-            for (int i = 0; i < 4; i++)
-                for (int j = 0; j < 4; j++)
-                    for (int k = 0; k < 4; k++)
-                        transformMatrix[i, j] += matrixB[i, k] * matrixA[k, j];
-        }
-
         // creates matrix corresponding to the translation
         // and multiplies the composite transformation matrix by the newly created matrix
         public void translate(double x, double y, double z)
         {
             double[,] translateMatrix = new double[4, 4];
 
-            translateMatrix[0,0] = 1.0;
-            translateMatrix[0,1] = 0.0;
-            translateMatrix[0,2] = 0.0;
-            translateMatrix[0,3] = x;
-            translateMatrix[1,0] = 0.0;
-            translateMatrix[1,1] = 1.0;
-            translateMatrix[1,2] = 0.0;
-            translateMatrix[1,3] = y;
-            translateMatrix[2,0] = 0.0;
-            translateMatrix[2,1] = 0.0;
-            translateMatrix[2,2] = 1.0;
-            translateMatrix[2,3] = z;
-            translateMatrix[3,0] = 0.0;
-            translateMatrix[3,1] = 0.0;
-            translateMatrix[3,2] = 0.0;
-            translateMatrix[3,3] = 1.0;
+            translateMatrix[0, 0] = 1.0;
+            translateMatrix[0, 1] = 0.0;
+            translateMatrix[0, 2] = 0.0;
+            translateMatrix[0, 3] = x;
+            translateMatrix[1, 0] = 0.0;
+            translateMatrix[1, 1] = 1.0;
+            translateMatrix[1, 2] = 0.0;
+            translateMatrix[1, 3] = y;
+            translateMatrix[2, 0] = 0.0;
+            translateMatrix[2, 1] = 0.0;
+            translateMatrix[2, 2] = 1.0;
+            translateMatrix[2, 3] = z;
+            translateMatrix[3, 0] = 0.0;
+            translateMatrix[3, 1] = 0.0;
+            translateMatrix[3, 2] = 0.0;
+            translateMatrix[3, 3] = 1.0;
 
             multiplyByMatrix(translateMatrix);
         }
@@ -99,22 +70,22 @@ namespace cosig_work02
             double[,] rotateXMatrix = new double[4, 4];
 
             angle *= Math.PI / 180.0;
-            rotateXMatrix[0,0] = 1.0;
-            rotateXMatrix[0,1] = 0.0;
-            rotateXMatrix[0,2] = 0.0;
-            rotateXMatrix[0,3] = 0.0;
-            rotateXMatrix[1,0] = 0.0;
-            rotateXMatrix[1,1] = Math.Cos(angle);
-            rotateXMatrix[1,2] = -Math.Sin(angle);
-            rotateXMatrix[1,3] = 0.0;
-            rotateXMatrix[2,0] = 0.0;
-            rotateXMatrix[2,1] = Math.Sin(angle);
-            rotateXMatrix[2,2] = Math.Cos(angle);
-            rotateXMatrix[2,3] = 0.0;
-            rotateXMatrix[3,0] = 0.0;
-            rotateXMatrix[3,1] = 0.0;
-            rotateXMatrix[3,2] = 0.0;
-            rotateXMatrix[3,3] = 1.0;
+            rotateXMatrix[0, 0] = 1.0;
+            rotateXMatrix[0, 1] = 0.0;
+            rotateXMatrix[0, 2] = 0.0;
+            rotateXMatrix[0, 3] = 0.0;
+            rotateXMatrix[1, 0] = 0.0;
+            rotateXMatrix[1, 1] = Math.Cos(angle);
+            rotateXMatrix[1, 2] = -Math.Sin(angle);
+            rotateXMatrix[1, 3] = 0.0;
+            rotateXMatrix[2, 0] = 0.0;
+            rotateXMatrix[2, 1] = Math.Sin(angle);
+            rotateXMatrix[2, 2] = Math.Cos(angle);
+            rotateXMatrix[2, 3] = 0.0;
+            rotateXMatrix[3, 0] = 0.0;
+            rotateXMatrix[3, 1] = 0.0;
+            rotateXMatrix[3, 2] = 0.0;
+            rotateXMatrix[3, 3] = 1.0;
 
             multiplyByMatrix(rotateXMatrix);
         }
@@ -126,22 +97,22 @@ namespace cosig_work02
             double[,] rotateYMatrix = new double[4, 4];
 
             angle *= Math.PI / 180.0;
-            rotateYMatrix[0,0] = Math.Cos(angle);
-            rotateYMatrix[0,1] = 0.0;
-            rotateYMatrix[0,2] = Math.Sin(angle);
-            rotateYMatrix[0,3] = 0.0;
-            rotateYMatrix[1,0] = 0.0;
-            rotateYMatrix[1,1] = 1.0;
-            rotateYMatrix[1,2] = 0.0;
-            rotateYMatrix[1,3] = 0.0;
-            rotateYMatrix[2,0] = -Math.Sin(angle);
-            rotateYMatrix[2,1] = 0.0;
-            rotateYMatrix[2,2] = Math.Cos(angle);
-            rotateYMatrix[2,3] = 0.0;
-            rotateYMatrix[3,0] = 0.0;
-            rotateYMatrix[3,1] = 0.0;
-            rotateYMatrix[3,2] = 0.0;
-            rotateYMatrix[3,3] = 1.0;
+            rotateYMatrix[0, 0] = Math.Cos(angle);
+            rotateYMatrix[0, 1] = 0.0;
+            rotateYMatrix[0, 2] = Math.Sin(angle);
+            rotateYMatrix[0, 3] = 0.0;
+            rotateYMatrix[1, 0] = 0.0;
+            rotateYMatrix[1, 1] = 1.0;
+            rotateYMatrix[1, 2] = 0.0;
+            rotateYMatrix[1, 3] = 0.0;
+            rotateYMatrix[2, 0] = -Math.Sin(angle);
+            rotateYMatrix[2, 1] = 0.0;
+            rotateYMatrix[2, 2] = Math.Cos(angle);
+            rotateYMatrix[2, 3] = 0.0;
+            rotateYMatrix[3, 0] = 0.0;
+            rotateYMatrix[3, 1] = 0.0;
+            rotateYMatrix[3, 2] = 0.0;
+            rotateYMatrix[3, 3] = 1.0;
 
             multiplyByMatrix(rotateYMatrix);
         }
@@ -153,22 +124,22 @@ namespace cosig_work02
             double[,] rotateZMatrix = new double[4, 4];
 
             angle *= Math.PI / 180.0;
-            rotateZMatrix[0,0] = Math.Cos(angle);
-            rotateZMatrix[0,1] = -Math.Sin(angle);
-            rotateZMatrix[0,2] = 0.0;
-            rotateZMatrix[0,3] = 0.0;
-            rotateZMatrix[1,0] = Math.Sin(angle);
-            rotateZMatrix[1,1] = Math.Cos(angle);
-            rotateZMatrix[1,2] = 0.0;
-            rotateZMatrix[1,3] = 0.0;
-            rotateZMatrix[2,0] = 0.0;
-            rotateZMatrix[2,1] = 0.0;
-            rotateZMatrix[2,2] = 1.0;
-            rotateZMatrix[2,3] = 0.0;
-            rotateZMatrix[3,0] = 0.0;
-            rotateZMatrix[3,1] = 0.0;
-            rotateZMatrix[3,2] = 0.0;
-            rotateZMatrix[3,3] = 1.0;
+            rotateZMatrix[0, 0] = Math.Cos(angle);
+            rotateZMatrix[0, 1] = -Math.Sin(angle);
+            rotateZMatrix[0, 2] = 0.0;
+            rotateZMatrix[0, 3] = 0.0;
+            rotateZMatrix[1, 0] = Math.Sin(angle);
+            rotateZMatrix[1, 1] = Math.Cos(angle);
+            rotateZMatrix[1, 2] = 0.0;
+            rotateZMatrix[1, 3] = 0.0;
+            rotateZMatrix[2, 0] = 0.0;
+            rotateZMatrix[2, 1] = 0.0;
+            rotateZMatrix[2, 2] = 1.0;
+            rotateZMatrix[2, 3] = 0.0;
+            rotateZMatrix[3, 0] = 0.0;
+            rotateZMatrix[3, 1] = 0.0;
+            rotateZMatrix[3, 2] = 0.0;
+            rotateZMatrix[3, 3] = 1.0;
 
             multiplyByMatrix(rotateZMatrix);
         }
@@ -179,24 +150,71 @@ namespace cosig_work02
         {
             double[,] scaleMatrix = new double[4, 4];
 
-            scaleMatrix[0,0] = x;
-            scaleMatrix[0,1] = 0.0;
-            scaleMatrix[0,2] = 0.0;
-            scaleMatrix[0,3] = 0.0;
-            scaleMatrix[1,0] = 0.0;
-            scaleMatrix[1,1] = y;
-            scaleMatrix[1,2] = 0.0;
-            scaleMatrix[1,3] = 0.0;
-            scaleMatrix[2,0] = 0.0;
-            scaleMatrix[2,1] = 0.0;
-            scaleMatrix[2,2] = z;
-            scaleMatrix[2,3] = 0.0;
-            scaleMatrix[3,0] = 0.0;
-            scaleMatrix[3,1] = 0.0;
-            scaleMatrix[3,2] = 0.0;
-            scaleMatrix[3,3] = 1.0;
+            scaleMatrix[0, 0] = x;
+            scaleMatrix[0, 1] = 0.0;
+            scaleMatrix[0, 2] = 0.0;
+            scaleMatrix[0, 3] = 0.0;
+            scaleMatrix[1, 0] = 0.0;
+            scaleMatrix[1, 1] = y;
+            scaleMatrix[1, 2] = 0.0;
+            scaleMatrix[1, 3] = 0.0;
+            scaleMatrix[2, 0] = 0.0;
+            scaleMatrix[2, 1] = 0.0;
+            scaleMatrix[2, 2] = z;
+            scaleMatrix[2, 3] = 0.0;
+            scaleMatrix[3, 0] = 0.0;
+            scaleMatrix[3, 1] = 0.0;
+            scaleMatrix[3, 2] = 0.0;
+            scaleMatrix[3, 3] = 1.0;
 
             multiplyByMatrix(scaleMatrix);
+        }
+
+        public Vector3 applyTransformationToPoint(Vector3 point)
+        {
+            return multiplyMatrixWithPoint(this.transformMatrix, point);
+        }
+
+        public Vector3 applyTransformationToVector(Vector3 v1)
+        {
+            return multiplyMatrixWithVector(this.transformMatrix, v1);
+        }
+
+        // multiplies two 4x4 matrixes
+        public void multiplyByMatrix(double[,] matrixA)
+        {
+            double[,] matrixB = new double[4, 4];
+
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 4; j++)
+                {
+                    matrixB[i, j] = transformMatrix[i, j];
+                    transformMatrix[i, j] = 0.0;
+                }
+
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 4; j++)
+                    for (int k = 0; k < 4; k++)
+                        transformMatrix[i, j] += matrixB[i, k] * matrixA[k, j];
+        }
+
+        public Transformation clone()
+        {
+            Transformation transformation = new Transformation();
+            transformation.setTransformationMatrix(this.transformMatrix);
+            return transformation;
+        }
+
+        // multiplies a 4x4 matrix for a column matrix representative of a point or vector in homogeneous coordinates
+        public static double[] multiplyByColumnMatrix(double[,] matrix, double[] pointA)
+        {
+            double[] pointB = new double[4];
+
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 4; j++)
+                    pointB[i] += matrix[i, j] * pointA[j];
+
+            return pointB;
         }
 
         // calculates and returns transpose matrix AT
@@ -263,7 +281,7 @@ namespace cosig_work02
 
         // calculates and returns inverse matrix A-1 (must have same number of lines and columns && det != 0)
         // formula: (1 / det(A)) * Adj(A)
-        public double[,] calculateInverse(double[,] matrix)
+        public static double[,] calculateInverse(double[,] matrix)
         {
             if (matrix.GetLength(0) != matrix.GetLength(1))
             {
@@ -280,9 +298,9 @@ namespace cosig_work02
                 // in portuguese: matriz adjunta -> Adj(A)
                 for (int i = 0; i < matrix.GetLength(0); i++)
                     for (int j = 0; j < matrix.GetLength(1); j++)
-                        inverseMatrix[i, j] = Math.Pow(-1, i + j) * calculateDeterminant(getMinorMatrix(transformMatrix, i, j));
+                        inverseMatrix[i, j] = Math.Pow(-1, i + j) * calculateDeterminant(getMinorMatrix(matrix, i, j));
 
-                double inverseDet = 1.0 / calculateDeterminant(transformMatrix);
+                double inverseDet = 1.0 / calculateDeterminant(matrix);
 
                 for(int i = 0; i < inverseMatrix.GetLength(0); i++)
                     for(int j = 0; j <= i; j++)
@@ -294,6 +312,24 @@ namespace cosig_work02
 
                 return inverseMatrix;
             }
+        }
+
+        public static Vector3 multiplyMatrixWithPoint(double[,] matrix, Vector3 point)
+        {
+            Vector4 pointV4 = Vector4.convertPointToHomogenousCoordinates(point);
+            double[] newPointMatrix = multiplyByColumnMatrix(matrix, Vector4.convertToMatrix(pointV4));
+            Vector4 newPoint = Vector4.convertFromMatrix(newPointMatrix);
+
+            return Vector4.convertPointToCartesianCoordinates(newPoint);
+        }
+
+        public static Vector3 multiplyMatrixWithVector(double[,] matrix, Vector3 v1)
+        {
+            Vector4 vectorV4 = Vector4.convertVectorToHomogenousCoordinates(v1);
+            double[] newVectorMatrix = multiplyByColumnMatrix(matrix, Vector4.convertToMatrix(vectorV4));
+            Vector4 newVector = Vector4.convertFromMatrix(newVectorMatrix);
+
+            return Vector4.convertVectorToCartesianCoordinates(newVector);
         }
     }
 }

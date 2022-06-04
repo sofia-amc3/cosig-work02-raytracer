@@ -12,12 +12,10 @@ namespace cosig_work02
                         normal; // normal to the tangent plane to the surface of the object at the intersection point
         private double t, // distance from the ray's origin to the intersection point
                        tmin; // min distance t found at the moment
-        private Color3 color;
 
-        public Hit(double t, Color3 color)
+        public Hit()
         {
-            this.t = t;
-            this.color = color;
+
         }
 
         public bool getFoundState() { return found; }
@@ -26,7 +24,6 @@ namespace cosig_work02
         public Vector3 getNormal() { return normal; }
         public double getT() { return t; }
         public double getTMin() { return tmin; }
-        public Color3 getColor() { return color; }
 
         public void setFoundState(bool found) { this.found = found; }
         public void setMaterial(Material material) { this.material = material; }
@@ -34,6 +31,5 @@ namespace cosig_work02
         public void setNormal(Vector3 normal) { this.normal = normal; }
         public void setT(double t) { this.t = t; }
         public void setTMin(double tmin) { this.tmin = tmin; }
-        public void setColor(Color3 color) { this.color = color; }
     }
 }

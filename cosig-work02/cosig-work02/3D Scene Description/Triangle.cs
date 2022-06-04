@@ -9,6 +9,9 @@ namespace cosig_work02
         private Vector3 v1,
                         v2,
                         v3,
+                        v1Transformed,
+                        v2Transformed,
+                        v3Transformed,
                         normalVector;
   
         public Triangle() : base()
@@ -23,9 +26,20 @@ namespace cosig_work02
         public Vector3 getV3() { return v3; }
         public Vector3 getNormalVector() { return normalVector; }
 
-        public void setV1(Vector3 v1) { this.v1 = v1; }
-        public void setV2(Vector3 v2) { this.v2 = v2; }
-        public void setV3(Vector3 v3) { this.v3 = v3; }
+        public void setV1(Vector3 v1) {
+            this.v1 = v1;
+            this.v1Transformed = this.transformation.applyTransformationToPoint(this.v1);
+        }
+
+        public void setV2(Vector3 v2) {
+            this.v2 = v2;
+            this.v2Transformed = this.transformation.applyTransformationToPoint(this.v2);
+        }
+
+        public void setV3(Vector3 v3) {
+            this.v3 = v3;
+            this.v3Transformed = this.transformation.applyTransformationToPoint(this.v3);
+        }
 
         // normalize triangles
         public void calculateNormal()
@@ -41,14 +55,14 @@ namespace cosig_work02
         {
             double[,] matrixA = new double[3, 3];
 
-            matrixA[0, 0] = this.v1.getX() - this.v2.getX();
-            matrixA[0, 1] = this.v1.getX() - this.v3.getX();
+            matrixA[0, 0] = this.v1Transformed.getX() - this.v2Transformed.getX();
+            matrixA[0, 1] = this.v1Transformed.getX() - this.v3Transformed.getX();
             matrixA[0, 2] = ray.getDirection().getX();
-            matrixA[1, 0] = this.v1.getY() - this.v2.getY();
-            matrixA[1, 1] = this.v1.getY() - this.v3.getY();
+            matrixA[1, 0] = this.v1Transformed.getY() - this.v2Transformed.getY();
+            matrixA[1, 1] = this.v1Transformed.getY() - this.v3Transformed.getY();
             matrixA[1, 2] = ray.getDirection().getY();
-            matrixA[2, 0] = this.v1.getZ() - this.v2.getZ();
-            matrixA[2, 1] = this.v1.getZ() - this.v3.getZ();
+            matrixA[2, 0] = this.v1Transformed.getZ() - this.v2Transformed.getZ();
+            matrixA[2, 1] = this.v1Transformed.getZ() - this.v3Transformed.getZ();
             matrixA[2, 2] = ray.getDirection().getZ();
 
             return Transformation.calculateDeterminant(matrixA);
@@ -58,14 +72,14 @@ namespace cosig_work02
         {
             double[,] matrix = new double[3, 3];
 
-            matrix[0, 0] = this.v1.getX() - ray.getOrigin().getX(); 
-            matrix[0, 1] = this.v1.getX() - this.v3.getX();
+            matrix[0, 0] = this.v1Transformed.getX() - ray.getOrigin().getX(); 
+            matrix[0, 1] = this.v1Transformed.getX() - this.v3Transformed.getX();
             matrix[0, 2] = ray.getDirection().getX();
-            matrix[1, 0] = this.v1.getY() - ray.getOrigin().getY();
-            matrix[1, 1] = this.v1.getY() - this.v3.getY();
+            matrix[1, 0] = this.v1Transformed.getY() - ray.getOrigin().getY();
+            matrix[1, 1] = this.v1Transformed.getY() - this.v3Transformed.getY();
             matrix[1, 2] = ray.getDirection().getY();
-            matrix[2, 0] = this.v1.getZ() - ray.getOrigin().getZ();
-            matrix[2, 1] = this.v1.getZ() - this.v3.getZ();
+            matrix[2, 0] = this.v1Transformed.getZ() - ray.getOrigin().getZ();
+            matrix[2, 1] = this.v1Transformed.getZ() - this.v3Transformed.getZ();
             matrix[2, 2] = ray.getDirection().getZ();
 
             return Transformation.calculateDeterminant(matrix) / detA;
@@ -75,20 +89,20 @@ namespace cosig_work02
         {
             double[,] matrix = new double[3, 3];
 
-            matrix[0, 0] = this.v1.getX() - this.v2.getX();
-            matrix[0, 1] = this.v1.getX() - ray.getOrigin().getX();
+            matrix[0, 0] = this.v1Transformed.getX() - this.v2Transformed.getX();
+            matrix[0, 1] = this.v1Transformed.getX() - ray.getOrigin().getX();
             matrix[0, 2] = ray.getDirection().getX();
-            matrix[1, 0] = this.v1.getY() - this.v2.getY();
-            matrix[1, 1] = this.v1.getY() - ray.getOrigin().getY();
+            matrix[1, 0] = this.v1Transformed.getY() - this.v2Transformed.getY();
+            matrix[1, 1] = this.v1Transformed.getY() - ray.getOrigin().getY();
             matrix[1, 2] = ray.getDirection().getY();
-            matrix[2, 0] = this.v1.getZ() - this.v2.getZ();
-            matrix[2, 1] = this.v1.getZ() - ray.getOrigin().getZ();
+            matrix[2, 0] = this.v1Transformed.getZ() - this.v2Transformed.getZ();
+            matrix[2, 1] = this.v1Transformed.getZ() - ray.getOrigin().getZ();
             matrix[2, 2] = ray.getDirection().getZ();
 
             return Transformation.calculateDeterminant(matrix) / detA;
         }
 
-        private double getT(Ray ray, double detA)
+       /* private double getT(Ray ray, double detA)
         {
             double[,] matrix = new double[3, 3];
 
@@ -103,7 +117,7 @@ namespace cosig_work02
             matrix[2, 2] = this.v1.getZ() - ray.getOrigin().getZ();
 
             return Transformation.calculateDeterminant(matrix) / detA;
-        }
+        } */
 
         private Vector3 calculateIntersectionPoint(double beta, double gamma)
         {
@@ -128,42 +142,37 @@ namespace cosig_work02
                    epsilon = 1.0 * Math.Pow(10, -6);
 
             // checks if ray is intersecting the object in analysis
-            if (beta <= -epsilon)
-            {
-                hit.setFoundState(false);
-                return false;
-            }
+            if (beta <= -epsilon) return false;
 
             double gamma = getGamma(ray, detA);
 
-            if (gamma <= -epsilon)
-            {
-                hit.setFoundState(false);
-                return false;
-            }
+            if (gamma <= -epsilon) return false;
 
             if (beta + gamma < 1.0 + epsilon)
             {
-                double t = getT(ray, detA);
-                if(t > epsilon)
+                Vector3 p_ = calculateIntersectionPoint(beta, gamma), // P'
+                        p = this.transformation.applyTransformationToPoint(p_),
+                        v = Vector3.subtractVectors(p, ray.getOrigin());
+                double t = Vector3.calculateVectorLength(v);
+
+                hit.setT(t);
+
+                double[,] transformationInverse = Transformation.calculateInverse(this.transformation.getTransformationMatrix()),
+                          inverseTranspose = Transformation.calculateTranspose(transformationInverse);
+                Vector3 normal = Transformation.multiplyMatrixWithVector(inverseTranspose, this.normalVector);
+
+                if (t > epsilon && t < hit.getTMin())
                 {
                     hit.setFoundState(true);
-                    hit.setPoint(calculateIntersectionPoint(beta, gamma));
-                    hit.setNormal(this.normalVector);
-                    hit.setT(getT(ray, detA));
+                    hit.setTMin(t);
+                    hit.setPoint(p);
+                    hit.setNormal(Vector3.normalizeVector(normal));
+                    hit.setMaterial(this.material);
                     return true; // intersection found
                 }
-                else
-                {
-                    hit.setFoundState(false);
-                    return false;
-                }
+                else return false;
             }
-            else
-            {
-                hit.setFoundState(false);
-                return false;
-            }
+            else return false;
         }
     }
 }

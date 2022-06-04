@@ -21,9 +21,7 @@ namespace cosig_work02
         private List<Material> materials = new List<Material>();
         private List<Camera> cameras = new List<Camera>();
         private List<Light> lights = new List<Light>();
-        private List<Sphere> spheres = new List<Sphere>();
-        private List<Box> boxes = new List<Box>();
-        private List<Triangle> triangles = new List<Triangle>();
+        private List<Object3D> objects = new List<Object3D>(); // Spheres, Boxes, Triangles
         private Ray[,] rays;
 
         public RayTracer()
@@ -38,6 +36,18 @@ namespace cosig_work02
         }
 
         // SCENE -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+        private Color3 traceRay(Ray ray, int rec)
+        {
+            Hit hit = new Hit();
+            hit.setFoundState(false);
+            hit.setTMin(1 * Math.Pow(10, 12));
+
+            foreach(Object3D object3D in objects) object3D.intersect(ray, hit);
+
+            if (hit.getFoundState() == true) return hit.getMaterial().getColor();
+            else return images[0].getColor();
+        }
+
         private void loadSceneBtn_Click(object sender, EventArgs e)
         {
             // open file dialog
@@ -53,9 +63,9 @@ namespace cosig_work02
                 materials = parser.materials;
                 cameras = parser.cameras;
                 lights = parser.lights;
-                spheres = parser.spheres;
-                boxes = parser.boxes;
-                triangles = parser.triangles;
+                //objects.AddRange(parser.spheres);
+                //objects.AddRange(parser.boxes);
+                objects.AddRange(parser.triangles);
 
                 // display 3D Scene 
                 rays = Ray.createRays(cameras[0], images[0]);
@@ -66,7 +76,7 @@ namespace cosig_work02
                 {
                     for (int j = 0; j < rays.GetLength(1); j++) 
                     {
-                        Color3 pixel = Ray.traceRay(rays[i, j], 1);
+                        Color3 pixel = traceRay(rays[i, j], 1);
                         image.SetPixel(i, j, pixel.convertToColor());
                     }
                 }

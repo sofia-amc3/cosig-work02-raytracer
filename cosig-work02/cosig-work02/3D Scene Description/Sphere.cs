@@ -25,43 +25,34 @@ namespace cosig_work02
                    delta = Math.Pow(b, 2) - 4 * a * c;
 
             if (delta >= 0) {
-                if (delta == 0)
-                {
-                    double t0 = -b / 2 * a;
+                double t0 = 0;
 
-                    hit.setTMin(t0);
-                } else if (delta > 0)
+                if (delta == 0) t0 = -b / 2 * a;
+                else if (delta > 0)
                 {
-                    double t0 = (-b + Math.Sqrt(delta)) / 2 * a,
-                           t1 = (-b - Math.Sqrt(delta)) / 2 * a;
+                    double t1 = (-b + Math.Sqrt(delta)) / 2 * a,
+                           t2 = (-b - Math.Sqrt(delta)) / 2 * a;
                    
-                    hit.setTMin(Math.Min(t0, t1));
+                    t0 = Math.Min(t1, t2);
                 }
-                Vector3 intersectionPoint = Vector3.addVectors(ray.getOrigin(), Vector3.multiplyVectorByScalar(hit.getTMin(), ray.getDirection())),
+                Vector3 intersectionPoint = Vector3.addVectors(ray.getOrigin(), Vector3.multiplyVectorByScalar(t0, ray.getDirection())),
                         normal = Vector3.normalizeVector(Vector3.subtractVectors(intersectionPoint, center)),
                         v = Vector3.subtractVectors(intersectionPoint, ray.getOrigin());
                 double  t = Vector3.calculateVectorLength(v),
                         epsilon = 1.0 * Math.Pow(10, -6);
 
+                hit.setT(t);
                 if (t > epsilon && t < hit.getTMin())
                 {
                     hit.setTMin(t);
                     hit.setFoundState(true);
                     hit.setPoint(intersectionPoint);
                     hit.setNormal(normal);
-                    hit.setT(t);
+                    hit.setMaterial(this.material);
                     return true;
-                } else
-                {
-                    hit.setFoundState(false);
-                    return false;
-                }
+                } else return false;
             }
-            else
-            {
-                hit.setFoundState(false);
-                return false;
-            }
+            else return false;
         }
     }
 }

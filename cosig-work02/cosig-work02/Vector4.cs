@@ -72,5 +72,16 @@ namespace cosig_work02
 
             return ray;
         }
+
+        public static Vector4 convertFromMatrix(double[] matrix)
+        {
+            return new Vector4(matrix[0], matrix[1], matrix[2], matrix[3]);
+        }
+
+        public static double[] convertToMatrix(Vector4 v1)
+        {
+            double[] matrix = { v1.getX(), v1.getY(), v1.getZ(), v1.getW() };
+            return matrix;
+        } 
     }
 }

@@ -7,6 +7,7 @@ namespace cosig_work02
     class Camera
     {
         private int indexOfTransformation;
+        protected Transformation transformation;
         private double distance,
                        fieldOfVision;
 
@@ -18,6 +19,7 @@ namespace cosig_work02
         }
 
         public int getIndexOfTransformation() { return indexOfTransformation; }
+        public Transformation getTransformation() { return transformation; }
         public double getDistance() { return distance; }
         public double getFieldOfVision() { return fieldOfVision; }
         public double getFieldOfVisionInRadians() 
@@ -30,6 +32,11 @@ namespace cosig_work02
         {
             if (indexOfTransformation < 0) indexOfTransformation = 0;
             else this.indexOfTransformation = indexOfTransformation;
+        }
+
+        public void setTransformation(Transformation transformation)
+        {
+            this.transformation = transformation;
         }
 
         public void setDistance(double distance)

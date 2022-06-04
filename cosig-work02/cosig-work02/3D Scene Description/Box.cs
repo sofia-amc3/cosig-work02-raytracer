@@ -8,6 +8,7 @@ namespace cosig_work02
     {
         public Box() : base()
         {
+
         }
 
         public override bool intersect(Ray ray, Hit hit)
@@ -32,8 +33,6 @@ namespace cosig_work02
                 t1x = t2x;
                 t2x = tempx;
             }
-
-            //if(t1x > x1) x1
 
             // y axis ------------------------------------------------------------
             double y1 = center.getY() - height / 2,

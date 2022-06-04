@@ -96,10 +96,5 @@ namespace cosig_work02
 
             return rays;
         }
-
-        public static Color3 traceRay(Ray ray, int rec)
-        {
-            return new Color3(0.4, 0.5, 0.6);
-        }
     }
 }
