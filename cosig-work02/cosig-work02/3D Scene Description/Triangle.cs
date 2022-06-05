@@ -44,8 +44,8 @@ namespace cosig_work02
         // normalize triangles
         public void calculateNormal()
         {
-            Vector3 edge12 = Vector3.subtractVectors(v2, v1),
-                    edge13 = Vector3.subtractVectors(v3, v1),
+            Vector3 edge12 = Vector3.subtractVectors(v2Transformed, v1Transformed),
+                    edge13 = Vector3.subtractVectors(v3Transformed, v1Transformed),
                     normal = Vector3.calculateCrossProduct(edge12, edge13);
 
             this.normalVector = Vector3.normalizeVector(normal);
@@ -122,11 +122,11 @@ namespace cosig_work02
         private Vector3 calculateIntersectionPoint(double beta, double gamma)
         {
             // P(t) = a + β(b - a) + γ(c - a)
-            Vector3 bminusa = Vector3.subtractVectors(this.v2, this.v1);
-            Vector3 cminusa = Vector3.subtractVectors(this.v3, this.v1);
+            Vector3 bminusa = Vector3.subtractVectors(this.v2Transformed, this.v1Transformed);
+            Vector3 cminusa = Vector3.subtractVectors(this.v3Transformed, this.v1Transformed);
             Vector3 betaMultiplies = Vector3.multiplyVectorByScalar(beta, bminusa);
             Vector3 gammaMultiplies = Vector3.multiplyVectorByScalar(gamma, cminusa);
-            Vector3 final = Vector3.addVectors(Vector3.addVectors(this.v1, betaMultiplies), gammaMultiplies);
+            Vector3 final = Vector3.addVectors(Vector3.addVectors(this.v1Transformed, betaMultiplies), gammaMultiplies);
 
             return final;
         }
@@ -155,16 +155,12 @@ namespace cosig_work02
 
                 hit.setT(t);
 
-                double[,] transformationInverse = Transformation.calculateInverse(this.transformation.getTransformationMatrix()),
-                          inverseTranspose = Transformation.calculateTranspose(transformationInverse);
-                Vector3 normal = Transformation.multiplyMatrixWithVector(inverseTranspose, this.normalVector);
-
                 if (t > epsilon && t < hit.getTMin())
                 {
                     hit.setFoundState(true);
                     hit.setTMin(t);
                     hit.setPoint(p);
-                    hit.setNormal(Vector3.normalizeVector(normal));
+                    hit.setNormal(this.normalVector);
                     hit.setMaterial(this.material);
                     return true; 
                 }

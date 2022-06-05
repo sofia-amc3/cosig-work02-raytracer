@@ -46,5 +46,20 @@ namespace cosig_work02
         {
             return Color.FromArgb((int) Math.Round(255.0 * this.r), (int) Math.Round(255.0 * this.g), (int) Math.Round(255.0 * this.b));
         }
+
+        public static Color3 addColors(Color3 color1, Color3 color2)
+        {
+            return new Color3(color1.getR() + color2.getR(), color1.getG() + color2.getG(), color1.getB() + color2.getB());
+        }
+
+        public static Color3 multiplyColors(Color3 color1, Color3 color2)
+        {
+            return new Color3(color1.getR() * color2.getR(), color1.getG() * color2.getG(), color1.getB() * color2.getB());
+        }
+
+        public static Color3 multiplyColorByScalar(double scalar, Color3 color)
+        {
+            return new Color3(scalar * color.getR(), scalar * color.getG(), scalar * color.getB());
+        }
     }
 }

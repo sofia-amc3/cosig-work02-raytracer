@@ -13,6 +13,10 @@ namespace cosig_work02
 
         public override bool intersect(Ray ray, Hit hit)
         {
+            double[,] transformationMatrix = this.transformation.getTransformationMatrix();
+            Vector3 oobPosition = new Vector3(transformationMatrix[3, 0], transformationMatrix[3, 1], transformationMatrix[3, 2]);
+            Vector3 delta = Vector3.subtractVectors(oobPosition, ray.getOrigin());
+
             // general
             Vector3 center = this.transformation.getTranslate(),
                     origin = ray.getOrigin(),
@@ -28,8 +32,12 @@ namespace cosig_work02
 
             // test 01: maintain tmin and tmax -----------------------------------
             // x axis ------------------------------------------------------------
-            double x1 = center.getX() - width / 2,
-                   x2 = center.getX() + width / 2,
+            Vector3 xAxis =  new Vector3(transformationMatrix[0, 0], transformationMatrix[0, 1], transformationMatrix[0, 2]);
+            double e = Vector3.calculateDotProduct(xAxis, delta),
+                   f = Vector3.calculateDotProduct(direction, xAxis);
+
+            double x1 = (e - 1) / f, // center.getX() - width / 2,
+                   x2 = (e + 1) / f, // center.getX() + width / 2,
                    t1x = (x1 - origin.getX()) / direction.getX(),
                    t2x = (x2 - origin.getX()) / direction.getX();
 
@@ -44,8 +52,12 @@ namespace cosig_work02
             tmax = t2x;
 
             // y axis ------------------------------------------------------------
-            double y1 =  center.getY() - height / 2,
-                   y2 =  center.getY() + height / 2,
+            Vector3 yAxis = new Vector3(transformationMatrix[1, 0], transformationMatrix[1, 1], transformationMatrix[1, 2]);
+            e = Vector3.calculateDotProduct(yAxis, delta);
+            f = Vector3.calculateDotProduct(direction, yAxis);
+
+            double y1 = (e - 1) / f, // center.getX() - width / 2,
+                   y2 = (e + 1) / f, // center.getX() + width / 2,
                    t1y = (y1 - origin.getY()) / direction.getY(),
                    t2y = (y2 - origin.getY()) / direction.getY();
 
@@ -64,8 +76,12 @@ namespace cosig_work02
             if (t2y < tmax) tmax = t2y;
 
             // z axis ------------------------------------------------------------
-            double z1 = center.getZ() - length / 2,
-                   z2 = center.getZ() + length / 2,
+            Vector3 zAxis = new Vector3(transformationMatrix[2, 0], transformationMatrix[2, 1], transformationMatrix[2, 2]);
+            e = Vector3.calculateDotProduct(zAxis, delta);
+            f = Vector3.calculateDotProduct(direction, zAxis);
+
+            double z1 = (e - 1) / f, // center.getX() - width / 2,
+                   z2 = (e + 1) / f, // center.getX() + width / 2,
                    t1z = (z1 - origin.getZ()) / direction.getZ(),
                    t2z = (z2 - origin.getZ()) / direction.getZ();
 
@@ -92,6 +108,9 @@ namespace cosig_work02
                    // normal = Vector3.normalizeVector(Vector3.subtractVectors(p, center)),
                     v = Vector3.subtractVectors(p, ray.getOrigin());
             double t = Vector3.calculateVectorLength(v);
+
+            // normal calculation
+            //if(Math.Abs())
 
             if (t < hit.getTMin())
             {

@@ -44,7 +44,33 @@ namespace cosig_work02
 
             foreach(Object3D object3D in objects) object3D.intersect(ray, hit);
 
-            if (hit.getFoundState() == true) return hit.getMaterial().getColor();
+            if (hit.getFoundState() == true)
+            {
+                Color3 color = new Color3(0, 0, 0);
+
+                foreach (Light light in lights) 
+                {
+                    // calculates ambient reflection 
+                    Color3 a = Color3.multiplyColors(light.getColor(), hit.getMaterial().getColor());
+                    Color3 b = Color3.multiplyColorByScalar(hit.getMaterial().getAmbient(), a);
+                    color = Color3.addColors(color, b);
+
+                    // calculates diffuse reflection
+                    Vector3 i = Vector3.subtractVectors(light.getTransformation().applyTransformationToPoint(new Vector3(0, 0, 0)), hit.getPoint());
+                    i = Vector3.normalizeVector(i);
+
+                    double cosTheta = Vector3.calculateDotProduct(hit.getNormal(), i);
+                    if (cosTheta > 0.0) 
+                    {
+                        Color3 c = Color3.multiplyColors(light.getColor(), hit.getMaterial().getColor());
+                        Color3 d = Color3.multiplyColorByScalar(hit.getMaterial().getDiffuse(), c);
+                        Color3 e = Color3.multiplyColorByScalar(cosTheta, d);
+                        color = Color3.addColors(color, e);
+                    }
+                }
+
+                return Color3.multiplyColorByScalar(1 / lights.Count(), color);
+            }
             else return images[0].getColor();
         }
 
@@ -63,9 +89,9 @@ namespace cosig_work02
                 materials = parser.materials;
                 cameras = parser.cameras;
                 lights = parser.lights;
-                //objects.AddRange(parser.spheres);
-                objects.AddRange(parser.boxes);
-                //objects.AddRange(parser.triangles);
+                objects.AddRange(parser.spheres);
+                //objects.AddRange(parser.boxes);
+                objects.AddRange(parser.triangles);
 
                 // display 3D Scene 
                 rays = Ray.createRays(cameras[0], images[0]);

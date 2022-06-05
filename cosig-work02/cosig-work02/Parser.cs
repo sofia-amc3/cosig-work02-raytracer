@@ -225,7 +225,7 @@ namespace cosig_work02
                     if (values.Length == 1)
                     {
                         light.setIndexOfTransformation(Int32.Parse(values[0]));
-                        light.setTransformation(this.transformations[Int32.Parse(values[0])]);
+                        light.setTransformation(getFinalObjectTransformation(Int32.Parse(values[0])));
                     }
                     else if (values.Length == 3)
                     {
