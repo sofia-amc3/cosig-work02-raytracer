@@ -14,13 +14,19 @@ namespace cosig_work02
         public override bool intersect(Ray ray, Hit hit)
         {
             // general
-            Vector3 center = new Vector3(0, 0, 0), // box is centered at origin
+            Vector3 center = this.transformation.getTranslate(),
                     origin = ray.getOrigin(),
-                    direction = ray.getDirection();
-            double width = 1,  // box x
-                   height = 1, // box y
-                   length = 1; // box z
+                    direction = ray.getDirection(),
+                    scale = this.transformation.getScale();
+            double width = scale.getX(),
+                   height = scale.getY(),
+                   length = scale.getZ(),
+                   tmin = 0,
+                   tmax = 0;
 
+            if (direction.getX() == 0 || direction.getY() == 0 || direction.getZ() == 0) return false;
+
+            // test 01: maintain tmin and tmax -----------------------------------
             // x axis ------------------------------------------------------------
             double x1 = center.getX() - width / 2,
                    x2 = center.getX() + width / 2,
@@ -34,9 +40,12 @@ namespace cosig_work02
                 t2x = tempx;
             }
 
+            tmin = t1x;
+            tmax = t2x;
+
             // y axis ------------------------------------------------------------
-            double y1 = center.getY() - height / 2,
-                   y2 = center.getY() + height / 2,
+            double y1 =  center.getY() - height / 2,
+                   y2 =  center.getY() + height / 2,
                    t1y = (y1 - origin.getY()) / direction.getY(),
                    t2y = (y2 - origin.getY()) / direction.getY();
 
@@ -46,6 +55,13 @@ namespace cosig_work02
                 t1y = t2y;
                 t2y = tempy;
             }
+
+            // compare distances
+            if (tmin > t2y || t1y > tmax) return false;
+
+            // assign new tmin and tmax
+            if (t1y > tmin) tmin = t1y;
+            if (t2y < tmax) tmax = t2y;
 
             // z axis ------------------------------------------------------------
             double z1 = center.getZ() - length / 2,
@@ -60,7 +76,33 @@ namespace cosig_work02
                 t2z = tempz;
             }
 
-            return false;
+            // compare distances
+            if (tmin > t2z || t1z > tmax) return false;
+
+            // assign new tmin and tmax
+            if (t1z > tmin) tmin = t1z;
+            if (t2z < tmax) tmax = t2z;
+
+            // test 02 -----------------------------------------------------------
+            if (tmin > tmax) return false; // box is missed
+            if (tmax < 0) return false; // box is behind ray's origin
+
+            // is it the nearest object? -----------------------------------------
+            Vector3 p = Vector3.addVectors(ray.getOrigin(), Vector3.multiplyVectorByScalar(tmin, ray.getDirection())),
+                   // normal = Vector3.normalizeVector(Vector3.subtractVectors(p, center)),
+                    v = Vector3.subtractVectors(p, ray.getOrigin());
+            double t = Vector3.calculateVectorLength(v);
+
+            if (t < hit.getTMin())
+            {
+                hit.setFoundState(true);
+                hit.setTMin(t);
+                hit.setPoint(p);
+                //hit.setNormal(Vector3.normalizeVector(normal));
+                hit.setMaterial(this.material);
+                return true;
+            }
+            else return false;
         }
     }
 }

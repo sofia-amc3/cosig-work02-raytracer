@@ -102,22 +102,22 @@ namespace cosig_work02
             return Transformation.calculateDeterminant(matrix) / detA;
         }
 
-       /* private double getT(Ray ray, double detA)
+       private double getT(Ray ray, double detA)
         {
             double[,] matrix = new double[3, 3];
 
-            matrix[0, 0] = this.v1.getX() - this.v2.getX();
-            matrix[0, 1] = this.v1.getX() - this.v3.getX();
-            matrix[0, 2] = this.v1.getX() - ray.getOrigin().getX();
-            matrix[1, 0] = this.v1.getY() - this.v2.getY();
-            matrix[1, 1] = this.v1.getY() - this.v3.getY();
-            matrix[1, 2] = this.v1.getY() - ray.getOrigin().getY();
-            matrix[2, 0] = this.v1.getZ() - this.v2.getZ();
-            matrix[2, 1] = this.v1.getZ() - this.v3.getZ();
-            matrix[2, 2] = this.v1.getZ() - ray.getOrigin().getZ();
+            matrix[0, 0] = this.v1Transformed.getX() - this.v2Transformed.getX();
+            matrix[0, 1] = this.v1Transformed.getX() - this.v3Transformed.getX();
+            matrix[0, 2] = this.v1Transformed.getX() - ray.getOrigin().getX();
+            matrix[1, 0] = this.v1Transformed.getY() - this.v2Transformed.getY();
+            matrix[1, 1] = this.v1Transformed.getY() - this.v3Transformed.getY();
+            matrix[1, 2] = this.v1Transformed.getY() - ray.getOrigin().getY();
+            matrix[2, 0] = this.v1Transformed.getZ() - this.v2Transformed.getZ();
+            matrix[2, 1] = this.v1Transformed.getZ() - this.v3Transformed.getZ();
+            matrix[2, 2] = this.v1Transformed.getZ() - ray.getOrigin().getZ();
 
             return Transformation.calculateDeterminant(matrix) / detA;
-        } */
+        }
 
         private Vector3 calculateIntersectionPoint(double beta, double gamma)
         {
@@ -150,10 +150,8 @@ namespace cosig_work02
 
             if (beta + gamma < 1.0 + epsilon)
             {
-                Vector3 p_ = calculateIntersectionPoint(beta, gamma), // P'
-                        p = this.transformation.applyTransformationToPoint(p_),
-                        v = Vector3.subtractVectors(p, ray.getOrigin());
-                double t = Vector3.calculateVectorLength(v);
+                Vector3 p = calculateIntersectionPoint(beta, gamma);
+                double t = getT(ray, detA);
 
                 hit.setT(t);
 

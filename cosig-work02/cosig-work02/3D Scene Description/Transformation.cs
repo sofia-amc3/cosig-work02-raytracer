@@ -22,6 +22,7 @@ namespace cosig_work02
                    z = Math.Sqrt(Math.Pow(this.transformMatrix[2, 0], 2) + Math.Pow(this.transformMatrix[2, 1], 2) + Math.Pow(this.transformMatrix[2, 2], 2));
             return new Vector3(x, y, z); 
         }
+        public Vector3 getRotate() { return new Vector3(0, 0, 0); }
 
         public void setTransformationMatrix(double[,] transformMatrix) { this.transformMatrix = transformMatrix; }
 

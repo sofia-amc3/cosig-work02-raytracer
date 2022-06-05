@@ -63,9 +63,9 @@ namespace cosig_work02
                 materials = parser.materials;
                 cameras = parser.cameras;
                 lights = parser.lights;
-                objects.AddRange(parser.spheres);
-                //objects.AddRange(parser.boxes);
-                objects.AddRange(parser.triangles);
+                //objects.AddRange(parser.spheres);
+                objects.AddRange(parser.boxes);
+                //objects.AddRange(parser.triangles);
 
                 // display 3D Scene 
                 rays = Ray.createRays(cameras[0], images[0]);
