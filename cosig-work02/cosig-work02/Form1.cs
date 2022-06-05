@@ -51,8 +51,8 @@ namespace cosig_work02
                 foreach (Light light in lights) 
                 {
                     // calculates ambient reflection 
-                    Color3 a = Color3.multiplyColors(light.getColor(), hit.getMaterial().getColor());
-                    Color3 b = Color3.multiplyColorByScalar(hit.getMaterial().getAmbient(), a);
+                    Color3 a = Color3.multiplyColors(light.getColor(), hit.getMaterial().getColor()),
+                           b = Color3.multiplyColorByScalar(hit.getMaterial().getAmbient(), a);
                     color = Color3.addColors(color, b);
 
                     // calculates diffuse reflection
@@ -62,9 +62,9 @@ namespace cosig_work02
                     double cosTheta = Vector3.calculateDotProduct(hit.getNormal(), i);
                     if (cosTheta > 0.0) 
                     {
-                        Color3 c = Color3.multiplyColors(light.getColor(), hit.getMaterial().getColor());
-                        Color3 d = Color3.multiplyColorByScalar(hit.getMaterial().getDiffuse(), c);
-                        Color3 e = Color3.multiplyColorByScalar(cosTheta, d);
+                        Color3 c = Color3.multiplyColors(light.getColor(), hit.getMaterial().getColor()),
+                               d = Color3.multiplyColorByScalar(hit.getMaterial().getDiffuse(), c),
+                               e = Color3.multiplyColorByScalar(cosTheta, d);
                         color = Color3.addColors(color, e);
                     }
                 }

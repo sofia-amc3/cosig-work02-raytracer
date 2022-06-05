@@ -34,7 +34,7 @@ namespace cosig_work02
                    
                     t0 = Math.Min(t1, t2);
                 }
-                Vector3 p = Vector3.addVectors(ray.getOrigin(), Vector3.multiplyVectorByScalar(t0, ray.getDirection())),
+                Vector3 p = Vector3.addVectors(ray.getOrigin(), Vector3.multiplyVectorByScalar(t0, direction)),
                         normal = Vector3.normalizeVector(Vector3.subtractVectors(p, center)),
                         v = Vector3.subtractVectors(p, ray.getOrigin());
                 double  t = Vector3.calculateVectorLength(v),
@@ -47,7 +47,7 @@ namespace cosig_work02
                     hit.setFoundState(true);
                     hit.setTMin(t);
                     hit.setPoint(p);
-                    hit.setNormal(Vector3.normalizeVector(normal));
+                    hit.setNormal(normal);
                     hit.setMaterial(this.material);
                     return true;
                 } else return false;
