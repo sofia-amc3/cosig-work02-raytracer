@@ -13,18 +13,12 @@ namespace cosig_work02
 
         public override bool intersect(Ray ray, Hit hit)
         {
-            double[,] transformationMatrix = this.transformation.getTransformationMatrix();
-            Vector3 oobPosition = new Vector3(transformationMatrix[3, 0], transformationMatrix[3, 1], transformationMatrix[3, 2]);
-            Vector3 delta = Vector3.subtractVectors(oobPosition, ray.getOrigin());
-
+            this.transformation.applyTransformationToRay(ray); // Ray's Transformation
             // general
-            Vector3 center = this.transformation.getTranslate(),
-                    origin = ray.getOrigin(),
-                    direction = ray.getDirection(),
-                    scale = this.transformation.getScale();
-            double width = scale.getX(),
-                   height = scale.getY(),
-                   length = scale.getZ(),
+            Vector3 center = new Vector3(0, 0, 0),
+                    origin = ray.getOriginTransformed(),
+                    direction = ray.getDirectionTransformed();
+            double size = 1,
                    tmin = 0,
                    tmax = 0;
 
@@ -32,16 +26,12 @@ namespace cosig_work02
 
             // test 01: maintain tmin and tmax -----------------------------------
             // x axis ------------------------------------------------------------
-            Vector3 xAxis =  new Vector3(transformationMatrix[0, 0], transformationMatrix[0, 1], transformationMatrix[0, 2]);
-            double e = Vector3.calculateDotProduct(xAxis, delta),
-                   f = Vector3.calculateDotProduct(direction, xAxis);
-
-            double x1 = (e - 1) / f, // center.getX() - width / 2,
-                   x2 = (e + 1) / f, // center.getX() + width / 2,
+            double x1 = center.getX() - size / 2,
+                   x2 = center.getX() + size / 2,
                    t1x = (x1 - origin.getX()) / direction.getX(),
                    t2x = (x2 - origin.getX()) / direction.getX();
 
-            if(t1x > t2x) // if t1 > t2, swap
+            if (t1x > t2x) // if t1 > t2, swap
             {
                 double tempx = t1x;
                 t1x = t2x;
@@ -52,12 +42,8 @@ namespace cosig_work02
             tmax = t2x;
 
             // y axis ------------------------------------------------------------
-            Vector3 yAxis = new Vector3(transformationMatrix[1, 0], transformationMatrix[1, 1], transformationMatrix[1, 2]);
-            e = Vector3.calculateDotProduct(yAxis, delta);
-            f = Vector3.calculateDotProduct(direction, yAxis);
-
-            double y1 = (e - 1) / f, // center.getX() - width / 2,
-                   y2 = (e + 1) / f, // center.getX() + width / 2,
+            double y1 = center.getY() - size / 2,
+                   y2 = center.getY() + size / 2,
                    t1y = (y1 - origin.getY()) / direction.getY(),
                    t2y = (y2 - origin.getY()) / direction.getY();
 
@@ -76,12 +62,8 @@ namespace cosig_work02
             if (t2y < tmax) tmax = t2y;
 
             // z axis ------------------------------------------------------------
-            Vector3 zAxis = new Vector3(transformationMatrix[2, 0], transformationMatrix[2, 1], transformationMatrix[2, 2]);
-            e = Vector3.calculateDotProduct(zAxis, delta);
-            f = Vector3.calculateDotProduct(direction, zAxis);
-
-            double z1 = (e - 1) / f, // center.getX() - width / 2,
-                   z2 = (e + 1) / f, // center.getX() + width / 2,
+            double z1 = center.getZ() - size / 2,
+                   z2 = center.getZ() + size / 2,
                    t1z = (z1 - origin.getZ()) / direction.getZ(),
                    t2z = (z2 - origin.getZ()) / direction.getZ();
 
@@ -104,20 +86,17 @@ namespace cosig_work02
             if (tmax < 0) return false; // box is behind ray's origin
 
             // is it the nearest object? -----------------------------------------
-            Vector3 p = Vector3.addVectors(ray.getOrigin(), Vector3.multiplyVectorByScalar(tmin, ray.getDirection())),
-                   // normal = Vector3.normalizeVector(Vector3.subtractVectors(p, center)),
+            Vector3 p_ = Vector3.addVectors(origin, Vector3.multiplyVectorByScalar(tmin, direction)),
+                    p = this.transformation.applyTransformationToPoint(p_),
                     v = Vector3.subtractVectors(p, ray.getOrigin());
             double t = Vector3.calculateVectorLength(v);
-
-            // normal calculation
-            //if(Math.Abs())
 
             if (t < hit.getTMin())
             {
                 hit.setFoundState(true);
                 hit.setTMin(t);
                 hit.setPoint(p);
-                //hit.setNormal(Vector3.normalizeVector(normal));
+                hit.setNormal(new Vector3(1, 0, 0));
                 hit.setMaterial(this.material);
                 return true;
             }

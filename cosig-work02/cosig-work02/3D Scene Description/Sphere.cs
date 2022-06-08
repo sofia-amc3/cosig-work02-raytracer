@@ -13,10 +13,11 @@ namespace cosig_work02
 
         public override bool intersect(Ray ray, Hit hit)
         {
-            double radius = this.transformation.getScale().getX();
-            Vector3 center = this.transformation.getTranslate(),
-                    direction = ray.getDirection(),
-                    distance = Vector3.subtractVectors(ray.getOrigin(), center);
+            this.transformation.applyTransformationToRay(ray); // Ray's Transformation
+            double radius = 1;
+            Vector3 center = new Vector3(0, 0, 0),
+                    direction = ray.getDirectionTransformed(),
+                    distance = Vector3.subtractVectors(ray.getOriginTransformed(), center);
 
             double a = Vector3.calculateDotProduct(direction, direction),
                    b = 2 * Vector3.calculateDotProduct(direction, distance),
@@ -26,16 +27,18 @@ namespace cosig_work02
             if (delta >= 0) {
                 double t0 = 0;
 
-                if (delta == 0) t0 = -b / 2 * a;
+                if (delta == 0) t0 = -b / (2 * a);
                 else if (delta > 0)
                 {
-                    double t1 = (-b + Math.Sqrt(delta)) / 2 * a,
-                           t2 = (-b - Math.Sqrt(delta)) / 2 * a;
+                    double t1 = (-b + Math.Sqrt(delta)) / (2 * a),
+                           t2 = (-b - Math.Sqrt(delta)) / (2 * a);
                    
                     t0 = Math.Min(t1, t2);
                 }
-                Vector3 p = Vector3.addVectors(ray.getOrigin(), Vector3.multiplyVectorByScalar(t0, direction)),
-                        normal = Vector3.normalizeVector(Vector3.subtractVectors(p, center)),
+                Vector3 p_ = Vector3.addVectors(ray.getOriginTransformed(), Vector3.multiplyVectorByScalar(t0, direction)),
+                        p = this.transformation.applyTransformationToPoint(p_),
+                        normal_ = Vector3.normalizeVector(Vector3.subtractVectors(p_, center)),
+                        normal = Transformation.multiplyMatrixWithVector(this.transformation.getTransposeInverseTransformationMatrix(), normal_),
                         v = Vector3.subtractVectors(p, ray.getOrigin());
                 double  t = Vector3.calculateVectorLength(v),
                         epsilon = 1.0 * Math.Pow(10, -6);
@@ -47,7 +50,7 @@ namespace cosig_work02
                     hit.setFoundState(true);
                     hit.setTMin(t);
                     hit.setPoint(p);
-                    hit.setNormal(normal);
+                    hit.setNormal(Vector3.normalizeVector(normal));
                     hit.setMaterial(this.material);
                     return true;
                 } else return false;

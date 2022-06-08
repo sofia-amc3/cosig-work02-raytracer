@@ -6,7 +6,9 @@ namespace cosig_work02
 {
     class Transformation
     {
-        private double[,] transformMatrix = new double[4, 4];
+        private double[,] transformMatrix = new double[4, 4],
+                          inverseTransformMatrix = new double[4, 4],
+                          transposeInverseTransformMatrix = new double[4, 4];
 
         public Transformation()
         {
@@ -14,6 +16,8 @@ namespace cosig_work02
         }
 
         public double[,] getTransformationMatrix() { return transformMatrix; }
+        public double[,] getInverseTransformationMatrix() { return inverseTransformMatrix; }
+        public double[,] getTransposeInverseTransformationMatrix() { return transposeInverseTransformMatrix; }
         public Vector3 getTranslate() { return new Vector3(this.transformMatrix[0, 3], this.transformMatrix[1, 3], this.transformMatrix[2, 3]); }
         public Vector3 getScale() 
         {
@@ -190,6 +194,11 @@ namespace cosig_work02
             return multiplyMatrixWithVector(this.transformMatrix, v1);
         }
 
+        public void applyTransformationToRay(Ray ray)
+        {
+            multiplyMatrixWithRay(this.inverseTransformMatrix, ray);
+        }
+
         // multiplies two 4x4 matrixes
         public void multiplyByMatrix(double[,] matrixA)
         {
@@ -206,6 +215,9 @@ namespace cosig_work02
                 for (int j = 0; j < 4; j++)
                     for (int k = 0; k < 4; k++)
                         transformMatrix[i, j] += matrixB[i, k] * matrixA[k, j];
+
+            this.inverseTransformMatrix = calculateInverse(this.transformMatrix);
+            this.transposeInverseTransformMatrix = calculateTranspose(this.inverseTransformMatrix);
         }
 
         public Transformation clone()
@@ -346,6 +358,12 @@ namespace cosig_work02
             Vector4 newVector = Vector4.convertFromMatrix(newVectorMatrix);
 
             return Vector4.convertVectorToCartesianCoordinates(newVector);
+        }
+
+        public static void multiplyMatrixWithRay(double[,] matrix, Ray ray)
+        {
+            ray.setOriginTransformed(multiplyMatrixWithPoint(matrix, ray.getOrigin()));
+            ray.setDirectionTransformed(Vector3.normalizeVector(multiplyMatrixWithVector(matrix, ray.getDirection())));
         }
     }
 }
