@@ -148,8 +148,8 @@ namespace cosig_work02
             if (beta + gamma < 1.0 + epsilon)
             {
                 Vector3 p_ = calculateIntersectionPoint(beta, gamma),
-                        p = this.transformation.applyTransformationToPoint(p_),
-                        v = Vector3.subtractVectors(p, ray.getOrigin());
+                        p = this.transformation.applyTransformationToPoint(p_);
+                        //v = Vector3.subtractVectors(p, ray.getOrigin());
                 double t = getT(ray, detA); // Vector3.calculateVectorLength(v);
 
                 hit.setT(t);

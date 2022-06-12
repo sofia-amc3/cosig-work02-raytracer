@@ -30,11 +30,30 @@ namespace cosig_work02
                 if (delta == 0) t0 = -b / (2 * a);
                 else if (delta > 0)
                 {
-                    double t1 = (-b + Math.Sqrt(delta)) / (2 * a),
-                           t2 = (-b - Math.Sqrt(delta)) / (2 * a);
-                   
-                    t0 = Math.Min(t1, t2);
+                    double q;
+
+                    if (b > 0) q = (-b + Math.Sqrt(delta)) / (2 * a);
+                    else q = (-b - Math.Sqrt(delta)) / (2 * a);
+
+                    double t1 = q / a,
+                           t2 = c / q;
+
+                    if(t1 > t2)
+                    {
+                        double temp = t1;
+                        t1 = t2;
+                        t2 = temp;
+                    }
+
+                    if(t1 < 0)
+                    {
+                        t1 = t2;
+                        if (t1 < 0) return false;
+                    }
+
+                    t0 = t1;
                 }
+
                 Vector3 p_ = Vector3.addVectors(ray.getOriginTransformed(), Vector3.multiplyVectorByScalar(t0, direction)),
                         p = this.transformation.applyTransformationToPoint(p_),
                         normal_ = Vector3.normalizeVector(Vector3.subtractVectors(p_, center)),

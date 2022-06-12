@@ -111,9 +111,10 @@ namespace cosig_work02
                     normal_ = calculateNormal(p_, size),
                     normal = Transformation.multiplyMatrixWithVector(this.transformation.getTransposeInverseTransformationMatrix(), normal_),
                     v = Vector3.subtractVectors(p, ray.getOrigin());
-            double t = Vector3.calculateVectorLength(v);
+            double t = Vector3.calculateVectorLength(v),
+                   epsilon = 1.0 * Math.Pow(10, -6);
 
-            if (t < hit.getTMin())
+            if (t > epsilon && t < hit.getTMin())
             {
                 hit.setFoundState(true);
                 hit.setTMin(t);

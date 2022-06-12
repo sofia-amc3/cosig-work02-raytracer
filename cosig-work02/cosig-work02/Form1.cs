@@ -121,10 +121,6 @@ namespace cosig_work02
                         Color3 temp4 = Color3.multiplyColorByScalar(temp3, hit.getMaterial().getColor()),
                                temp5 = Color3.multiplyColors(temp4, traceRay(reflectedRay, rec - 1));
                         color = Color3.addColors(color, temp5); 
-
-                        /*Color3 temp1 = Color3.multiplyColorByScalar(specular, hit.getMaterial().getColor()),
-                               temp2 = Color3.multiplyColors(temp1, traceRay(reflectedRay, rec - 1));
-                        color = Color3.addColors(color, temp2);*/
                     }
 
                     // calculates refraction 
