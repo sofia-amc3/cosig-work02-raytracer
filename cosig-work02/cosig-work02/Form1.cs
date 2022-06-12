@@ -143,9 +143,7 @@ namespace cosig_work02
                         refractedRayDirection = Vector3.normalizeVector(refractedRayDirection);
 
                         // create refracted ray
-                        Vector3 calc6 = Vector3.multiplyVectorByScalar(epsilon, refractedRayDirection),
-                                refractedRayOrigin = Vector3.addVectors(hit.getPoint(), calc6);
-                        Ray refractedRay = new Ray(refractedRayOrigin, refractedRayDirection);
+                        Ray refractedRay = new Ray(hit.getPoint(), refractedRayDirection);
 
                         // apply refraction
                         Color3 calc4 = Color3.multiplyColorByScalar(indexOfRefraction, traceRay(refractedRay, rec - 1)),

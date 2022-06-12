@@ -47,8 +47,8 @@ namespace cosig_work02
 
                     if(t1 < 0)
                     {
-                        t1 = t2;
-                        if (t1 < 0) return false;
+                        t1 = t2; //if t1 is negative, let's use t2 instead 
+                        if (t1 < 0) return false; // both t1 and t2 are negative
                     }
 
                     t0 = t1;
