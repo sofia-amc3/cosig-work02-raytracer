@@ -41,8 +41,13 @@ namespace cosig_work02
             Hit hit = new Hit();
             hit.setFoundState(false);
             hit.setTMin(1 * Math.Pow(10, 12));
+            Object3D foundObject = new Triangle();
 
-            foreach(Object3D object3D in objects) object3D.intersect(ray, hit);
+            foreach (Object3D object3D in objects)
+            {
+                bool found = object3D.intersect(ray, hit);
+                if (found) foundObject = object3D;
+            }
 
             if (hit.getFoundState() == true)
             {
@@ -55,18 +60,48 @@ namespace cosig_work02
                             b = Color3.multiplyColorByScalar(hit.getMaterial().getAmbient(), a);
                      color = Color3.addColors(color, b);
 
-                     // calculates diffuse reflection
-                     Vector3 i = Vector3.subtractVectors(light.getTransformation().applyTransformationToPoint(new Vector3(0, 0, 0)), hit.getPoint());
-                     i = Vector3.normalizeVector(i);
+                    // calculates diffuse reflection
+                    Vector3 lightPosition = light.getTransformation().applyTransformationToPoint(new Vector3(0, 0, 0)),
+                            i = Vector3.subtractVectors(lightPosition, hit.getPoint());
+                    double tLight = Vector3.calculateVectorLength(i);
+                    i = Vector3.normalizeVector(i);
 
-                     double cosTheta = Vector3.calculateDotProduct(hit.getNormal(), i);
-                     if (cosTheta > 0.0) 
-                     {
-                         Color3 c = Color3.multiplyColors(light.getColor(), hit.getMaterial().getColor()),
-                                d = Color3.multiplyColorByScalar(hit.getMaterial().getDiffuse(), c),
-                                e = Color3.multiplyColorByScalar(cosTheta, d);
-                         color = Color3.addColors(color, e);
-                     }
+                    double cosTheta = Vector3.calculateDotProduct(hit.getNormal(), i);
+                    if (cosTheta > 0.0) 
+                    {
+                        Ray shadowRay = new Ray(hit.getPoint(), i);
+                        Hit shadowHit = new Hit();
+                        shadowHit.setFoundState(false);
+                        shadowHit.setTMin(tLight);
+
+                        /*for (int j = 0; j < objects.Count(); j++)
+                        {
+                            if (j == foundObjIndex) continue; // don't calculate the shadow on the object itself
+
+                            objects[j].intersect(shadowRay, shadowHit);
+
+                            if (shadowHit.getFoundState() == true)
+                            {
+                                break;
+                            }
+                        }*/
+
+                        foreach (Object3D object3D in objects) {
+                            if (object3D == foundObject) continue; // don't calculate the shadow on the object itself
+                            
+                            object3D.intersect(shadowRay, shadowHit);
+
+                            if (shadowHit.getFoundState() == true) break;
+                        }
+
+                        if (shadowHit.getFoundState() == false)
+                        {
+                            Color3 c = Color3.multiplyColors(light.getColor(), hit.getMaterial().getColor()),
+                                   d = Color3.multiplyColorByScalar(hit.getMaterial().getDiffuse(), c),
+                                   e = Color3.multiplyColorByScalar(cosTheta, d);
+                            color = Color3.addColors(color, e);
+                        }
+                    }
                  }
 
                  return Color3.multiplyColorByScalar(1 / lights.Count(), color);

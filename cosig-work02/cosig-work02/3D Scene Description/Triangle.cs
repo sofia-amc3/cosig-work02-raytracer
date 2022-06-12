@@ -98,7 +98,7 @@ namespace cosig_work02
             return Transformation.calculateDeterminant(matrix) / detA;
         }
 
-        /*private double getT(Ray ray, double detA)
+        private double getT(Ray ray, double detA)
          {
              double[,] matrix = new double[3, 3];
 
@@ -113,7 +113,7 @@ namespace cosig_work02
              matrix[2, 2] = this.v1.getZ() - ray.getOriginTransformed().getZ();
 
              return Transformation.calculateDeterminant(matrix) / detA;
-         }*/
+         }
 
         private Vector3 calculateIntersectionPoint(double beta, double gamma)
         {
@@ -150,7 +150,7 @@ namespace cosig_work02
                 Vector3 p_ = calculateIntersectionPoint(beta, gamma),
                         p = this.transformation.applyTransformationToPoint(p_),
                         v = Vector3.subtractVectors(p, ray.getOrigin());
-                double t = Vector3.calculateVectorLength(v);
+                double t = getT(ray, detA); // Vector3.calculateVectorLength(v);
 
                 hit.setT(t);
 
