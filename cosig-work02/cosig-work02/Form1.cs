@@ -74,18 +74,6 @@ namespace cosig_work02
                         shadowHit.setFoundState(false);
                         shadowHit.setTMin(tLight);
 
-                        /*for (int j = 0; j < objects.Count(); j++)
-                        {
-                            if (j == foundObjIndex) continue; // don't calculate the shadow on the object itself
-
-                            objects[j].intersect(shadowRay, shadowHit);
-
-                            if (shadowHit.getFoundState() == true)
-                            {
-                                break;
-                            }
-                        }*/
-
                         foreach (Object3D object3D in objects) {
                             if (object3D == foundObject) continue; // don't calculate the shadow on the object itself
                             
@@ -103,6 +91,39 @@ namespace cosig_work02
                         }
                     }
                  }
+
+                 // calculates specular reflection
+                 if(rec > 0)
+                 {
+                    double cosThetaV = -Vector3.calculateDotProduct(ray.getDirection(), hit.getNormal()),
+                           specular = hit.getMaterial().getSpecular(),
+                           epsilon = 1.0 * Math.Pow(10, -6);
+
+                    if (specular > 0.0) // the material reflects specular light
+                    {
+                        // calculate reflected ray's direction
+                        Vector3 reflectedRayDirection = Vector3.multiplyVectorByScalar(2.0 * cosThetaV, hit.getNormal());
+                        reflectedRayDirection = Vector3.addVectors(ray.getDirection(), reflectedRayDirection);
+                        reflectedRayDirection = Vector3.normalizeVector(reflectedRayDirection);
+
+                        // create reflected ray
+                        Vector3 temp0 = Vector3.multiplyVectorByScalar(epsilon, hit.getNormal()),
+                                reflectedRayOrigin = Vector3.addVectors(hit.getPoint(), temp0);
+                        Ray reflectedRay = new Ray(reflectedRayOrigin, reflectedRayDirection);
+
+                        // schlick approximation
+                        double temp1 = 1.0 - specular,
+                               temp2 = Math.Pow(1.0 - cosThetaV, 5),
+                               temp3 = specular + (temp1 * temp2);
+                        Color3 temp4 = Color3.multiplyColorByScalar(temp3, hit.getMaterial().getColor()),
+                               temp5 = Color3.multiplyColors(temp4, traceRay(reflectedRay, rec - 1));
+                        color = Color3.addColors(color, temp5); 
+
+                        /*Color3 temp1 = Color3.multiplyColorByScalar(specular, hit.getMaterial().getColor()),
+                               temp2 = Color3.multiplyColors(temp1, traceRay(reflectedRay, rec - 1));
+                        color = Color3.addColors(color, temp2);*/
+                    }
+                }
 
                  return Color3.multiplyColorByScalar(1 / lights.Count(), color);
             }
@@ -137,7 +158,7 @@ namespace cosig_work02
                 {
                     for (int j = 0; j < rays.GetLength(1); j++) 
                     {
-                        Color3 pixel = traceRay(rays[i, j], 1);
+                        Color3 pixel = traceRay(rays[i, j], 2);
                         image.SetPixel(i, j, pixel.convertToColor());
                     }
                 }
