@@ -92,13 +92,15 @@ namespace cosig_work02
                     }
                  }
 
-                 // calculates specular reflection
                  if(rec > 0)
                  {
                     double cosThetaV = -Vector3.calculateDotProduct(ray.getDirection(), hit.getNormal()),
                            specular = hit.getMaterial().getSpecular(),
+                           refraction = hit.getMaterial().getRefraction(),
+                           indexOfRefraction = hit.getMaterial().getIndexOfRefraction(),
                            epsilon = 1.0 * Math.Pow(10, -6);
 
+                    // calculates specular reflection
                     if (specular > 0.0) // the material reflects specular light
                     {
                         // calculate reflected ray's direction
@@ -111,6 +113,7 @@ namespace cosig_work02
                                 reflectedRayOrigin = Vector3.addVectors(hit.getPoint(), temp0);
                         Ray reflectedRay = new Ray(reflectedRayOrigin, reflectedRayDirection);
 
+                        // apply reflection
                         // schlick approximation
                         double temp1 = 1.0 - specular,
                                temp2 = Math.Pow(1.0 - cosThetaV, 5),
@@ -122,6 +125,36 @@ namespace cosig_work02
                         /*Color3 temp1 = Color3.multiplyColorByScalar(specular, hit.getMaterial().getColor()),
                                temp2 = Color3.multiplyColors(temp1, traceRay(reflectedRay, rec - 1));
                         color = Color3.addColors(color, temp2);*/
+                    }
+
+                    // calculates refraction 
+                    if(refraction > 0.0) // the material refracts light
+                    {
+                        double eta = 1.0 / indexOfRefraction,
+                               cosThetaR = Math.Sqrt(1.0 - eta * eta * (1.0 - cosThetaV * cosThetaV));
+
+                        if(cosThetaV < 0.0)
+                        {
+                            eta = indexOfRefraction;
+                            cosThetaR = -cosThetaR;
+                        }
+
+                        // calculates refracted ray's direction  
+                        double calc1 = eta * cosThetaV - cosThetaR;
+                        Vector3 calc2 = Vector3.multiplyVectorByScalar(calc1, hit.getNormal()),
+                                calc3 = Vector3.multiplyVectorByScalar(eta, ray.getDirection()),
+                                refractedRayDirection = Vector3.addVectors(calc2, calc3);
+                        refractedRayDirection = Vector3.normalizeVector(refractedRayDirection);
+
+                        // create refracted ray
+                        Vector3 calc6 = Vector3.multiplyVectorByScalar(epsilon, refractedRayDirection),
+                                refractedRayOrigin = Vector3.addVectors(hit.getPoint(), calc6);
+                        Ray refractedRay = new Ray(refractedRayOrigin, refractedRayDirection);
+
+                        // apply refraction
+                        Color3 calc4 = Color3.multiplyColorByScalar(indexOfRefraction, traceRay(refractedRay, rec - 1)),
+                               calc5 = Color3.multiplyColors(hit.getMaterial().getColor(), calc4);
+                        color = Color3.addColors(color, calc5);
                     }
                 }
 
