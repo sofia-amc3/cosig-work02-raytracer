@@ -53,13 +53,13 @@ namespace cosig_work02
 
             matrixA[0, 0] = this.v1.getX() - this.v2.getX();
             matrixA[0, 1] = this.v1.getX() - this.v3.getX();
-            matrixA[0, 2] = ray.getDirection().getX();
+            matrixA[0, 2] = ray.getDirectionTransformed().getX();
             matrixA[1, 0] = this.v1.getY() - this.v2.getY();
             matrixA[1, 1] = this.v1.getY() - this.v3.getY();
-            matrixA[1, 2] = ray.getDirection().getY();
+            matrixA[1, 2] = ray.getDirectionTransformed().getY();
             matrixA[2, 0] = this.v1.getZ() - this.v2.getZ();
             matrixA[2, 1] = this.v1.getZ() - this.v3.getZ();
-            matrixA[2, 2] = ray.getDirection().getZ();
+            matrixA[2, 2] = ray.getDirectionTransformed().getZ();
 
             return Transformation.calculateDeterminant(matrixA);
         }
@@ -68,15 +68,15 @@ namespace cosig_work02
         {
             double[,] matrix = new double[3, 3];
 
-            matrix[0, 0] = this.v1.getX() - ray.getOrigin().getX(); 
+            matrix[0, 0] = this.v1.getX() - ray.getOriginTransformed().getX(); 
             matrix[0, 1] = this.v1.getX() - this.v3.getX();
-            matrix[0, 2] = ray.getDirection().getX();
-            matrix[1, 0] = this.v1.getY() - ray.getOrigin().getY();
+            matrix[0, 2] = ray.getDirectionTransformed().getX();
+            matrix[1, 0] = this.v1.getY() - ray.getOriginTransformed().getY();
             matrix[1, 1] = this.v1.getY() - this.v3.getY();
-            matrix[1, 2] = ray.getDirection().getY();
-            matrix[2, 0] = this.v1.getZ() - ray.getOrigin().getZ();
+            matrix[1, 2] = ray.getDirectionTransformed().getY();
+            matrix[2, 0] = this.v1.getZ() - ray.getOriginTransformed().getZ();
             matrix[2, 1] = this.v1.getZ() - this.v3.getZ();
-            matrix[2, 2] = ray.getDirection().getZ();
+            matrix[2, 2] = ray.getDirectionTransformed().getZ();
 
             return Transformation.calculateDeterminant(matrix) / detA;
         }
@@ -86,34 +86,34 @@ namespace cosig_work02
             double[,] matrix = new double[3, 3];
 
             matrix[0, 0] = this.v1.getX() - this.v2.getX();
-            matrix[0, 1] = this.v1.getX() - ray.getOrigin().getX();
-            matrix[0, 2] = ray.getDirection().getX();
+            matrix[0, 1] = this.v1.getX() - ray.getOriginTransformed().getX();
+            matrix[0, 2] = ray.getDirectionTransformed().getX();
             matrix[1, 0] = this.v1.getY() - this.v2.getY();
-            matrix[1, 1] = this.v1.getY() - ray.getOrigin().getY();
-            matrix[1, 2] = ray.getDirection().getY();
+            matrix[1, 1] = this.v1.getY() - ray.getOriginTransformed().getY();
+            matrix[1, 2] = ray.getDirectionTransformed().getY();
             matrix[2, 0] = this.v1.getZ() - this.v2.getZ();
-            matrix[2, 1] = this.v1.getZ() - ray.getOrigin().getZ();
-            matrix[2, 2] = ray.getDirection().getZ();
+            matrix[2, 1] = this.v1.getZ() - ray.getOriginTransformed().getZ();
+            matrix[2, 2] = ray.getDirectionTransformed().getZ();
 
             return Transformation.calculateDeterminant(matrix) / detA;
         }
 
-       /*private double getT(Ray ray, double detA)
-        {
-            double[,] matrix = new double[3, 3];
+        /*private double getT(Ray ray, double detA)
+         {
+             double[,] matrix = new double[3, 3];
 
-            matrix[0, 0] = this.v1.getX() - this.v2.getX();
-            matrix[0, 1] = this.v1.getX() - this.v3.getX();
-            matrix[0, 2] = this.v1.getX() - ray.getOrigin().getX();
-            matrix[1, 0] = this.v1.getY() - this.v2.getY();
-            matrix[1, 1] = this.v1.getY() - this.v3.getY();
-            matrix[1, 2] = this.v1.getY() - ray.getOrigin().getY();
-            matrix[2, 0] = this.v1.getZ() - this.v2.getZ();
-            matrix[2, 1] = this.v1.getZ() - this.v3.getZ();
-            matrix[2, 2] = this.v1.getZ() - ray.getOrigin().getZ();
+             matrix[0, 0] = this.v1.getX() - this.v2.getX();
+             matrix[0, 1] = this.v1.getX() - this.v3.getX();
+             matrix[0, 2] = this.v1.getX() - ray.getOriginTransformed().getX();
+             matrix[1, 0] = this.v1.getY() - this.v2.getY();
+             matrix[1, 1] = this.v1.getY() - this.v3.getY();
+             matrix[1, 2] = this.v1.getY() - ray.getOriginTransformed().getY();
+             matrix[2, 0] = this.v1.getZ() - this.v2.getZ();
+             matrix[2, 1] = this.v1.getZ() - this.v3.getZ();
+             matrix[2, 2] = this.v1.getZ() - ray.getOriginTransformed().getZ();
 
-            return Transformation.calculateDeterminant(matrix) / detA;
-        }*/
+             return Transformation.calculateDeterminant(matrix) / detA;
+         }*/
 
         private Vector3 calculateIntersectionPoint(double beta, double gamma)
         {

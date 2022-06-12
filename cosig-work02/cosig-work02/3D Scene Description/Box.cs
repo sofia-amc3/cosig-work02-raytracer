@@ -11,6 +11,26 @@ namespace cosig_work02
 
         }
 
+        private Vector3 calculateNormal(Vector3 intersectionPoint, double boxSize) // intersection point of ray with box
+        {
+            double x = 0,
+                   y = 0,
+                   z = 0,
+                   intersectionX = Math.Round(intersectionPoint.getX(), 3),
+                   intersectionY = Math.Round(intersectionPoint.getY(), 3),
+                   intersectionZ = Math.Round(intersectionPoint.getZ(), 3);
+            boxSize = boxSize / 2;
+
+            if (intersectionX == -boxSize) x = -boxSize;
+            else if (intersectionX == boxSize) x = boxSize;
+            else if (intersectionY == -boxSize) y = -boxSize;
+            else if (intersectionY == boxSize) y = boxSize;
+            else if (intersectionZ == -boxSize) z = -boxSize;
+            else if (intersectionZ == boxSize) z = boxSize;
+
+            return Vector3.normalizeVector(new Vector3(x, y, z));
+        }
+
         public override bool intersect(Ray ray, Hit hit)
         {
             this.transformation.applyTransformationToRay(ray); // Ray's Transformation
@@ -88,6 +108,8 @@ namespace cosig_work02
             // is it the nearest object? -----------------------------------------
             Vector3 p_ = Vector3.addVectors(origin, Vector3.multiplyVectorByScalar(tmin, direction)),
                     p = this.transformation.applyTransformationToPoint(p_),
+                    normal_ = calculateNormal(p_, size),
+                    normal = Transformation.multiplyMatrixWithVector(this.transformation.getTransposeInverseTransformationMatrix(), normal_),
                     v = Vector3.subtractVectors(p, ray.getOrigin());
             double t = Vector3.calculateVectorLength(v);
 
@@ -96,7 +118,7 @@ namespace cosig_work02
                 hit.setFoundState(true);
                 hit.setTMin(t);
                 hit.setPoint(p);
-                hit.setNormal(new Vector3(1, 0, 0));
+                hit.setNormal(Vector3.normalizeVector(normal));
                 hit.setMaterial(this.material);
                 return true;
             }
