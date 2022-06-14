@@ -190,15 +190,12 @@ namespace cosig_work02
 
             if (open.ShowDialog() == DialogResult.OK)
             {
+                clearScene();
                 file = open;
                 fileName.Text = Path.GetFileName(file.FileName);
-                startError.Visible = false;
-
-                objects.Clear();
 
                 // Reads File
                 Parser parser = new Parser(file.FileName); // FileName -> File path
-
                 images = parser.images;
                 transformations = parser.transformations;
                 materials = parser.materials;
@@ -207,6 +204,24 @@ namespace cosig_work02
                 objects.AddRange(parser.spheres);
                 objects.AddRange(parser.boxes);
                 //objects.AddRange(parser.triangles);
+
+                // Puts values in inputs
+                // Transformation - Center
+                transformXInput.Value = 0;
+                transformYInput.Value = 0;
+                transformZInput.Value = 0;
+                // Transformation - Orientation
+                transformHInput.Value = 0;
+                transformVInput.Value = 0;
+                // Camera
+                camDistanceInput.Value = 0;
+                camFieldInput.Value = 0;
+                // Image
+                imageResHInput.Value = 0;
+                imageResVInput.Value = 0;
+                bgColorRInput.Value = 0;
+                bgColorGInput.Value = 0;
+                bgColorBInput.Value = 0;
             }
         }
 
@@ -232,7 +247,7 @@ namespace cosig_work02
             else startError.Visible = true;
         }
 
-        // Save Image
+        // Save Image (PNG File)
         private void saveImgBtn_Click(object sender, EventArgs e)
         {
             if(imageRender.Image != null)
@@ -246,7 +261,7 @@ namespace cosig_work02
             }
         }
 
-        // Save Scene
+        // Save Scene (TXT File)
         private void saveSceneBtn_Click(object sender, EventArgs e)
         {
             // reverse parser ###################################################
@@ -255,8 +270,11 @@ namespace cosig_work02
         private void exitBtn_Click(object sender, EventArgs e)
         {
             tabControl1.SelectedIndex = 0; // goes to main menu
+            clearScene();
+        }
 
-            // clears scene
+        private void clearScene()
+        {
             objects.Clear();
             images = new List<Image>();
             transformations = new List<Transformation>();
