@@ -36,9 +36,10 @@ namespace cosig_work02
             this.credits = new System.Windows.Forms.Label();
             this.projectTitle = new System.Windows.Forms.Label();
             this.application = new System.Windows.Forms.TabPage();
+            this.startError = new System.Windows.Forms.Label();
+            this.fileName = new System.Windows.Forms.Label();
             this.saveSceneBtn = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.progressBarLabel = new System.Windows.Forms.Label();
             this.backgroundColorLabel = new System.Windows.Forms.Label();
             this.bgColorBInput = new System.Windows.Forms.NumericUpDown();
             this.bgColorBLabel = new System.Windows.Forms.Label();
@@ -167,9 +168,10 @@ namespace cosig_work02
             // application
             // 
             this.application.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.application.Controls.Add(this.startError);
+            this.application.Controls.Add(this.fileName);
             this.application.Controls.Add(this.saveSceneBtn);
             this.application.Controls.Add(this.progressBar1);
-            this.application.Controls.Add(this.progressBarLabel);
             this.application.Controls.Add(this.backgroundColorLabel);
             this.application.Controls.Add(this.bgColorBInput);
             this.application.Controls.Add(this.bgColorBLabel);
@@ -224,6 +226,30 @@ namespace cosig_work02
             this.application.TabIndex = 1;
             this.application.Text = "application";
             // 
+            // startError
+            // 
+            this.startError.BackColor = System.Drawing.Color.Transparent;
+            this.startError.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.startError.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.startError.Location = new System.Drawing.Point(230, 598);
+            this.startError.Name = "startError";
+            this.startError.Size = new System.Drawing.Size(171, 44);
+            this.startError.TabIndex = 56;
+            this.startError.Text = "Please load a scene first!";
+            this.startError.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.startError.Visible = false;
+            // 
+            // fileName
+            // 
+            this.fileName.BackColor = System.Drawing.Color.Transparent;
+            this.fileName.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.fileName.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(120)))), ((int)(((byte)(120)))));
+            this.fileName.Location = new System.Drawing.Point(230, 598);
+            this.fileName.Name = "fileName";
+            this.fileName.Size = new System.Drawing.Size(258, 44);
+            this.fileName.TabIndex = 55;
+            this.fileName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // saveSceneBtn
             // 
             this.saveSceneBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
@@ -232,34 +258,22 @@ namespace cosig_work02
             this.saveSceneBtn.FlatAppearance.BorderSize = 0;
             this.saveSceneBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.saveSceneBtn.Font = new System.Drawing.Font("Montserrat SemiBold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.saveSceneBtn.Location = new System.Drawing.Point(225, 598);
+            this.saveSceneBtn.Location = new System.Drawing.Point(708, 598);
             this.saveSceneBtn.Name = "saveSceneBtn";
             this.saveSceneBtn.Size = new System.Drawing.Size(159, 44);
             this.saveSceneBtn.TabIndex = 54;
             this.saveSceneBtn.Text = "SAVE SCENE";
             this.saveSceneBtn.UseVisualStyleBackColor = false;
-            this.saveSceneBtn.Visible = false;
+            this.saveSceneBtn.Click += new System.EventHandler(this.saveSceneBtn_Click);
             // 
             // progressBar1
             // 
             this.progressBar1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.progressBar1.Location = new System.Drawing.Point(530, 610);
+            this.progressBar1.Location = new System.Drawing.Point(48, 547);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(172, 31);
+            this.progressBar1.Size = new System.Drawing.Size(440, 10);
             this.progressBar1.TabIndex = 53;
-            this.progressBar1.UseWaitCursor = true;
             this.progressBar1.Visible = false;
-            // 
-            // progressBarLabel
-            // 
-            this.progressBarLabel.Font = new System.Drawing.Font("Montserrat SemiBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.progressBarLabel.Location = new System.Drawing.Point(528, 574);
-            this.progressBarLabel.Name = "progressBarLabel";
-            this.progressBarLabel.Size = new System.Drawing.Size(204, 33);
-            this.progressBarLabel.TabIndex = 52;
-            this.progressBarLabel.Text = "Progress Bar";
-            this.progressBarLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.progressBarLabel.Visible = false;
             // 
             // backgroundColorLabel
             // 
@@ -352,9 +366,9 @@ namespace cosig_work02
             // 
             this.dividerBottom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.dividerBottom.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.dividerBottom.Location = new System.Drawing.Point(706, 539);
+            this.dividerBottom.Location = new System.Drawing.Point(530, 539);
             this.dividerBottom.Name = "dividerBottom";
-            this.dividerBottom.Size = new System.Drawing.Size(514, 3);
+            this.dividerBottom.Size = new System.Drawing.Size(690, 3);
             this.dividerBottom.TabIndex = 43;
             this.dividerBottom.Text = " ";
             this.dividerBottom.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -375,7 +389,7 @@ namespace cosig_work02
             this.camFieldInput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.camFieldInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.camFieldInput.ForeColor = System.Drawing.Color.White;
-            this.camFieldInput.Location = new System.Drawing.Point(916, 215);
+            this.camFieldInput.Location = new System.Drawing.Point(896, 467);
             this.camFieldInput.Name = "camFieldInput";
             this.camFieldInput.Size = new System.Drawing.Size(43, 18);
             this.camFieldInput.TabIndex = 41;
@@ -383,7 +397,7 @@ namespace cosig_work02
             // camFieldLabel
             // 
             this.camFieldLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.camFieldLabel.Location = new System.Drawing.Point(817, 206);
+            this.camFieldLabel.Location = new System.Drawing.Point(797, 458);
             this.camFieldLabel.Name = "camFieldLabel";
             this.camFieldLabel.Size = new System.Drawing.Size(96, 33);
             this.camFieldLabel.TabIndex = 40;
@@ -395,7 +409,7 @@ namespace cosig_work02
             this.camDistanceInput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.camDistanceInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.camDistanceInput.ForeColor = System.Drawing.Color.White;
-            this.camDistanceInput.Location = new System.Drawing.Point(916, 189);
+            this.camDistanceInput.Location = new System.Drawing.Point(896, 441);
             this.camDistanceInput.Name = "camDistanceInput";
             this.camDistanceInput.Size = new System.Drawing.Size(43, 18);
             this.camDistanceInput.TabIndex = 39;
@@ -403,7 +417,7 @@ namespace cosig_work02
             // camDistanceLabel
             // 
             this.camDistanceLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.camDistanceLabel.Location = new System.Drawing.Point(817, 180);
+            this.camDistanceLabel.Location = new System.Drawing.Point(797, 432);
             this.camDistanceLabel.Name = "camDistanceLabel";
             this.camDistanceLabel.Size = new System.Drawing.Size(77, 33);
             this.camDistanceLabel.TabIndex = 38;
@@ -413,7 +427,7 @@ namespace cosig_work02
             // cameraLabel
             // 
             this.cameraLabel.Font = new System.Drawing.Font("Montserrat SemiBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.cameraLabel.Location = new System.Drawing.Point(817, 146);
+            this.cameraLabel.Location = new System.Drawing.Point(797, 398);
             this.cameraLabel.Name = "cameraLabel";
             this.cameraLabel.Size = new System.Drawing.Size(204, 33);
             this.cameraLabel.TabIndex = 37;
@@ -425,7 +439,7 @@ namespace cosig_work02
             this.transformOrientLabel.BackColor = System.Drawing.Color.Transparent;
             this.transformOrientLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.transformOrientLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.transformOrientLabel.Location = new System.Drawing.Point(817, 407);
+            this.transformOrientLabel.Location = new System.Drawing.Point(797, 291);
             this.transformOrientLabel.Name = "transformOrientLabel";
             this.transformOrientLabel.Size = new System.Drawing.Size(126, 23);
             this.transformOrientLabel.TabIndex = 36;
@@ -437,7 +451,7 @@ namespace cosig_work02
             this.transformVInput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.transformVInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.transformVInput.ForeColor = System.Drawing.Color.White;
-            this.transformVInput.Location = new System.Drawing.Point(900, 459);
+            this.transformVInput.Location = new System.Drawing.Point(880, 343);
             this.transformVInput.Name = "transformVInput";
             this.transformVInput.Size = new System.Drawing.Size(43, 18);
             this.transformVInput.TabIndex = 35;
@@ -445,7 +459,7 @@ namespace cosig_work02
             // transformVLabel
             // 
             this.transformVLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.transformVLabel.Location = new System.Drawing.Point(817, 450);
+            this.transformVLabel.Location = new System.Drawing.Point(797, 334);
             this.transformVLabel.Name = "transformVLabel";
             this.transformVLabel.Size = new System.Drawing.Size(77, 33);
             this.transformVLabel.TabIndex = 34;
@@ -457,7 +471,7 @@ namespace cosig_work02
             this.transformHInput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.transformHInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.transformHInput.ForeColor = System.Drawing.Color.White;
-            this.transformHInput.Location = new System.Drawing.Point(900, 433);
+            this.transformHInput.Location = new System.Drawing.Point(880, 317);
             this.transformHInput.Name = "transformHInput";
             this.transformHInput.Size = new System.Drawing.Size(43, 18);
             this.transformHInput.TabIndex = 33;
@@ -465,7 +479,7 @@ namespace cosig_work02
             // transformHLabel
             // 
             this.transformHLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.transformHLabel.Location = new System.Drawing.Point(817, 424);
+            this.transformHLabel.Location = new System.Drawing.Point(797, 308);
             this.transformHLabel.Name = "transformHLabel";
             this.transformHLabel.Size = new System.Drawing.Size(77, 33);
             this.transformHLabel.TabIndex = 32;
@@ -477,7 +491,7 @@ namespace cosig_work02
             this.transformCenterLabel.BackColor = System.Drawing.Color.Transparent;
             this.transformCenterLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.transformCenterLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.transformCenterLabel.Location = new System.Drawing.Point(817, 295);
+            this.transformCenterLabel.Location = new System.Drawing.Point(797, 179);
             this.transformCenterLabel.Name = "transformCenterLabel";
             this.transformCenterLabel.Size = new System.Drawing.Size(81, 23);
             this.transformCenterLabel.TabIndex = 31;
@@ -489,7 +503,7 @@ namespace cosig_work02
             this.transformZInput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.transformZInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.transformZInput.ForeColor = System.Drawing.Color.White;
-            this.transformZInput.Location = new System.Drawing.Point(842, 374);
+            this.transformZInput.Location = new System.Drawing.Point(822, 258);
             this.transformZInput.Maximum = new decimal(new int[] {
             360,
             0,
@@ -507,7 +521,7 @@ namespace cosig_work02
             // transformZLabel
             // 
             this.transformZLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.transformZLabel.Location = new System.Drawing.Point(817, 365);
+            this.transformZLabel.Location = new System.Drawing.Point(797, 249);
             this.transformZLabel.Name = "transformZLabel";
             this.transformZLabel.Size = new System.Drawing.Size(26, 33);
             this.transformZLabel.TabIndex = 29;
@@ -519,7 +533,7 @@ namespace cosig_work02
             this.transformYInput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.transformYInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.transformYInput.ForeColor = System.Drawing.Color.White;
-            this.transformYInput.Location = new System.Drawing.Point(842, 347);
+            this.transformYInput.Location = new System.Drawing.Point(822, 231);
             this.transformYInput.Maximum = new decimal(new int[] {
             360,
             0,
@@ -537,7 +551,7 @@ namespace cosig_work02
             // transformYLabel
             // 
             this.transformYLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.transformYLabel.Location = new System.Drawing.Point(817, 338);
+            this.transformYLabel.Location = new System.Drawing.Point(797, 222);
             this.transformYLabel.Name = "transformYLabel";
             this.transformYLabel.Size = new System.Drawing.Size(26, 33);
             this.transformYLabel.TabIndex = 27;
@@ -549,7 +563,7 @@ namespace cosig_work02
             this.transformXInput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.transformXInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.transformXInput.ForeColor = System.Drawing.Color.White;
-            this.transformXInput.Location = new System.Drawing.Point(842, 321);
+            this.transformXInput.Location = new System.Drawing.Point(822, 205);
             this.transformXInput.Maximum = new decimal(new int[] {
             360,
             0,
@@ -567,7 +581,7 @@ namespace cosig_work02
             // transformXLabel
             // 
             this.transformXLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.transformXLabel.Location = new System.Drawing.Point(817, 312);
+            this.transformXLabel.Location = new System.Drawing.Point(797, 196);
             this.transformXLabel.Name = "transformXLabel";
             this.transformXLabel.Size = new System.Drawing.Size(26, 33);
             this.transformXLabel.TabIndex = 25;
@@ -577,7 +591,7 @@ namespace cosig_work02
             // transformationLabel
             // 
             this.transformationLabel.Font = new System.Drawing.Font("Montserrat SemiBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.transformationLabel.Location = new System.Drawing.Point(817, 262);
+            this.transformationLabel.Location = new System.Drawing.Point(797, 146);
             this.transformationLabel.Name = "transformationLabel";
             this.transformationLabel.Size = new System.Drawing.Size(204, 33);
             this.transformationLabel.TabIndex = 24;
@@ -647,42 +661,54 @@ namespace cosig_work02
             // refractionCheckbox
             // 
             this.refractionCheckbox.AutoSize = true;
+            this.refractionCheckbox.Checked = true;
+            this.refractionCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.refractionCheckbox.Location = new System.Drawing.Point(530, 269);
             this.refractionCheckbox.Name = "refractionCheckbox";
             this.refractionCheckbox.Size = new System.Drawing.Size(90, 20);
             this.refractionCheckbox.TabIndex = 18;
             this.refractionCheckbox.Text = "Refraction";
             this.refractionCheckbox.UseVisualStyleBackColor = true;
+            this.refractionCheckbox.CheckedChanged += new System.EventHandler(this.refractionCheckbox_CheckedChanged);
             // 
             // specularCheckbox
             // 
             this.specularCheckbox.AutoSize = true;
+            this.specularCheckbox.Checked = true;
+            this.specularCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.specularCheckbox.Location = new System.Drawing.Point(530, 243);
             this.specularCheckbox.Name = "specularCheckbox";
             this.specularCheckbox.Size = new System.Drawing.Size(78, 20);
             this.specularCheckbox.TabIndex = 17;
             this.specularCheckbox.Text = "Specular";
             this.specularCheckbox.UseVisualStyleBackColor = true;
+            this.specularCheckbox.CheckedChanged += new System.EventHandler(this.specularCheckbox_CheckedChanged);
             // 
             // diffuseCheckbox
             // 
             this.diffuseCheckbox.AutoSize = true;
+            this.diffuseCheckbox.Checked = true;
+            this.diffuseCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.diffuseCheckbox.Location = new System.Drawing.Point(530, 217);
             this.diffuseCheckbox.Name = "diffuseCheckbox";
             this.diffuseCheckbox.Size = new System.Drawing.Size(68, 20);
             this.diffuseCheckbox.TabIndex = 16;
             this.diffuseCheckbox.Text = "Diffuse";
             this.diffuseCheckbox.UseVisualStyleBackColor = true;
+            this.diffuseCheckbox.CheckedChanged += new System.EventHandler(this.diffuseCheckbox_CheckedChanged);
             // 
             // ambientCheckbox
             // 
             this.ambientCheckbox.AutoSize = true;
+            this.ambientCheckbox.Checked = true;
+            this.ambientCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ambientCheckbox.Location = new System.Drawing.Point(530, 191);
             this.ambientCheckbox.Name = "ambientCheckbox";
             this.ambientCheckbox.Size = new System.Drawing.Size(79, 20);
             this.ambientCheckbox.TabIndex = 15;
             this.ambientCheckbox.Text = "Ambient";
             this.ambientCheckbox.UseVisualStyleBackColor = true;
+            this.ambientCheckbox.CheckedChanged += new System.EventHandler(this.ambientCheckbox_CheckedChanged);
             // 
             // lightingLabel
             // 
@@ -696,14 +722,16 @@ namespace cosig_work02
             // 
             // elapsedTimeLabel
             // 
+            this.elapsedTimeLabel.BackColor = System.Drawing.Color.Transparent;
             this.elapsedTimeLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.elapsedTimeLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(120)))), ((int)(((byte)(120)))));
-            this.elapsedTimeLabel.Location = new System.Drawing.Point(528, 524);
+            this.elapsedTimeLabel.Location = new System.Drawing.Point(162, 46);
             this.elapsedTimeLabel.Name = "elapsedTimeLabel";
-            this.elapsedTimeLabel.Size = new System.Drawing.Size(172, 33);
+            this.elapsedTimeLabel.Size = new System.Drawing.Size(172, 21);
             this.elapsedTimeLabel.TabIndex = 13;
             this.elapsedTimeLabel.Text = "Elapsed time: 00:00:00";
             this.elapsedTimeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.elapsedTimeLabel.Visible = false;
             // 
             // startRenderBtn
             // 
@@ -719,6 +747,9 @@ namespace cosig_work02
             this.startRenderBtn.TabIndex = 12;
             this.startRenderBtn.Text = "START";
             this.startRenderBtn.UseVisualStyleBackColor = false;
+            this.startRenderBtn.Click += new System.EventHandler(this.startRenderBtn_Click);
+            this.startRenderBtn.MouseEnter += new System.EventHandler(this.startRenderBtn_MouseEnter);
+            this.startRenderBtn.MouseLeave += new System.EventHandler(this.startRenderBtn_MouseLeave);
             // 
             // recursionDepthInput
             // 
@@ -729,6 +760,12 @@ namespace cosig_work02
             this.recursionDepthInput.Name = "recursionDepthInput";
             this.recursionDepthInput.Size = new System.Drawing.Size(43, 18);
             this.recursionDepthInput.TabIndex = 11;
+            this.recursionDepthInput.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.recursionDepthInput.ValueChanged += new System.EventHandler(this.recursionDepthInput_ValueChanged);
             // 
             // recursionDepthLabel
             // 
@@ -814,7 +851,7 @@ namespace cosig_work02
             this.globalLabel.Font = new System.Drawing.Font("Montserrat", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.globalLabel.Location = new System.Drawing.Point(41, 15);
             this.globalLabel.Name = "globalLabel";
-            this.globalLabel.Size = new System.Drawing.Size(295, 79);
+            this.globalLabel.Size = new System.Drawing.Size(1179, 79);
             this.globalLabel.TabIndex = 3;
             this.globalLabel.Text = "Global";
             this.globalLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -908,8 +945,9 @@ namespace cosig_work02
         private System.Windows.Forms.NumericUpDown bgColorRInput;
         private System.Windows.Forms.Label bgColorRLabel;
         private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.Label progressBarLabel;
         private System.Windows.Forms.Button saveSceneBtn;
+        private System.Windows.Forms.Label fileName;
+        private System.Windows.Forms.Label startError;
     }
 }
 
