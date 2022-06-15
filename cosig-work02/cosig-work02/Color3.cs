@@ -42,9 +42,14 @@ namespace cosig_work02
             else this.b = b;
         }
 
-        public Color convertToColor()
+        public static Color convertToColor(Color3 color)
         {
-            return Color.FromArgb((int) Math.Round(255.0 * this.r), (int) Math.Round(255.0 * this.g), (int) Math.Round(255.0 * this.b));
+            return Color.FromArgb((int) Math.Round(255.0 * color.getR()), (int) Math.Round(255.0 * color.getG()), (int) Math.Round(255.0 * color.getB()));
+        }
+
+        public static Color3 convertFromColor(Color color)
+        {
+            return new Color3(color.R / 255.0, color.G / 255.0, color.B / 255.0);
         }
 
         public static Color3 addColors(Color3 color1, Color3 color2)

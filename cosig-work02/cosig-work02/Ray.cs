@@ -45,7 +45,7 @@ namespace cosig_work02
 
         private static double calculateImageHeight(Camera camera)
         {
-            double fov = camera.getFieldOfVision(),
+            double fov = camera.getFieldOfVisionInRadians(),
                    distance = camera.getDistance(),
                    imgHeight;
 
@@ -81,11 +81,11 @@ namespace cosig_work02
                    width = calculateImageWidth(camera, image),
                    height = calculateImageHeight(camera);
             Vector3 origin = new Vector3(0.0, 0.0, distance); // camera's position
-            Ray[,] rays = new Ray[vRes, hRes];
+            Ray[,] rays = new Ray[hRes, vRes];
 
-            for (int i = 0; i < vRes; i++) // goes through image's lines
+            for (int i = 0; i < hRes; i++) // goes through image's columns (pixels)
             {
-                for (int j = 0; j < hRes; j++) // goes through image's columns (pixels)
+                for (int j = 0; j < vRes; j++) // goes through image's lines
                 {
                     double x = (i + 0.5) * s - width / 2.0,
                            y = -(j + 0.5) * s + height / 2.0;

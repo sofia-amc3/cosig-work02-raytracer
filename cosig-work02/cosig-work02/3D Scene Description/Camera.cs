@@ -24,8 +24,7 @@ namespace cosig_work02
         public double getFieldOfVision() { return fieldOfVision; }
         public double getFieldOfVisionInRadians() 
         {
-            fieldOfVision *= Math.PI / 180.0;
-            return fieldOfVision; 
+            return fieldOfVision * Math.PI / 180.0; 
         }
 
         public void setIndexOfTransformation(int indexOfTransformation)
@@ -47,8 +46,6 @@ namespace cosig_work02
 
         public void setFieldOfVision(double fieldOfVision)
         {
-            fieldOfVision *= Math.PI / 180.0;
-
             if (fieldOfVision <= 0) fieldOfVision = 0.1;
             else this.fieldOfVision = fieldOfVision;
         }

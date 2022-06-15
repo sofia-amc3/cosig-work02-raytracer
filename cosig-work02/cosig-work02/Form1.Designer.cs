@@ -36,6 +36,9 @@ namespace cosig_work02
             this.credits = new System.Windows.Forms.Label();
             this.projectTitle = new System.Windows.Forms.Label();
             this.application = new System.Windows.Forms.TabPage();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.startError = new System.Windows.Forms.Label();
             this.fileName = new System.Windows.Forms.Label();
             this.saveSceneBtn = new System.Windows.Forms.Button();
@@ -168,6 +171,9 @@ namespace cosig_work02
             // application
             // 
             this.application.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
+            this.application.Controls.Add(this.label3);
+            this.application.Controls.Add(this.label2);
+            this.application.Controls.Add(this.label1);
             this.application.Controls.Add(this.startError);
             this.application.Controls.Add(this.fileName);
             this.application.Controls.Add(this.saveSceneBtn);
@@ -226,6 +232,42 @@ namespace cosig_work02
             this.application.TabIndex = 1;
             this.application.Text = "application";
             // 
+            // label3
+            // 
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(929, 463);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(108, 23);
+            this.label3.TabIndex = 59;
+            this.label3.Text = "º (in degrees)";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label2
+            // 
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(912, 339);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(108, 23);
+            this.label2.TabIndex = 58;
+            this.label2.Text = "º (in degrees)";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.Transparent;
+            this.label1.Font = new System.Drawing.Font("Montserrat", 8.249999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(912, 315);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(108, 23);
+            this.label1.TabIndex = 57;
+            this.label1.Text = "º (in degrees)";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // startError
             // 
             this.startError.BackColor = System.Drawing.Color.Transparent;
@@ -282,9 +324,9 @@ namespace cosig_work02
             this.backgroundColorLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.backgroundColorLabel.Location = new System.Drawing.Point(1061, 252);
             this.backgroundColorLabel.Name = "backgroundColorLabel";
-            this.backgroundColorLabel.Size = new System.Drawing.Size(99, 23);
+            this.backgroundColorLabel.Size = new System.Drawing.Size(137, 23);
             this.backgroundColorLabel.TabIndex = 51;
-            this.backgroundColorLabel.Text = "Background";
+            this.backgroundColorLabel.Text = "Background Color";
             this.backgroundColorLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // bgColorBInput
@@ -301,6 +343,7 @@ namespace cosig_work02
             this.bgColorBInput.Name = "bgColorBInput";
             this.bgColorBInput.Size = new System.Drawing.Size(43, 18);
             this.bgColorBInput.TabIndex = 50;
+            this.bgColorBInput.ValueChanged += new System.EventHandler(this.bgColorBInput_ValueChanged);
             // 
             // bgColorBLabel
             // 
@@ -326,6 +369,7 @@ namespace cosig_work02
             this.bgColorGInput.Name = "bgColorGInput";
             this.bgColorGInput.Size = new System.Drawing.Size(43, 18);
             this.bgColorGInput.TabIndex = 48;
+            this.bgColorGInput.ValueChanged += new System.EventHandler(this.bgColorGInput_ValueChanged);
             // 
             // bgColorGLabel
             // 
@@ -351,6 +395,7 @@ namespace cosig_work02
             this.bgColorRInput.Name = "bgColorRInput";
             this.bgColorRInput.Size = new System.Drawing.Size(43, 18);
             this.bgColorRInput.TabIndex = 46;
+            this.bgColorRInput.ValueChanged += new System.EventHandler(this.bgColorRInput_ValueChanged);
             // 
             // bgColorRLabel
             // 
@@ -388,16 +433,38 @@ namespace cosig_work02
             // 
             this.camFieldInput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.camFieldInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.camFieldInput.DecimalPlaces = 1;
             this.camFieldInput.ForeColor = System.Drawing.Color.White;
-            this.camFieldInput.Location = new System.Drawing.Point(896, 467);
+            this.camFieldInput.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.camFieldInput.Location = new System.Drawing.Point(875, 467);
+            this.camFieldInput.Maximum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            0});
+            this.camFieldInput.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.camFieldInput.Name = "camFieldInput";
-            this.camFieldInput.Size = new System.Drawing.Size(43, 18);
+            this.camFieldInput.Size = new System.Drawing.Size(51, 18);
             this.camFieldInput.TabIndex = 41;
+            this.camFieldInput.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.camFieldInput.ValueChanged += new System.EventHandler(this.camFieldInput_ValueChanged);
             // 
             // camFieldLabel
             // 
             this.camFieldLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.camFieldLabel.Location = new System.Drawing.Point(797, 458);
+            this.camFieldLabel.Location = new System.Drawing.Point(776, 458);
             this.camFieldLabel.Name = "camFieldLabel";
             this.camFieldLabel.Size = new System.Drawing.Size(96, 33);
             this.camFieldLabel.TabIndex = 40;
@@ -408,16 +475,28 @@ namespace cosig_work02
             // 
             this.camDistanceInput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.camDistanceInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.camDistanceInput.DecimalPlaces = 1;
             this.camDistanceInput.ForeColor = System.Drawing.Color.White;
-            this.camDistanceInput.Location = new System.Drawing.Point(896, 441);
+            this.camDistanceInput.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.camDistanceInput.Location = new System.Drawing.Point(875, 441);
+            this.camDistanceInput.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
             this.camDistanceInput.Name = "camDistanceInput";
-            this.camDistanceInput.Size = new System.Drawing.Size(43, 18);
+            this.camDistanceInput.Size = new System.Drawing.Size(51, 18);
             this.camDistanceInput.TabIndex = 39;
+            this.camDistanceInput.ValueChanged += new System.EventHandler(this.camDistanceInput_ValueChanged);
             // 
             // camDistanceLabel
             // 
             this.camDistanceLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.camDistanceLabel.Location = new System.Drawing.Point(797, 432);
+            this.camDistanceLabel.Location = new System.Drawing.Point(776, 432);
             this.camDistanceLabel.Name = "camDistanceLabel";
             this.camDistanceLabel.Size = new System.Drawing.Size(77, 33);
             this.camDistanceLabel.TabIndex = 38;
@@ -427,7 +506,7 @@ namespace cosig_work02
             // cameraLabel
             // 
             this.cameraLabel.Font = new System.Drawing.Font("Montserrat SemiBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.cameraLabel.Location = new System.Drawing.Point(797, 398);
+            this.cameraLabel.Location = new System.Drawing.Point(776, 398);
             this.cameraLabel.Name = "cameraLabel";
             this.cameraLabel.Size = new System.Drawing.Size(204, 33);
             this.cameraLabel.TabIndex = 37;
@@ -439,7 +518,7 @@ namespace cosig_work02
             this.transformOrientLabel.BackColor = System.Drawing.Color.Transparent;
             this.transformOrientLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.transformOrientLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.transformOrientLabel.Location = new System.Drawing.Point(797, 291);
+            this.transformOrientLabel.Location = new System.Drawing.Point(776, 291);
             this.transformOrientLabel.Name = "transformOrientLabel";
             this.transformOrientLabel.Size = new System.Drawing.Size(126, 23);
             this.transformOrientLabel.TabIndex = 36;
@@ -450,16 +529,33 @@ namespace cosig_work02
             // 
             this.transformVInput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.transformVInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.transformVInput.DecimalPlaces = 1;
             this.transformVInput.ForeColor = System.Drawing.Color.White;
-            this.transformVInput.Location = new System.Drawing.Point(880, 343);
+            this.transformVInput.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.transformVInput.Location = new System.Drawing.Point(859, 343);
+            this.transformVInput.Maximum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            0});
+            this.transformVInput.Minimum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            -2147483648});
             this.transformVInput.Name = "transformVInput";
-            this.transformVInput.Size = new System.Drawing.Size(43, 18);
+            this.transformVInput.Size = new System.Drawing.Size(51, 18);
             this.transformVInput.TabIndex = 35;
+            this.transformVInput.ValueChanged += new System.EventHandler(this.transformVInput_ValueChanged);
             // 
             // transformVLabel
             // 
             this.transformVLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.transformVLabel.Location = new System.Drawing.Point(797, 334);
+            this.transformVLabel.Location = new System.Drawing.Point(776, 334);
             this.transformVLabel.Name = "transformVLabel";
             this.transformVLabel.Size = new System.Drawing.Size(77, 33);
             this.transformVLabel.TabIndex = 34;
@@ -470,16 +566,33 @@ namespace cosig_work02
             // 
             this.transformHInput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.transformHInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.transformHInput.DecimalPlaces = 1;
             this.transformHInput.ForeColor = System.Drawing.Color.White;
-            this.transformHInput.Location = new System.Drawing.Point(880, 317);
+            this.transformHInput.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.transformHInput.Location = new System.Drawing.Point(859, 317);
+            this.transformHInput.Maximum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            0});
+            this.transformHInput.Minimum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            -2147483648});
             this.transformHInput.Name = "transformHInput";
-            this.transformHInput.Size = new System.Drawing.Size(43, 18);
+            this.transformHInput.Size = new System.Drawing.Size(51, 18);
             this.transformHInput.TabIndex = 33;
+            this.transformHInput.ValueChanged += new System.EventHandler(this.transformHInput_ValueChanged);
             // 
             // transformHLabel
             // 
             this.transformHLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.transformHLabel.Location = new System.Drawing.Point(797, 308);
+            this.transformHLabel.Location = new System.Drawing.Point(776, 308);
             this.transformHLabel.Name = "transformHLabel";
             this.transformHLabel.Size = new System.Drawing.Size(77, 33);
             this.transformHLabel.TabIndex = 32;
@@ -491,7 +604,7 @@ namespace cosig_work02
             this.transformCenterLabel.BackColor = System.Drawing.Color.Transparent;
             this.transformCenterLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.transformCenterLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.transformCenterLabel.Location = new System.Drawing.Point(797, 179);
+            this.transformCenterLabel.Location = new System.Drawing.Point(776, 179);
             this.transformCenterLabel.Name = "transformCenterLabel";
             this.transformCenterLabel.Size = new System.Drawing.Size(81, 23);
             this.transformCenterLabel.TabIndex = 31;
@@ -502,26 +615,33 @@ namespace cosig_work02
             // 
             this.transformZInput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.transformZInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.transformZInput.DecimalPlaces = 1;
             this.transformZInput.ForeColor = System.Drawing.Color.White;
-            this.transformZInput.Location = new System.Drawing.Point(822, 258);
+            this.transformZInput.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.transformZInput.Location = new System.Drawing.Point(801, 258);
             this.transformZInput.Maximum = new decimal(new int[] {
-            360,
+            2000,
             0,
             0,
             0});
             this.transformZInput.Minimum = new decimal(new int[] {
-            360,
+            2000,
             0,
             0,
             -2147483648});
             this.transformZInput.Name = "transformZInput";
-            this.transformZInput.Size = new System.Drawing.Size(43, 18);
+            this.transformZInput.Size = new System.Drawing.Size(52, 18);
             this.transformZInput.TabIndex = 30;
+            this.transformZInput.ValueChanged += new System.EventHandler(this.transformZInput_ValueChanged);
             // 
             // transformZLabel
             // 
             this.transformZLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.transformZLabel.Location = new System.Drawing.Point(797, 249);
+            this.transformZLabel.Location = new System.Drawing.Point(776, 249);
             this.transformZLabel.Name = "transformZLabel";
             this.transformZLabel.Size = new System.Drawing.Size(26, 33);
             this.transformZLabel.TabIndex = 29;
@@ -532,26 +652,33 @@ namespace cosig_work02
             // 
             this.transformYInput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.transformYInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.transformYInput.DecimalPlaces = 1;
             this.transformYInput.ForeColor = System.Drawing.Color.White;
-            this.transformYInput.Location = new System.Drawing.Point(822, 231);
+            this.transformYInput.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.transformYInput.Location = new System.Drawing.Point(801, 231);
             this.transformYInput.Maximum = new decimal(new int[] {
-            360,
+            2000,
             0,
             0,
             0});
             this.transformYInput.Minimum = new decimal(new int[] {
-            360,
+            2000,
             0,
             0,
             -2147483648});
             this.transformYInput.Name = "transformYInput";
-            this.transformYInput.Size = new System.Drawing.Size(43, 18);
+            this.transformYInput.Size = new System.Drawing.Size(52, 18);
             this.transformYInput.TabIndex = 28;
+            this.transformYInput.ValueChanged += new System.EventHandler(this.transformYInput_ValueChanged);
             // 
             // transformYLabel
             // 
             this.transformYLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.transformYLabel.Location = new System.Drawing.Point(797, 222);
+            this.transformYLabel.Location = new System.Drawing.Point(776, 222);
             this.transformYLabel.Name = "transformYLabel";
             this.transformYLabel.Size = new System.Drawing.Size(26, 33);
             this.transformYLabel.TabIndex = 27;
@@ -562,26 +689,33 @@ namespace cosig_work02
             // 
             this.transformXInput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
             this.transformXInput.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.transformXInput.DecimalPlaces = 1;
             this.transformXInput.ForeColor = System.Drawing.Color.White;
-            this.transformXInput.Location = new System.Drawing.Point(822, 205);
+            this.transformXInput.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.transformXInput.Location = new System.Drawing.Point(801, 205);
             this.transformXInput.Maximum = new decimal(new int[] {
-            360,
+            2000,
             0,
             0,
             0});
             this.transformXInput.Minimum = new decimal(new int[] {
-            360,
+            2000,
             0,
             0,
             -2147483648});
             this.transformXInput.Name = "transformXInput";
-            this.transformXInput.Size = new System.Drawing.Size(43, 18);
+            this.transformXInput.Size = new System.Drawing.Size(52, 18);
             this.transformXInput.TabIndex = 26;
+            this.transformXInput.ValueChanged += new System.EventHandler(this.transformXInput_ValueChanged);
             // 
             // transformXLabel
             // 
             this.transformXLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.transformXLabel.Location = new System.Drawing.Point(797, 196);
+            this.transformXLabel.Location = new System.Drawing.Point(776, 196);
             this.transformXLabel.Name = "transformXLabel";
             this.transformXLabel.Size = new System.Drawing.Size(26, 33);
             this.transformXLabel.TabIndex = 25;
@@ -591,7 +725,7 @@ namespace cosig_work02
             // transformationLabel
             // 
             this.transformationLabel.Font = new System.Drawing.Font("Montserrat SemiBold", 9.749999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.transformationLabel.Location = new System.Drawing.Point(797, 146);
+            this.transformationLabel.Location = new System.Drawing.Point(776, 146);
             this.transformationLabel.Name = "transformationLabel";
             this.transformationLabel.Size = new System.Drawing.Size(204, 33);
             this.transformationLabel.TabIndex = 24;
@@ -605,13 +739,24 @@ namespace cosig_work02
             this.imageResVInput.ForeColor = System.Drawing.Color.White;
             this.imageResVInput.Location = new System.Drawing.Point(1144, 215);
             this.imageResVInput.Maximum = new decimal(new int[] {
-            500,
+            10000,
+            0,
+            0,
+            0});
+            this.imageResVInput.Minimum = new decimal(new int[] {
+            1,
             0,
             0,
             0});
             this.imageResVInput.Name = "imageResVInput";
-            this.imageResVInput.Size = new System.Drawing.Size(43, 18);
+            this.imageResVInput.Size = new System.Drawing.Size(54, 18);
             this.imageResVInput.TabIndex = 23;
+            this.imageResVInput.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.imageResVInput.ValueChanged += new System.EventHandler(this.imageResVInput_ValueChanged);
             // 
             // imageResVLabel
             // 
@@ -630,13 +775,24 @@ namespace cosig_work02
             this.imageResHInput.ForeColor = System.Drawing.Color.White;
             this.imageResHInput.Location = new System.Drawing.Point(1144, 189);
             this.imageResHInput.Maximum = new decimal(new int[] {
-            500,
+            10000,
+            0,
+            0,
+            0});
+            this.imageResHInput.Minimum = new decimal(new int[] {
+            1,
             0,
             0,
             0});
             this.imageResHInput.Name = "imageResHInput";
-            this.imageResHInput.Size = new System.Drawing.Size(43, 18);
+            this.imageResHInput.Size = new System.Drawing.Size(54, 18);
             this.imageResHInput.TabIndex = 21;
+            this.imageResHInput.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.imageResHInput.ValueChanged += new System.EventHandler(this.imageResHInput_ValueChanged);
             // 
             // imageResHLabel
             // 
@@ -948,6 +1104,9 @@ namespace cosig_work02
         private System.Windows.Forms.Button saveSceneBtn;
         private System.Windows.Forms.Label fileName;
         private System.Windows.Forms.Label startError;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
     }
 }
 

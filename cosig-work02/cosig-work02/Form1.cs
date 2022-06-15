@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Drawing.Text;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace cosig_work02
@@ -207,21 +200,24 @@ namespace cosig_work02
 
                 // Puts values in inputs
                 // Transformation - Center
-                transformXInput.Value = 0;
-                transformYInput.Value = 0;
-                transformZInput.Value = 0;
+                Vector3 camTransformation = cameras[0].getTransformation().getTranslation(),
+                        camRotation = cameras[0].getTransformation().getRotation();
+                transformXInput.Value = (decimal) camTransformation.getX();
+                transformYInput.Value = (decimal) camTransformation.getY();
+                transformZInput.Value = (decimal) camTransformation.getZ();
                 // Transformation - Orientation
-                transformHInput.Value = 0;
-                transformVInput.Value = 0;
+                transformHInput.Value = (decimal) camRotation.getX(); // Rx
+                transformVInput.Value = (decimal) camRotation.getZ(); // Rz 
                 // Camera
-                camDistanceInput.Value = 0;
-                camFieldInput.Value = 0;
+                camDistanceInput.Value = (decimal) cameras[0].getDistance();
+                camFieldInput.Value = (decimal) cameras[0].getFieldOfVision(); 
                 // Image
-                imageResHInput.Value = 0;
-                imageResVInput.Value = 0;
-                bgColorRInput.Value = 0;
-                bgColorGInput.Value = 0;
-                bgColorBInput.Value = 0;
+                Color newColor = Color3.convertToColor(images[0].getColor());
+                imageResHInput.Value = images[0].getHRes();
+                imageResVInput.Value = images[0].getVRes();
+                bgColorRInput.Value = newColor.R;
+                bgColorGInput.Value = newColor.G;
+                bgColorBInput.Value = newColor.B;
             }
         }
 
@@ -238,7 +234,7 @@ namespace cosig_work02
                     for (int j = 0; j < rays.GetLength(1); j++)
                     {
                         Color3 pixel = traceRay(rays[i, j], recursionDepth);
-                        image.SetPixel(i, j, pixel.convertToColor());
+                        image.SetPixel(i, j, Color3.convertToColor(pixel));
                     }
                 }
 
@@ -287,9 +283,27 @@ namespace cosig_work02
             startError.Visible = false;
         }
 
-        // RENDER ---------------------------------------------------------------------------------------------------------------------------------------------------------------
-        private void startRenderBtn_Click(object sender, EventArgs e) // Starts Render
+        // RENDER ---------------------------------------------------------------------------------------------------------------------------------------------------------------        
+        // Starts Render
+        private void startRenderBtn_Click(object sender, EventArgs e) 
         {
+            // get final object's tranformation
+            foreach (Object3D object3D in objects)
+            {
+                Transformation objectTransformation = this.transformations[object3D.getIndexOfTransformation()],
+                               transformation = this.cameras[0].getTransformation().clone();
+                transformation.multiplyByMatrix(objectTransformation.getTransformationMatrix());
+                object3D.setTransformation(transformation);
+            }
+
+            foreach (Light light in lights)
+            {
+                Transformation objectTransformation = this.transformations[light.getIndexOfTransformation()],
+                               transformation = this.cameras[0].getTransformation().clone();
+                transformation.multiplyByMatrix(objectTransformation.getTransformationMatrix());
+                light.setTransformation(transformation);
+            }
+
             display3DScene();
         }
 
@@ -326,9 +340,97 @@ namespace cosig_work02
             hasRefraction = !hasRefraction;
         }
 
-        private void recursionDepthInput_ValueChanged(object sender, EventArgs e) // Recursion Depth
+        // Recursion Depth
+        private void recursionDepthInput_ValueChanged(object sender, EventArgs e) 
         {
             recursionDepth = (int)recursionDepthInput.Value;
+        }
+
+        // Transformation - Center
+        private void applyCamTranslation(Nullable<double> x, Nullable<double> y, Nullable<double> z)
+        {
+            Vector3 cameraTranslation = cameras[0].getTransformation().getTranslation();
+
+            if (x == null) x = cameraTranslation.getX();
+            if (y == null) y = cameraTranslation.getY();
+            if (z == null) z = cameraTranslation.getZ();
+
+            cameras[0].getTransformation().translate(x ?? default, y ?? default, z ?? default);
+        }
+
+        private void transformXInput_ValueChanged(object sender, EventArgs e)
+        {
+            applyCamTranslation((double) transformXInput.Value, null, null);
+        }
+
+        private void transformYInput_ValueChanged(object sender, EventArgs e)
+        {
+            applyCamTranslation(null, (double) transformYInput.Value, null);
+        }
+
+        private void transformZInput_ValueChanged(object sender, EventArgs e)
+        {
+            applyCamTranslation(null, null, (double) transformZInput.Value);
+        }
+
+        // Transformation - Orientation
+        private void transformHInput_ValueChanged(object sender, EventArgs e)
+        {
+            cameras[0].getTransformation().rotateX((double) transformHInput.Value);
+        }
+
+        private void transformVInput_ValueChanged(object sender, EventArgs e)
+        {
+            cameras[0].getTransformation().rotateZ((double) transformVInput.Value);
+        }
+
+        // Camera 
+        private void camDistanceInput_ValueChanged(object sender, EventArgs e)
+        {
+            cameras[0].setDistance((double) camDistanceInput.Value);
+        }
+
+        private void camFieldInput_ValueChanged(object sender, EventArgs e)
+        {
+            cameras[0].setFieldOfVision((double) camFieldInput.Value);
+        }
+
+        // Image
+        private void imageResHInput_ValueChanged(object sender, EventArgs e)
+        {
+            images[0].setHRes((int) imageResHInput.Value);
+        }
+
+        private void imageResVInput_ValueChanged(object sender, EventArgs e)
+        {
+            images[0].setVRes((int)imageResVInput.Value);
+        }
+
+        // Image - Background Color
+        private void setImageBgColor(Nullable<int> r, Nullable<int> g, Nullable<int> b)
+        {
+            Color color = Color3.convertToColor(images[0].getColor());
+
+            if (r == null) r = color.R;
+            if (g == null) g = color.G;
+            if (b == null) b = color.B;
+
+            images[0].setColor(Color3.convertFromColor(Color.FromArgb(255, r ?? default, g ?? default, b ?? default)));
+        }
+
+        private void bgColorRInput_ValueChanged(object sender, EventArgs e)
+        {
+            setImageBgColor((int) bgColorRInput.Value, null, null);
+        }
+
+        private void bgColorGInput_ValueChanged(object sender, EventArgs e)
+        {
+            setImageBgColor(null, (int) bgColorGInput.Value, null);
+        }
+
+        private void bgColorBInput_ValueChanged(object sender, EventArgs e)
+        {
+            setImageBgColor(null, null, (int) bgColorBInput.Value);
         }
     }
 }
