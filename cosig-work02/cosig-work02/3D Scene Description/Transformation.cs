@@ -252,7 +252,7 @@ namespace cosig_work02
             return transformation;
         }
 
-        // multiplies a 4x4 matrix for a column matrix representative of a point or vector in homogeneous coordinates
+        // multiplies a 4x4 matrix for a column matrix representative of a point or vector
         public static double[] multiplyByColumnMatrix(double[,] matrix, double[] pointA)
         {
             double[] pointB = new double[4];
@@ -288,9 +288,6 @@ namespace cosig_work02
             for (int j = 0; j < matrix.GetLength(1); j++)
             {
                 if (j == column) continue; // skips this iteration
-
-                //for (int i = 1; i < matrix.GetLength(1); i++)
-                //    minor[i - 1, currentColumn] = matrix[i, j];
 
                 for (int i = 0; i < matrix.GetLength(1) - 1; i++)
                     minor[i, currentColumn] = matrix[i < row ? i : i + 1, j];

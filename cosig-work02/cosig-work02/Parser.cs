@@ -335,7 +335,6 @@ namespace cosig_work02
 
                             case 3:
                                 triangle.setV3(new Vector3(Double.Parse(values[0]), Double.Parse(values[1]), Double.Parse(values[2])));
-                                triangle.calculateNormal();
                                 triangles.Add(triangle);
                                 break;
                         }

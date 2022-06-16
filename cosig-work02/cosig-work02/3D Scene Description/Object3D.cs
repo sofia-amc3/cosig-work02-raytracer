@@ -42,11 +42,11 @@ namespace cosig_work02
             this.material = material;
         }
 
-        public void setTransformation(Transformation transformation)
+        public virtual void setTransformation(Transformation transformation) // virtual - means that it can be overridden, in this case, by the triangles
         {
             this.transformation = transformation;
         }
 
-        public abstract bool intersect(Ray ray, Hit hit);
+        public abstract bool intersect(Ray ray, Hit hit); // abstract - does nothing here
     }
 }

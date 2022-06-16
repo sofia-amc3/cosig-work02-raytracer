@@ -44,7 +44,7 @@ namespace cosig_work02
 
         public static Color convertToColor(Color3 color)
         {
-            return Color.FromArgb((int) Math.Round(255.0 * color.getR()), (int) Math.Round(255.0 * color.getG()), (int) Math.Round(255.0 * color.getB()));
+            return Color.FromArgb(255, (int) Math.Round(255.0 * color.getR()), (int) Math.Round(255.0 * color.getG()), (int) Math.Round(255.0 * color.getB()));
         }
 
         public static Color3 convertFromColor(Color color)

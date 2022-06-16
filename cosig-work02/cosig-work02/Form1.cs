@@ -11,7 +11,7 @@ namespace cosig_work02
     public partial class RayTracer : Form
     {
         // File to read
-        OpenFileDialog file;
+        OpenFileDialog file = null;
 
         private List<Image> images = new List<Image>();
         private List<Transformation> transformations = new List<Transformation>();
@@ -110,7 +110,6 @@ namespace cosig_work02
                     double cosThetaV = -Vector3.calculateDotProduct(ray.getDirection(), hit.getNormal()),
                            specular = hit.getMaterial().getSpecular(),
                            refraction = hit.getMaterial().getRefraction(),
-                           indexOfRefraction = hit.getMaterial().getIndexOfRefraction(),
                            epsilon = 1.0 * Math.Pow(10, -6);
 
                     if (hasSpecular)
@@ -144,33 +143,58 @@ namespace cosig_work02
                         // calculates refraction 
                         if (refraction > 0.0) // the material refracts light
                         {
-                            double eta = 1.0 / indexOfRefraction,
-                                   cosThetaR = Math.Sqrt(1.0 - eta * eta * (1.0 - cosThetaV * cosThetaV));
+                            Vector3 n = hit.getNormal(),
+                                    i = ray.getDirection();
+                            double max = 1,
+                                   min = -1,
+                                   etai = 1,
+                                   etat = hit.getMaterial().getIndexOfRefraction(); 
 
-                            if (cosThetaV < 0.0)
+                            // in the previous if (reflection) this value is negative, let's make it positive
+                            cosThetaV = -cosThetaV;
+
+                            // clamp
+                            if (cosThetaV < min) cosThetaV = min;
+                            else if (cosThetaV > max) cosThetaV = max;
+
+                            if (cosThetaV < 0) cosThetaV = -cosThetaV;
+                            else
                             {
-                                eta = indexOfRefraction;
-                                cosThetaR = -cosThetaR;
+                                // swap etai with etat
+                                double temp = etai;
+                                etai = etat;
+                                etat = temp;
+                                // normal = -normal
+                                n = new Vector3(-n.getX(), -n.getY(), -n.getZ());
                             }
 
-                            // calculates refracted ray's direction  
-                            double calc1 = eta * cosThetaV - cosThetaR;
-                            Vector3 calc2 = Vector3.multiplyVectorByScalar(calc1, hit.getNormal()),
-                                    calc3 = Vector3.multiplyVectorByScalar(eta, ray.getDirection()),
-                                    refractedRayDirection = Vector3.addVectors(calc2, calc3);
+                            double eta = etai / etat,
+                                   cosThetaR = 1 - eta * eta * (1 - cosThetaV * cosThetaV);
+                            Vector3 refractedRayDirection = new Vector3(0, 0, 0);
+
+                            if (cosThetaR >= 0) 
+                            {
+                                double calc1 = eta * cosThetaV - Math.Sqrt(cosThetaR);
+                                Vector3 calc2 = Vector3.multiplyVectorByScalar(calc1, n),
+                                        calc3 = Vector3.multiplyVectorByScalar(eta, i),
+                                        calc4 = Vector3.addVectors(calc3, calc2);
+
+                                refractedRayDirection = calc4;
+                            }
+
                             refractedRayDirection = Vector3.normalizeVector(refractedRayDirection);
 
                             // create refracted ray
                             Ray refractedRay = new Ray(hit.getPoint(), refractedRayDirection);
 
                             // apply refraction
-                            Color3 calc4 = Color3.multiplyColorByScalar(indexOfRefraction, traceRay(refractedRay, rec - 1)),
-                                   calc5 = Color3.multiplyColors(hit.getMaterial().getColor(), calc4);
-                            color = Color3.addColors(color, calc5);
+                            Color3 calc5 = Color3.multiplyColorByScalar(etat, traceRay(refractedRay, rec - 1)),
+                                   calc6 = Color3.multiplyColors(hit.getMaterial().getColor(), calc5);
+                            color = Color3.addColors(color, calc6); 
                         }
                     }
                  }
-                 return Color3.multiplyColorByScalar(1 / lights.Count(), color);
+                 return color; 
             }
             else return images[0].getColor();
         }
@@ -196,7 +220,7 @@ namespace cosig_work02
                 lights = parser.lights;
                 objects.AddRange(parser.spheres);
                 objects.AddRange(parser.boxes);
-                //objects.AddRange(parser.triangles);
+                objects.AddRange(parser.triangles);
 
                 // Puts values in inputs
                 // Transformation - Center
@@ -223,24 +247,20 @@ namespace cosig_work02
 
         private void display3DScene()
         {
-            if (file != null)
+            rays = Ray.createRays(cameras[0], images[0]);
+
+            Bitmap image = new Bitmap(images[0].getHRes(), images[0].getVRes());
+
+            for (int i = 0; i < rays.GetLength(0); i++)
             {
-                rays = Ray.createRays(cameras[0], images[0]);
-
-                Bitmap image = new Bitmap(images[0].getHRes(), images[0].getVRes());
-
-                for (int i = 0; i < rays.GetLength(0); i++)
+                for (int j = 0; j < rays.GetLength(1); j++)
                 {
-                    for (int j = 0; j < rays.GetLength(1); j++)
-                    {
-                        Color3 pixel = traceRay(rays[i, j], recursionDepth);
-                        image.SetPixel(i, j, Color3.convertToColor(pixel));
-                    }
+                    Color3 pixel = traceRay(rays[i, j], recursionDepth);
+                    image.SetPixel(i, j, Color3.convertToColor(pixel));
                 }
-
-                imageRender.Image = image;
             }
-            else startError.Visible = true;
+
+            imageRender.Image = image;
         }
 
         // Save Image (PNG File)
@@ -287,24 +307,28 @@ namespace cosig_work02
         // Starts Render
         private void startRenderBtn_Click(object sender, EventArgs e) 
         {
-            // get final object's tranformation
-            foreach (Object3D object3D in objects)
+            if (file != null)
             {
-                Transformation objectTransformation = this.transformations[object3D.getIndexOfTransformation()],
-                               transformation = this.cameras[0].getTransformation().clone();
-                transformation.multiplyByMatrix(objectTransformation.getTransformationMatrix());
-                object3D.setTransformation(transformation);
-            }
+                // get final object's tranformation
+                foreach (Object3D object3D in objects)
+                {
+                    Transformation objectTransformation = this.transformations[object3D.getIndexOfTransformation()],
+                                   transformation = this.cameras[0].getTransformation().clone();
+                    transformation.multiplyByMatrix(objectTransformation.getTransformationMatrix());
+                    object3D.setTransformation(transformation);
+                }
 
-            foreach (Light light in lights)
-            {
-                Transformation objectTransformation = this.transformations[light.getIndexOfTransformation()],
-                               transformation = this.cameras[0].getTransformation().clone();
-                transformation.multiplyByMatrix(objectTransformation.getTransformationMatrix());
-                light.setTransformation(transformation);
-            }
+                foreach (Light light in lights)
+                {
+                    Transformation objectTransformation = this.transformations[light.getIndexOfTransformation()],
+                                   transformation = this.cameras[0].getTransformation().clone();
+                    transformation.multiplyByMatrix(objectTransformation.getTransformationMatrix());
+                    light.setTransformation(transformation);
+                }
 
-            display3DScene();
+                display3DScene();
+            }
+            else startError.Visible = true;
         }
 
         private void startRenderBtn_MouseEnter(object sender, EventArgs e) // Start Btn Hover
@@ -349,13 +373,16 @@ namespace cosig_work02
         // Transformation - Center
         private void applyCamTranslation(Nullable<double> x, Nullable<double> y, Nullable<double> z)
         {
-            Vector3 cameraTranslation = cameras[0].getTransformation().getTranslation();
+            if(cameras.Count > 0)
+            {
+                Vector3 cameraTranslation = cameras[0].getTransformation().getTranslation();
 
-            if (x == null) x = cameraTranslation.getX();
-            if (y == null) y = cameraTranslation.getY();
-            if (z == null) z = cameraTranslation.getZ();
+                if (x == null) x = cameraTranslation.getX();
+                if (y == null) y = cameraTranslation.getY();
+                if (z == null) z = cameraTranslation.getZ();
 
-            cameras[0].getTransformation().translate(x ?? default, y ?? default, z ?? default);
+                cameras[0].getTransformation().translate(x ?? default, y ?? default, z ?? default);
+            }
         }
 
         private void transformXInput_ValueChanged(object sender, EventArgs e)
@@ -376,46 +403,49 @@ namespace cosig_work02
         // Transformation - Orientation
         private void transformHInput_ValueChanged(object sender, EventArgs e)
         {
-            cameras[0].getTransformation().rotateX((double) transformHInput.Value);
+            if (cameras.Count > 0) cameras[0].getTransformation().rotateX((double) transformHInput.Value);
         }
 
         private void transformVInput_ValueChanged(object sender, EventArgs e)
         {
-            cameras[0].getTransformation().rotateZ((double) transformVInput.Value);
+            if (cameras.Count > 0) cameras[0].getTransformation().rotateZ((double) transformVInput.Value);
         }
 
         // Camera 
         private void camDistanceInput_ValueChanged(object sender, EventArgs e)
         {
-            cameras[0].setDistance((double) camDistanceInput.Value);
+            if (cameras.Count > 0) cameras[0].setDistance((double) camDistanceInput.Value);
         }
 
         private void camFieldInput_ValueChanged(object sender, EventArgs e)
         {
-            cameras[0].setFieldOfVision((double) camFieldInput.Value);
+            if (cameras.Count > 0) cameras[0].setFieldOfVision((double) camFieldInput.Value);
         }
 
         // Image
         private void imageResHInput_ValueChanged(object sender, EventArgs e)
         {
-            images[0].setHRes((int) imageResHInput.Value);
+            if (images.Count > 0) images[0].setHRes((int) imageResHInput.Value);
         }
 
         private void imageResVInput_ValueChanged(object sender, EventArgs e)
         {
-            images[0].setVRes((int)imageResVInput.Value);
+            if (images.Count > 0) images[0].setVRes((int)imageResVInput.Value);
         }
 
         // Image - Background Color
         private void setImageBgColor(Nullable<int> r, Nullable<int> g, Nullable<int> b)
         {
-            Color color = Color3.convertToColor(images[0].getColor());
+            if (images.Count > 0)
+            {
+                Color color = Color3.convertToColor(images[0].getColor());
 
-            if (r == null) r = color.R;
-            if (g == null) g = color.G;
-            if (b == null) b = color.B;
+                if (r == null) r = color.R;
+                if (g == null) g = color.G;
+                if (b == null) b = color.B;
 
-            images[0].setColor(Color3.convertFromColor(Color.FromArgb(255, r ?? default, g ?? default, b ?? default)));
+                images[0].setColor(Color3.convertFromColor(Color.FromArgb(255, r ?? default, g ?? default, b ?? default)));
+            }
         }
 
         private void bgColorRInput_ValueChanged(object sender, EventArgs e)

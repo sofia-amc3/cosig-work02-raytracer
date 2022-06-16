@@ -24,6 +24,12 @@ namespace cosig_work02
         public Vector3 getV3() { return v3; }
         public Vector3 getNormalVector() { return normalVector; }
 
+        public override void setTransformation(Transformation transformation)
+        {
+            base.setTransformation(transformation);
+            calculateNormal();
+        }
+
         public void setV1(Vector3 v1) {
             this.v1 = v1;
         }
@@ -37,7 +43,7 @@ namespace cosig_work02
         }
 
         // normalize triangles
-        public void calculateNormal()
+        private void calculateNormal()
         {
             Vector3 edge12 = Vector3.subtractVectors(v2, v1),
                     edge13 = Vector3.subtractVectors(v3, v1),
