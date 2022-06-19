@@ -50,29 +50,25 @@ namespace cosig_work02
         // and multiplies the composite transformation matrix by the newly created matrix
         public void translate(double x, double y, double z)
         {
-            // gets the difference between the new translation and the previous one
-            double xDifference = x - translation.getX(),
-                   yDifference = y - translation.getY(),
-                   zDifference = z - translation.getZ();
             // applies the difference
-            translation.setX(translation.getX() + xDifference);
-            translation.setY(translation.getY() + yDifference);
-            translation.setZ(translation.getZ() + zDifference);
+            translation.setX(translation.getX() + x);
+            translation.setY(translation.getY() + y);
+            translation.setZ(translation.getZ() + z);
 
             double[,] translateMatrix = new double[4, 4];
 
             translateMatrix[0, 0] = 1.0;
             translateMatrix[0, 1] = 0.0;
             translateMatrix[0, 2] = 0.0;
-            translateMatrix[0, 3] = xDifference;
+            translateMatrix[0, 3] = x;
             translateMatrix[1, 0] = 0.0;
             translateMatrix[1, 1] = 1.0;
             translateMatrix[1, 2] = 0.0;
-            translateMatrix[1, 3] = yDifference;
+            translateMatrix[1, 3] = y;
             translateMatrix[2, 0] = 0.0;
             translateMatrix[2, 1] = 0.0;
             translateMatrix[2, 2] = 1.0;
-            translateMatrix[2, 3] = zDifference;
+            translateMatrix[2, 3] = z;
             translateMatrix[3, 0] = 0.0;
             translateMatrix[3, 1] = 0.0;
             translateMatrix[3, 2] = 0.0;
@@ -85,25 +81,23 @@ namespace cosig_work02
         // and multiplies the composite transformation matrix by the newly created matrix
         public void rotateX(double angle)
         {
-            // gets the difference between the new rotation and the previous one
-            double angleDifference = angle - rotation.getX();
             // applies the difference
-            rotation.setX(rotation.getX() + angleDifference);
+            rotation.setX(rotation.getX() + angle);
 
             double[,] rotateXMatrix = new double[4, 4];
 
-            angleDifference *= Math.PI / 180.0;
+            angle *= Math.PI / 180.0;
             rotateXMatrix[0, 0] = 1.0;
             rotateXMatrix[0, 1] = 0.0;
             rotateXMatrix[0, 2] = 0.0;
             rotateXMatrix[0, 3] = 0.0;
             rotateXMatrix[1, 0] = 0.0;
-            rotateXMatrix[1, 1] = Math.Cos(angleDifference);
-            rotateXMatrix[1, 2] = -Math.Sin(angleDifference);
+            rotateXMatrix[1, 1] = Math.Cos(angle);
+            rotateXMatrix[1, 2] = -Math.Sin(angle);
             rotateXMatrix[1, 3] = 0.0;
             rotateXMatrix[2, 0] = 0.0;
-            rotateXMatrix[2, 1] = Math.Sin(angleDifference);
-            rotateXMatrix[2, 2] = Math.Cos(angleDifference);
+            rotateXMatrix[2, 1] = Math.Sin(angle);
+            rotateXMatrix[2, 2] = Math.Cos(angle);
             rotateXMatrix[2, 3] = 0.0;
             rotateXMatrix[3, 0] = 0.0;
             rotateXMatrix[3, 1] = 0.0;
@@ -117,25 +111,23 @@ namespace cosig_work02
         // and multiplies the composite transformation matrix by the newly created matrix
         public void rotateY(double angle)
         {
-            // gets the difference between the new rotation and the previous one
-            double angleDifference = angle - rotation.getY();
             // applies the difference
-            rotation.setY(rotation.getY() + angleDifference);
+            rotation.setY(rotation.getY() + angle);
 
             double[,] rotateYMatrix = new double[4, 4];
 
-            angleDifference *= Math.PI / 180.0;
-            rotateYMatrix[0, 0] = Math.Cos(angleDifference);
+            angle *= Math.PI / 180.0;
+            rotateYMatrix[0, 0] = Math.Cos(angle);
             rotateYMatrix[0, 1] = 0.0;
-            rotateYMatrix[0, 2] = Math.Sin(angleDifference);
+            rotateYMatrix[0, 2] = Math.Sin(angle);
             rotateYMatrix[0, 3] = 0.0;
             rotateYMatrix[1, 0] = 0.0;
             rotateYMatrix[1, 1] = 1.0;
             rotateYMatrix[1, 2] = 0.0;
             rotateYMatrix[1, 3] = 0.0;
-            rotateYMatrix[2, 0] = -Math.Sin(angleDifference);
+            rotateYMatrix[2, 0] = -Math.Sin(angle);
             rotateYMatrix[2, 1] = 0.0;
-            rotateYMatrix[2, 2] = Math.Cos(angleDifference);
+            rotateYMatrix[2, 2] = Math.Cos(angle);
             rotateYMatrix[2, 3] = 0.0;
             rotateYMatrix[3, 0] = 0.0;
             rotateYMatrix[3, 1] = 0.0;
@@ -149,20 +141,18 @@ namespace cosig_work02
         // and multiplies the composite transformation matrix by the newly created matrix
         public void rotateZ(double angle)
         {
-            // gets the difference between the new rotation and the previous one
-            double angleDifference = angle - rotation.getZ();
             // applies the difference
-            rotation.setZ(rotation.getZ() + angleDifference);
+            rotation.setZ(rotation.getZ() + angle);
 
             double[,] rotateZMatrix = new double[4, 4];
 
-            angleDifference *= Math.PI / 180.0;
-            rotateZMatrix[0, 0] = Math.Cos(angleDifference);
-            rotateZMatrix[0, 1] = -Math.Sin(angleDifference);
+            angle *= Math.PI / 180.0;
+            rotateZMatrix[0, 0] = Math.Cos(angle);
+            rotateZMatrix[0, 1] = -Math.Sin(angle);
             rotateZMatrix[0, 2] = 0.0;
             rotateZMatrix[0, 3] = 0.0;
-            rotateZMatrix[1, 0] = Math.Sin(angleDifference);
-            rotateZMatrix[1, 1] = Math.Cos(angleDifference);
+            rotateZMatrix[1, 0] = Math.Sin(angle);
+            rotateZMatrix[1, 1] = Math.Cos(angle);
             rotateZMatrix[1, 2] = 0.0;
             rotateZMatrix[1, 3] = 0.0;
             rotateZMatrix[2, 0] = 0.0;

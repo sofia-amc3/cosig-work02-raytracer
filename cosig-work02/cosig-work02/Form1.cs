@@ -280,7 +280,7 @@ namespace cosig_work02
         // Save Scene (TXT File)
         private void saveSceneBtn_Click(object sender, EventArgs e)
         {
-            // reverse parser ###################################################
+            // reverse parser #########################################################################################################################################
         }
 
         private void exitBtn_Click(object sender, EventArgs e)
@@ -371,44 +371,50 @@ namespace cosig_work02
         }
 
         // Transformation - Center
-        private void applyCamTranslation(Nullable<double> x, Nullable<double> y, Nullable<double> z)
-        {
-            if(cameras.Count > 0)
-            {
-                Vector3 cameraTranslation = cameras[0].getTransformation().getTranslation();
-
-                if (x == null) x = cameraTranslation.getX();
-                if (y == null) y = cameraTranslation.getY();
-                if (z == null) z = cameraTranslation.getZ();
-
-                cameras[0].getTransformation().translate(x ?? default, y ?? default, z ?? default);
-            }
-        }
-
         private void transformXInput_ValueChanged(object sender, EventArgs e)
         {
-            applyCamTranslation((double) transformXInput.Value, null, null);
+            if (cameras.Count > 0)
+            {
+                double x = (double)transformXInput.Value - cameras[0].getTransformation().getTranslation().getX();
+                cameras[0].getTransformation().translate(x, 0, 0);
+            }
         }
 
         private void transformYInput_ValueChanged(object sender, EventArgs e)
         {
-            applyCamTranslation(null, (double) transformYInput.Value, null);
+            if (cameras.Count > 0)
+            {
+                double y = (double)transformYInput.Value - cameras[0].getTransformation().getTranslation().getY();
+                cameras[0].getTransformation().translate(0, y, 0);
+            }
         }
 
         private void transformZInput_ValueChanged(object sender, EventArgs e)
         {
-            applyCamTranslation(null, null, (double) transformZInput.Value);
+            if (cameras.Count > 0)
+            {
+                double z = (double)transformZInput.Value - cameras[0].getTransformation().getTranslation().getZ();
+                cameras[0].getTransformation().translate(0, 0, z);
+            }
         }
 
         // Transformation - Orientation
         private void transformHInput_ValueChanged(object sender, EventArgs e)
         {
-            if (cameras.Count > 0) cameras[0].getTransformation().rotateX((double) transformHInput.Value);
+            if (cameras.Count > 0)
+            {
+                double x = (double)transformHInput.Value - cameras[0].getTransformation().getRotation().getX();
+                cameras[0].getTransformation().rotateX(x);
+            }
         }
 
         private void transformVInput_ValueChanged(object sender, EventArgs e)
         {
-            if (cameras.Count > 0) cameras[0].getTransformation().rotateZ((double) transformVInput.Value);
+            if (cameras.Count > 0)
+            {
+                double z = (double)transformVInput.Value - cameras[0].getTransformation().getRotation().getZ();
+                cameras[0].getTransformation().rotateZ(z);
+            }
         }
 
         // Camera 

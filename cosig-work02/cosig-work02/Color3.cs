@@ -23,33 +23,41 @@ namespace cosig_work02
 
         public void setR(double r) 
         {
-            if (r < 0) this.r = 0;
-            else if (r > 1) this.r = 1;
-            else this.r = r;
+            this.r = r;
         }
 
         public void setG(double g) 
         {
-            if (g < 0) this.g = 0;
-            else if (g > 1) this.g = 1;
-            else this.g = g;
+            this.g = g;
         }
 
         public void setB(double b) 
         {
-            if (b < 0) this.b = 0;
-            else if (b > 1) this.b = 1;
-            else this.b = b;
+            this.b = b;
         }
 
         public static Color convertToColor(Color3 color)
         {
-            return Color.FromArgb(255, (int) Math.Round(255.0 * color.getR()), (int) Math.Round(255.0 * color.getG()), (int) Math.Round(255.0 * color.getB()));
+            /*if (r/g/b < 0) r/g/b = 0;
+            else if (r/g/b > 1) r/g/b = 1; 
+            else r/g/b = r/g/b; */
+            double r = Math.Min(Math.Max(color.getR(), 0), 1),
+                   g = Math.Min(Math.Max(color.getG(), 0), 1),
+                   b = Math.Min(Math.Max(color.getB(), 0), 1);
+
+            return Color.FromArgb(255, (int) Math.Round(255.0 * r), (int) Math.Round(255.0 * g), (int) Math.Round(255.0 * b));
         }
 
         public static Color3 convertFromColor(Color color)
         {
-            return new Color3(color.R / 255.0, color.G / 255.0, color.B / 255.0);
+            /*if (r/g/b < 0) r/g/b = 0;
+            else if (r/g/b > 255) r/g/b = 255; 
+            else r/g/b = r/g/b; */
+            int r = Math.Min(Math.Max((int)color.R, 0), 255),
+                g = Math.Min(Math.Max((int)color.G, 0), 255),
+                b = Math.Min(Math.Max((int)color.B, 0), 255);
+
+            return new Color3(r / 255.0, g / 255.0, b / 255.0);
         }
 
         public static Color3 addColors(Color3 color1, Color3 color2)
