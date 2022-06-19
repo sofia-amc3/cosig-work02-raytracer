@@ -50,128 +50,69 @@ namespace cosig_work02
                     normal = Vector3.calculateCrossProduct(edge12, edge13);
 
             this.normalVector = Vector3.normalizeVector(normal);
-            this.normalTransformed = Vector3.normalizeVector(this.transformation.applyTransformationToVector(this.normalVector));
-        }
-
-        private double getMatrixADeterminant(Ray ray)
-        {
-            double[,] matrixA = new double[3, 3];
-
-            matrixA[0, 0] = this.v1.getX() - this.v2.getX();
-            matrixA[0, 1] = this.v1.getX() - this.v3.getX();
-            matrixA[0, 2] = ray.getDirectionTransformed().getX();
-            matrixA[1, 0] = this.v1.getY() - this.v2.getY();
-            matrixA[1, 1] = this.v1.getY() - this.v3.getY();
-            matrixA[1, 2] = ray.getDirectionTransformed().getY();
-            matrixA[2, 0] = this.v1.getZ() - this.v2.getZ();
-            matrixA[2, 1] = this.v1.getZ() - this.v3.getZ();
-            matrixA[2, 2] = ray.getDirectionTransformed().getZ();
-
-            return Transformation.calculateDeterminant(matrixA);
-        }
-
-        private double getBeta(Ray ray, double detA)
-        {
-            double[,] matrix = new double[3, 3];
-
-            matrix[0, 0] = this.v1.getX() - ray.getOriginTransformed().getX(); 
-            matrix[0, 1] = this.v1.getX() - this.v3.getX();
-            matrix[0, 2] = ray.getDirectionTransformed().getX();
-            matrix[1, 0] = this.v1.getY() - ray.getOriginTransformed().getY();
-            matrix[1, 1] = this.v1.getY() - this.v3.getY();
-            matrix[1, 2] = ray.getDirectionTransformed().getY();
-            matrix[2, 0] = this.v1.getZ() - ray.getOriginTransformed().getZ();
-            matrix[2, 1] = this.v1.getZ() - this.v3.getZ();
-            matrix[2, 2] = ray.getDirectionTransformed().getZ();
-
-            return Transformation.calculateDeterminant(matrix) / detA;
-        }
-
-        private double getGamma(Ray ray, double detA)
-        {
-            double[,] matrix = new double[3, 3];
-
-            matrix[0, 0] = this.v1.getX() - this.v2.getX();
-            matrix[0, 1] = this.v1.getX() - ray.getOriginTransformed().getX();
-            matrix[0, 2] = ray.getDirectionTransformed().getX();
-            matrix[1, 0] = this.v1.getY() - this.v2.getY();
-            matrix[1, 1] = this.v1.getY() - ray.getOriginTransformed().getY();
-            matrix[1, 2] = ray.getDirectionTransformed().getY();
-            matrix[2, 0] = this.v1.getZ() - this.v2.getZ();
-            matrix[2, 1] = this.v1.getZ() - ray.getOriginTransformed().getZ();
-            matrix[2, 2] = ray.getDirectionTransformed().getZ();
-
-            return Transformation.calculateDeterminant(matrix) / detA;
-        }
-
-        private double getT(Ray ray, double detA)
-         {
-             double[,] matrix = new double[3, 3];
-
-             matrix[0, 0] = this.v1.getX() - this.v2.getX();
-             matrix[0, 1] = this.v1.getX() - this.v3.getX();
-             matrix[0, 2] = this.v1.getX() - ray.getOriginTransformed().getX();
-             matrix[1, 0] = this.v1.getY() - this.v2.getY();
-             matrix[1, 1] = this.v1.getY() - this.v3.getY();
-             matrix[1, 2] = this.v1.getY() - ray.getOriginTransformed().getY();
-             matrix[2, 0] = this.v1.getZ() - this.v2.getZ();
-             matrix[2, 1] = this.v1.getZ() - this.v3.getZ();
-             matrix[2, 2] = this.v1.getZ() - ray.getOriginTransformed().getZ();
-
-             return Transformation.calculateDeterminant(matrix) / detA;
-         }
-
-        private Vector3 calculateIntersectionPoint(double beta, double gamma)
-        {
-            // P(t) = a + β(b - a) + γ(c - a)
-            Vector3 bminusa = Vector3.subtractVectors(this.v2, this.v1);
-            Vector3 cminusa = Vector3.subtractVectors(this.v3, this.v1);
-            Vector3 betaMultiplies = Vector3.multiplyVectorByScalar(beta, bminusa);
-            Vector3 gammaMultiplies = Vector3.multiplyVectorByScalar(gamma, cminusa);
-            Vector3 final = Vector3.addVectors(Vector3.addVectors(this.v1, betaMultiplies), gammaMultiplies);
-
-            return final;
+            this.normalTransformed = Vector3.normalizeVector(Transformation.multiplyMatrixWithVector(this.transformation.getTransposeInverseTransformationMatrix(), this.normalVector));
         }
 
         public override bool intersect(Ray ray, Hit hit)
         {
             // Transform the Ray according to the object's transformation
-            this.transformation.applyTransformationToRay(ray); 
+            this.transformation.applyTransformationToRay(ray);
 
-            // Barycentric definition of a plane: P(α, β, γ) = αa + βb + γc, with α + β + γ = 1, meaning that 0 < α, β, γ < 1
-            // Since α + β + γ = 1, we can write α = 1 - β - γ, and P(β, γ) = (1 - β - γ)a + βb + γc
-            // This simplifies to: P(β, γ) = P(t) = a + β(b - a) + γ(c - a)
-            // There is an intersection if β + γ < 1, with 0 < β and 0 < γ
-            double detA = getMatrixADeterminant(ray),
-                   beta = getBeta(ray, detA),
-                   epsilon = 1.0 * Math.Pow(10, -6);
+            // https://www.scratchapixel.com/lessons/3d-basic-rendering/ray-tracing-rendering-a-triangle/ray-triangle-intersection-geometric-solution
+            // Compute plane's normal
+            Vector3 origin = ray.getOriginTransformed(),
+                    direction = ray.getDirectionTransformed();
+            double epsilon = 1.0 * Math.Pow(10, -6);
 
-            // checks if ray is intersecting the object in analysis
-            if (beta <= -epsilon) return false;
+            // Step 1: Finding P ------------------------------------------------------------------------------------------------
+            // check if ray and plane are parallel
+            double nDotRayDirection = Vector3.calculateDotProduct(this.normalVector, direction);
+            if (Math.Abs(nDotRayDirection) < epsilon) return false; // they are parallel so they don't intersect 
 
-            double gamma = getGamma(ray, detA);
+            // compute d parameter (equation 2)
+            double d = -Vector3.calculateDotProduct(this.normalVector, this.v1);
+            // compute t (equation 3)
+            double t = -(Vector3.calculateDotProduct(this.normalVector, origin) + d) / nDotRayDirection;
+            // check if the triangle is in behind the ray
+            if (t < 0) return false;  // the triangle is behind 
 
-            if (gamma <= -epsilon) return false;
+            // compute the intersection point (equation 1)
+            Vector3 p_ = Vector3.addVectors(origin, Vector3.multiplyVectorByScalar(t, direction));
 
-            if (beta + gamma < 1.0 + epsilon)
+            // Step 2: Inside-outside test ---------------------------------------------------------------------------------------
+            // edge 1
+            Vector3 edge1 = Vector3.subtractVectors(this.v2, this.v1),
+                    vp1 = Vector3.subtractVectors(p_, this.v1),
+                    c = Vector3.calculateCrossProduct(edge1, vp1); // vector perpendicular to triangle's plane 
+            if (Vector3.calculateDotProduct(this.normalVector, c) < 0) return false;  // P is on the right side 
+
+            // edge 2
+            Vector3 edge2 = Vector3.subtractVectors(this.v3, this.v2),
+                    vp2 = Vector3.subtractVectors(p_, this.v2);
+            c = Vector3.calculateCrossProduct(edge2, vp2);
+            if (Vector3.calculateDotProduct(this.normalVector, c) < 0) return false;  // P is on the right side 
+
+            // edge 3
+            Vector3 edge3 = Vector3.subtractVectors(this.v1, this.v3),
+                    vp3 = Vector3.subtractVectors(p_, this.v3);
+            c = Vector3.calculateCrossProduct(edge3, vp3);
+            if (Vector3.calculateDotProduct(this.normalVector, c) < 0) return false;  // P is on the right side 
+
+            Vector3 p = this.transformation.applyTransformationToPoint(p_),
+                    v = Vector3.subtractVectors(p, ray.getOrigin());
+            t = Vector3.calculateVectorLength(v);
+
+            hit.setT(t);
+
+            // is it the nearest object? ----------------------------------------------------------------------------------------
+            if (t > epsilon && t < hit.getTMin())
             {
-                Vector3 p_ = calculateIntersectionPoint(beta, gamma),
-                        p = this.transformation.applyTransformationToPoint(p_);
-                        //v = Vector3.subtractVectors(p, ray.getOrigin());
-                double t = getT(ray, detA); // Vector3.calculateVectorLength(v);
-
-                hit.setT(t);
-
-                if (t > epsilon && t < hit.getTMin())
-                {
-                    hit.setFoundState(true);
-                    hit.setTMin(t);
-                    hit.setPoint(p);
-                    hit.setNormal(this.normalTransformed);
-                    hit.setMaterial(this.material);
-                    return true; 
-                }
-                else return false;
+                hit.setFoundState(true);
+                hit.setTMin(t);
+                hit.setPoint(p);
+                hit.setNormal(this.normalTransformed);
+                hit.setMaterial(this.material);
+                return true;
             }
             else return false;
         }

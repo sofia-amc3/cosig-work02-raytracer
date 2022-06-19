@@ -45,7 +45,7 @@ namespace cosig_work02
                    g = Math.Min(Math.Max(color.getG(), 0), 1),
                    b = Math.Min(Math.Max(color.getB(), 0), 1);
 
-            return Color.FromArgb(255, (int) Math.Round(255.0 * r), (int) Math.Round(255.0 * g), (int) Math.Round(255.0 * b));
+            return Color.FromArgb(255, (int)Math.Round(255.0 * r), (int)Math.Round(255.0 * g), (int)Math.Round(255.0 * b));
         }
 
         public static Color3 convertFromColor(Color color)

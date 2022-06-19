@@ -59,7 +59,7 @@ namespace cosig_work02
 
             if (hit.getFoundState() == true)
             {
-                 Color3 color = new Color3(0, 0, 0);
+                Color3 color = new Color3(0, 0, 0);
 
                  foreach (Light light in lights) 
                  {
@@ -151,11 +151,10 @@ namespace cosig_work02
                             double max = 1,
                                    min = -1,
                                    etai = 1,
-                                   etat = hit.getMaterial().getIndexOfRefraction(); 
+                                   etat = hit.getMaterial().getIndexOfRefraction();
 
                             // in the previous if (reflection) this value is negative, let's make it positive
-                            cosThetaV = -cosThetaV;
-                            Math.Clamp(cosThetaV, min, max);
+                            cosThetaV = -Math.Clamp(cosThetaV, min, max);
 
                             if (cosThetaV < 0) cosThetaV = -cosThetaV;
                             else
@@ -170,7 +169,6 @@ namespace cosig_work02
 
                             double eta = etai / etat,
                                    cosThetaR = 1 - eta * eta * (1 - cosThetaV * cosThetaV);
-                            Vector3 refractedRayDirection = new Vector3(0, 0, 0);
 
                             if (cosThetaR >= 0) 
                             {
@@ -179,18 +177,16 @@ namespace cosig_work02
                                         calc3 = Vector3.multiplyVectorByScalar(eta, i),
                                         calc4 = Vector3.addVectors(calc3, calc2);
 
-                                refractedRayDirection = calc4;
+                                Vector3 refractedRayDirection = Vector3.normalizeVector(calc4);
+
+                                // create refracted ray
+                                Ray refractedRay = new Ray(hit.getPoint(), refractedRayDirection);
+
+                                // apply refraction
+                                Color3 calc5 = Color3.multiplyColorByScalar(etat, traceRay(refractedRay, rec - 1)),
+                                       calc6 = Color3.multiplyColors(hit.getMaterial().getColor(), calc5);
+                                color = Color3.addColors(color, calc6);
                             }
-
-                            refractedRayDirection = Vector3.normalizeVector(refractedRayDirection);
-
-                            // create refracted ray
-                            Ray refractedRay = new Ray(hit.getPoint(), refractedRayDirection);
-
-                            // apply refraction
-                            Color3 calc5 = Color3.multiplyColorByScalar(etat, traceRay(refractedRay, rec - 1)),
-                                   calc6 = Color3.multiplyColors(hit.getMaterial().getColor(), calc5);
-                            color = Color3.addColors(color, calc6); 
                         }
                     }
                  }
@@ -210,7 +206,8 @@ namespace cosig_work02
                 for (int j = 0; j < rays.GetLength(1); j++)
                 {
                     Color3 pixel = traceRay(rays[i, j], recursionDepth);
-                    image.SetPixel(i, j, Color3.convertToColor(pixel));
+                    Color color = Color3.convertToColor(pixel);
+                    image.SetPixel(i, j, color);
                 }
             }
 

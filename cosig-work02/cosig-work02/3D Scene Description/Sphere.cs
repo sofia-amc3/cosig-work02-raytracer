@@ -67,6 +67,7 @@ namespace cosig_work02
 
                 hit.setT(t);
 
+                // is it the nearest object? -----------------------------------------
                 if (t > epsilon && t < hit.getTMin())
                 {
                     hit.setFoundState(true);

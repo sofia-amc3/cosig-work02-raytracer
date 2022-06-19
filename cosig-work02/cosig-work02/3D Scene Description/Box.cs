@@ -113,7 +113,6 @@ namespace cosig_work02
             if (tmin > tmax) return false; // box is missed
             if (tmax < 0) return false; // box is behind ray's origin
 
-            // is it the nearest object? -----------------------------------------
             Vector3 p_ = Vector3.addVectors(origin, Vector3.multiplyVectorByScalar(tmin, direction)),
                     p = this.transformation.applyTransformationToPoint(p_),
                     normal_ = calculateNormal(p_, size),
@@ -122,6 +121,7 @@ namespace cosig_work02
             double t = Vector3.calculateVectorLength(v),
                    epsilon = 1.0 * Math.Pow(10, -6);
 
+            // is it the nearest object? -----------------------------------------
             if (t > epsilon && t < hit.getTMin())
             {
                 hit.setFoundState(true);
