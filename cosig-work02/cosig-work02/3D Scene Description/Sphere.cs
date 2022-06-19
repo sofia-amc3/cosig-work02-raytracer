@@ -13,7 +13,10 @@ namespace cosig_work02
 
         public override bool intersect(Ray ray, Hit hit)
         {
-            this.transformation.applyTransformationToRay(ray); // Ray's Transformation
+            // Transform the Ray according to the object's transformation
+            this.transformation.applyTransformationToRay(ray);
+
+            // https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-sphere-intersection
             double radius = 1;
             Vector3 center = new Vector3(0, 0, 0),
                     direction = ray.getDirectionTransformed(),
@@ -47,7 +50,7 @@ namespace cosig_work02
 
                     if(t1 < 0)
                     {
-                        t1 = t2; //if t1 is negative, let's use t2 instead 
+                        t1 = t2; // if t1 is negative, let's use t2 instead 
                         if (t1 < 0) return false; // both t1 and t2 are negative
                     }
 

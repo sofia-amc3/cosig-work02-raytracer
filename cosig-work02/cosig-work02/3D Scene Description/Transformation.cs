@@ -50,7 +50,7 @@ namespace cosig_work02
         // and multiplies the composite transformation matrix by the newly created matrix
         public void translate(double x, double y, double z)
         {
-            // applies the difference
+            // adds the new translation to the previous obtained one 
             translation.setX(translation.getX() + x);
             translation.setY(translation.getY() + y);
             translation.setZ(translation.getZ() + z);
@@ -81,7 +81,7 @@ namespace cosig_work02
         // and multiplies the composite transformation matrix by the newly created matrix
         public void rotateX(double angle)
         {
-            // applies the difference
+            // adds the new rotation angle to the previous obtained one 
             rotation.setX(rotation.getX() + angle);
 
             double[,] rotateXMatrix = new double[4, 4];
@@ -111,7 +111,7 @@ namespace cosig_work02
         // and multiplies the composite transformation matrix by the newly created matrix
         public void rotateY(double angle)
         {
-            // applies the difference
+            // adds the new rotation angle to the previous obtained one 
             rotation.setY(rotation.getY() + angle);
 
             double[,] rotateYMatrix = new double[4, 4];
@@ -141,7 +141,7 @@ namespace cosig_work02
         // and multiplies the composite transformation matrix by the newly created matrix
         public void rotateZ(double angle)
         {
-            // applies the difference
+            // adds the new rotation angle to the previous obtained one 
             rotation.setZ(rotation.getZ() + angle);
 
             double[,] rotateZMatrix = new double[4, 4];
@@ -193,21 +193,80 @@ namespace cosig_work02
             multiplyByMatrix(scaleMatrix);
         }
 
+        // we don't want to change the original transformation matrix, so let's create a copy of it
+        // in this case, we are cloning the camera's original transformation just so it doens't change and interfer with the 3D objects to create
+        public Transformation clone()
+        {
+            Transformation transformation = new Transformation();
+            double[,] transformMatrix = new double[4, 4];
+
+            // creates a new matrix equals to the current transformation matrix
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 4; j++)
+                    transformMatrix[i, j] = this.transformMatrix[i, j];
+
+            transformation.setTransformationMatrix(transformMatrix);
+            return transformation;
+        }
+
+        // APPLIES AND CALCULATES TRANSFORMATIONS --------------------------------------------------------------------------------------------------------------
         public Vector3 applyTransformationToPoint(Vector3 point)
         {
+            // sends the transformMatrix to this method, which is static
             return multiplyMatrixWithPoint(this.transformMatrix, point);
         }
 
         public Vector3 applyTransformationToVector(Vector3 v1)
         {
+            // sends the transformMatrix to this method, which is static
             return multiplyMatrixWithVector(this.transformMatrix, v1);
         }
 
         public void applyTransformationToRay(Ray ray)
         {
+            // sends the inverseTransformMatrix to this method, which is static
             multiplyMatrixWithRay(this.inverseTransformMatrix, ray);
         }
 
+        // static method: gives us the possibility to send any kind of matrix / point
+        public static Vector3 multiplyMatrixWithPoint(double[,] matrix, Vector3 point)
+        {
+            // the matrix received is 4x4 and a point has 3 coordinates, so we need to convert the point to homegenous coordinates
+            // just so it has the same number of lines as the matrix (4)
+            Vector4 pointV4 = Vector4.convertPointToHomogenousCoordinates(point);
+            // next, we convert the point to a matrix and multiply it by the matrix received
+            double[] newPointMatrix = multiplyByColumnMatrix(matrix, Vector4.convertToMatrix(pointV4));
+            // then, converts the resulted matrix to a new point, which still has 4 coordinates (homogenous)
+            Vector4 newPoint = Vector4.convertFromMatrix(newPointMatrix);
+
+            // finally, converts the point to 3 coordinates again (cartesian)
+            return Vector4.convertPointToCartesianCoordinates(newPoint);
+        }
+
+        // static method: gives us the possibility to send any kind of matrix / vector
+        public static Vector3 multiplyMatrixWithVector(double[,] matrix, Vector3 v1)
+        {
+            // the matrix received is 4x4 and a vector has 3 coordinates, so we need to convert the vector to homegenous coordinates
+            // just so it has the same number of lines as the matrix (4)
+            Vector4 vectorV4 = Vector4.convertVectorToHomogenousCoordinates(v1);
+            // next, we convert the vector to a matrix and multiply it by the matrix received
+            double[] newVectorMatrix = multiplyByColumnMatrix(matrix, Vector4.convertToMatrix(vectorV4));
+            // then, converts the resulted matrix to a new vector, which still has 4 coordinates (homogenous)
+            Vector4 newVector = Vector4.convertFromMatrix(newVectorMatrix);
+
+            // finally, converts the vector to 3 coordinates again (cartesian)
+            return Vector4.convertVectorToCartesianCoordinates(newVector);
+        }
+
+        // static method: gives us the possibility to send any kind of matrix / ray
+        public static void multiplyMatrixWithRay(double[,] matrix, Ray ray)
+        {
+            // sets the ray's transformed origin and direction
+            ray.setOriginTransformed(multiplyMatrixWithPoint(matrix, ray.getOrigin()));
+            ray.setDirectionTransformed(Vector3.normalizeVector(multiplyMatrixWithVector(matrix, ray.getDirection())));
+        }
+
+        // MATRIX CALCULATIONS -------------------------------------------------------------------------------------------------------------------------------
         // multiplies two 4x4 matrixes
         public void multiplyByMatrix(double[,] matrixA)
         {
@@ -225,21 +284,9 @@ namespace cosig_work02
                     for (int k = 0; k < 4; k++)
                         transformMatrix[i, j] += matrixB[i, k] * matrixA[k, j];
 
+            // updates the inverse and transposeInverse, as we're changing the transformation matrix
             this.inverseTransformMatrix = calculateInverse(this.transformMatrix);
             this.transposeInverseTransformMatrix = calculateTranspose(this.inverseTransformMatrix);
-        }
-
-        public Transformation clone()
-        {
-            Transformation transformation = new Transformation();
-            double[,] transformMatrix = new double[4, 4];
-
-            for (int i = 0; i < 4; i++)
-                for (int j = 0; j < 4; j++)
-                    transformMatrix[i, j] = this.transformMatrix[i, j];
-
-            transformation.setTransformationMatrix(transformMatrix);
-            return transformation;
         }
 
         // multiplies a 4x4 matrix for a column matrix representative of a point or vector
@@ -346,30 +393,6 @@ namespace cosig_work02
 
                 return inverseMatrix;
             }
-        }
-
-        public static Vector3 multiplyMatrixWithPoint(double[,] matrix, Vector3 point)
-        {
-            Vector4 pointV4 = Vector4.convertPointToHomogenousCoordinates(point);
-            double[] newPointMatrix = multiplyByColumnMatrix(matrix, Vector4.convertToMatrix(pointV4));
-            Vector4 newPoint = Vector4.convertFromMatrix(newPointMatrix);
-
-            return Vector4.convertPointToCartesianCoordinates(newPoint);
-        }
-
-        public static Vector3 multiplyMatrixWithVector(double[,] matrix, Vector3 v1)
-        {
-            Vector4 vectorV4 = Vector4.convertVectorToHomogenousCoordinates(v1);
-            double[] newVectorMatrix = multiplyByColumnMatrix(matrix, Vector4.convertToMatrix(vectorV4));
-            Vector4 newVector = Vector4.convertFromMatrix(newVectorMatrix);
-
-            return Vector4.convertVectorToCartesianCoordinates(newVector);
-        }
-
-        public static void multiplyMatrixWithRay(double[,] matrix, Ray ray)
-        {
-            ray.setOriginTransformed(multiplyMatrixWithPoint(matrix, ray.getOrigin()));
-            ray.setDirectionTransformed(Vector3.normalizeVector(multiplyMatrixWithVector(matrix, ray.getDirection())));
         }
     }
 }

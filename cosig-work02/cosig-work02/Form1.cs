@@ -13,6 +13,7 @@ namespace cosig_work02
         // File to read
         OpenFileDialog file = null;
 
+        // Lists of Scene's content 
         private List<Image> images = new List<Image>();
         private List<Transformation> transformations = new List<Transformation>();
         private List<Material> materials = new List<Material>();
@@ -41,7 +42,7 @@ namespace cosig_work02
             tabControl1.SelectedIndex = 1; // goes to application
         }
 
-        // SCENE -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+        // DISPLAYS/CREATES SCENE ------------------------------------------------------------------------------------------------------------------------------------------------
         private Color3 traceRay(Ray ray, int rec)
         {
             Hit hit = new Hit();
@@ -52,6 +53,7 @@ namespace cosig_work02
             foreach (Object3D object3D in objects)
             {
                 bool found = object3D.intersect(ray, hit);
+                // if the current object is intersected, saves it (we'll use this on the shadow's calculations)
                 if (found) foundObject = object3D;
             }
 
@@ -141,6 +143,7 @@ namespace cosig_work02
                     if (hasRefraction)
                     {
                         // calculates refraction 
+                        // https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/reflection-refraction-fresnel
                         if (refraction > 0.0) // the material refracts light
                         {
                             Vector3 n = hit.getNormal(),
@@ -152,10 +155,7 @@ namespace cosig_work02
 
                             // in the previous if (reflection) this value is negative, let's make it positive
                             cosThetaV = -cosThetaV;
-
-                            // clamp
-                            if (cosThetaV < min) cosThetaV = min;
-                            else if (cosThetaV > max) cosThetaV = max;
+                            Math.Clamp(cosThetaV, min, max);
 
                             if (cosThetaV < 0) cosThetaV = -cosThetaV;
                             else
@@ -194,11 +194,30 @@ namespace cosig_work02
                         }
                     }
                  }
-                 return color; 
+                 return color; // if an object is intersected, returns its color
             }
-            else return images[0].getColor();
+            else return images[0].getColor(); // else puts the image's background color 
         }
 
+        private void display3DScene() // called after clicking on "Start"
+        {
+            rays = Ray.createRays(cameras[0], images[0]); // creates initial rays
+
+            Bitmap image = new Bitmap(images[0].getHRes(), images[0].getVRes()); // creates bitmap
+
+            for (int i = 0; i < rays.GetLength(0); i++)
+            {
+                for (int j = 0; j < rays.GetLength(1); j++)
+                {
+                    Color3 pixel = traceRay(rays[i, j], recursionDepth);
+                    image.SetPixel(i, j, Color3.convertToColor(pixel));
+                }
+            }
+
+            imageRender.Image = image; // applies the created bitmap into the picturebox
+        }
+
+        // SCENE CONTROLS ------------------------------------------------------------------------------------------------------------------------------------
         private void loadSceneBtn_Click(object sender, EventArgs e)
         {
             // open file dialog
@@ -207,7 +226,7 @@ namespace cosig_work02
 
             if (open.ShowDialog() == DialogResult.OK)
             {
-                clearScene();
+                clearScene(); // Clears any previous loaded scenes
                 file = open;
                 fileName.Text = Path.GetFileName(file.FileName);
 
@@ -243,24 +262,6 @@ namespace cosig_work02
                 bgColorGInput.Value = newColor.G;
                 bgColorBInput.Value = newColor.B;
             }
-        }
-
-        private void display3DScene()
-        {
-            rays = Ray.createRays(cameras[0], images[0]);
-
-            Bitmap image = new Bitmap(images[0].getHRes(), images[0].getVRes());
-
-            for (int i = 0; i < rays.GetLength(0); i++)
-            {
-                for (int j = 0; j < rays.GetLength(1); j++)
-                {
-                    Color3 pixel = traceRay(rays[i, j], recursionDepth);
-                    image.SetPixel(i, j, Color3.convertToColor(pixel));
-                }
-            }
-
-            imageRender.Image = image;
         }
 
         // Save Image (PNG File)
@@ -312,17 +313,26 @@ namespace cosig_work02
                 // get final object's tranformation
                 foreach (Object3D object3D in objects)
                 {
+                                   // gets object's transformation
                     Transformation objectTransformation = this.transformations[object3D.getIndexOfTransformation()],
+                                   // clones the camera's transformation, not to interfer with its original one
                                    transformation = this.cameras[0].getTransformation().clone();
+                    // multiplies camera's transformation by the object's one
                     transformation.multiplyByMatrix(objectTransformation.getTransformationMatrix());
+                    // sets object transformation
                     object3D.setTransformation(transformation);
                 }
 
+                // get final lights' tranformation
                 foreach (Light light in lights)
                 {
+                                   // gets light's transformation
                     Transformation objectTransformation = this.transformations[light.getIndexOfTransformation()],
+                                   // clones the camera's transformation, not to interfer with its original one
                                    transformation = this.cameras[0].getTransformation().clone();
+                    // multiplies camera's transformation by the light's one
                     transformation.multiplyByMatrix(objectTransformation.getTransformationMatrix());
+                    // sets light transformation
                     light.setTransformation(transformation);
                 }
 
@@ -375,6 +385,7 @@ namespace cosig_work02
         {
             if (cameras.Count > 0)
             {
+                // calculates the difference between the new translation (set on the input) and the previously obtained one
                 double x = (double)transformXInput.Value - cameras[0].getTransformation().getTranslation().getX();
                 cameras[0].getTransformation().translate(x, 0, 0);
             }
@@ -384,6 +395,7 @@ namespace cosig_work02
         {
             if (cameras.Count > 0)
             {
+                // calculates the difference between the new translation (set on the input) and the previously obtained one
                 double y = (double)transformYInput.Value - cameras[0].getTransformation().getTranslation().getY();
                 cameras[0].getTransformation().translate(0, y, 0);
             }
@@ -393,6 +405,7 @@ namespace cosig_work02
         {
             if (cameras.Count > 0)
             {
+                // calculates the difference between the new translation (set on the input) and the previously obtained one
                 double z = (double)transformZInput.Value - cameras[0].getTransformation().getTranslation().getZ();
                 cameras[0].getTransformation().translate(0, 0, z);
             }
@@ -403,6 +416,7 @@ namespace cosig_work02
         {
             if (cameras.Count > 0)
             {
+                // calculates the difference between the new rotation (set on the input) and the previously obtained one
                 double x = (double)transformHInput.Value - cameras[0].getTransformation().getRotation().getX();
                 cameras[0].getTransformation().rotateX(x);
             }
@@ -412,6 +426,7 @@ namespace cosig_work02
         {
             if (cameras.Count > 0)
             {
+                // calculates the difference between the new rotation (set on the input) and the previously obtained one
                 double z = (double)transformVInput.Value - cameras[0].getTransformation().getRotation().getZ();
                 cameras[0].getTransformation().rotateZ(z);
             }
@@ -420,18 +435,18 @@ namespace cosig_work02
         // Camera 
         private void camDistanceInput_ValueChanged(object sender, EventArgs e)
         {
-            if (cameras.Count > 0) cameras[0].setDistance((double) camDistanceInput.Value);
+            if (cameras.Count > 0) cameras[0].setDistance((double)camDistanceInput.Value);
         }
 
         private void camFieldInput_ValueChanged(object sender, EventArgs e)
         {
-            if (cameras.Count > 0) cameras[0].setFieldOfVision((double) camFieldInput.Value);
+            if (cameras.Count > 0) cameras[0].setFieldOfVision((double)camFieldInput.Value);
         }
 
         // Image
         private void imageResHInput_ValueChanged(object sender, EventArgs e)
         {
-            if (images.Count > 0) images[0].setHRes((int) imageResHInput.Value);
+            if (images.Count > 0) images[0].setHRes((int)imageResHInput.Value);
         }
 
         private void imageResVInput_ValueChanged(object sender, EventArgs e)
@@ -456,17 +471,17 @@ namespace cosig_work02
 
         private void bgColorRInput_ValueChanged(object sender, EventArgs e)
         {
-            setImageBgColor((int) bgColorRInput.Value, null, null);
+            setImageBgColor((int)bgColorRInput.Value, null, null);
         }
 
         private void bgColorGInput_ValueChanged(object sender, EventArgs e)
         {
-            setImageBgColor(null, (int) bgColorGInput.Value, null);
+            setImageBgColor(null, (int)bgColorGInput.Value, null);
         }
 
         private void bgColorBInput_ValueChanged(object sender, EventArgs e)
         {
-            setImageBgColor(null, null, (int) bgColorBInput.Value);
+            setImageBgColor(null, null, (int)bgColorBInput.Value);
         }
     }
 }

@@ -36,13 +36,6 @@ namespace cosig_work02
         public void setOrigin_v4(Vector4 origin_v4) { this.origin_v4 = origin_v4; }
         public void setDirection_v4(Vector4 direction_v4) { this.direction_v4 = direction_v4; }
 
-        // if t > 0.0, P(t) is after the radius' origin
-        // if t < 0.0, P(t) is behind the radius' origin
-        public Vector3 pointAtParameter(double t)
-        {
-            return Vector3.addVectors(origin, Vector3.multiplyVectorByScalar(t, direction));
-        }
-
         private static double calculateImageHeight(Camera camera)
         {
             double fov = camera.getFieldOfVisionInRadians(),
@@ -69,9 +62,11 @@ namespace cosig_work02
         {
             int vRes = image.getVRes();
             double s = calculateImageHeight(camera) / vRes;
+
             return s;
         }
 
+        // Creates rays from the images' pixels
         public static Ray[,] createRays(Camera camera, Image image)
         {
             int hRes = image.getHRes(),
@@ -87,8 +82,8 @@ namespace cosig_work02
             {
                 for (int j = 0; j < vRes; j++) // goes through image's lines
                 {
-                    double x = (i + 0.5) * s - width / 2.0,
-                           y = -(j + 0.5) * s + height / 2.0;
+                    double x = (i + 0.5) * s - (width / 2.0),
+                           y = -(j + 0.5) * s + (height / 2.0);
 
                     // calculates P.x and P.y of pixelCenter, Pz = 0.0
                     Vector3 direction = new Vector3(x, y, -distance);

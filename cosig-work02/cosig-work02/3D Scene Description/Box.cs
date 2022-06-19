@@ -13,27 +13,35 @@ namespace cosig_work02
 
         private Vector3 calculateNormal(Vector3 intersectionPoint, double boxSize) // intersection point of ray with box
         {
+            // start at 0 because if the normal is not parallel with said axis the value is 0
             double x = 0,
                    y = 0,
                    z = 0,
+                   // round the number for precision in calculations
                    intersectionX = Math.Round(intersectionPoint.getX(), 3),
                    intersectionY = Math.Round(intersectionPoint.getY(), 3),
                    intersectionZ = Math.Round(intersectionPoint.getZ(), 3);
+            // the box is drawn at the origin, therefore we need half of its size to get the faces' coordinate 
+            // (the faces are aligned to the axis)
             boxSize = boxSize / 2;
 
-            if (intersectionX == -boxSize) x = -boxSize;
-            else if (intersectionX == boxSize) x = boxSize;
-            else if (intersectionY == -boxSize) y = -boxSize;
-            else if (intersectionY == boxSize) y = boxSize;
-            else if (intersectionZ == -boxSize) z = -boxSize;
-            else if (intersectionZ == boxSize) z = boxSize;
+            // check in what face of the box the intersection point is
+            if (intersectionX == -boxSize) x = -boxSize; // if true, it's intersecting the LEFT face of the box
+            else if (intersectionX == boxSize) x = boxSize; // if true, it's intersecting the RIGHT face of the box
+            else if (intersectionY == -boxSize) y = -boxSize; // if true, it's intersecting the BOTTOM face of the box
+            else if (intersectionY == boxSize) y = boxSize; // if true, it's intersecting the TOP face of the box
+            else if (intersectionZ == -boxSize) z = -boxSize; // if true, it's intersecting the BACK face of the box
+            else if (intersectionZ == boxSize) z = boxSize; // if true, it's intersecting the FRONT face of the box
 
             return Vector3.normalizeVector(new Vector3(x, y, z));
         }
 
         public override bool intersect(Ray ray, Hit hit)
         {
-            this.transformation.applyTransformationToRay(ray); // Ray's Transformation
+            // Transform the Ray according to the object's transformation
+            this.transformation.applyTransformationToRay(ray);
+
+            // https://www.scratchapixel.com/lessons/3d-basic-rendering/minimal-ray-tracer-rendering-simple-shapes/ray-box-intersection
             // general
             Vector3 center = new Vector3(0, 0, 0),
                     origin = ray.getOriginTransformed(),
@@ -46,8 +54,8 @@ namespace cosig_work02
 
             // test 01: maintain tmin and tmax -----------------------------------
             // x axis ------------------------------------------------------------
-            double x1 = center.getX() - size / 2,
-                   x2 = center.getX() + size / 2,
+            double x1 = center.getX() - (size / 2),
+                   x2 = center.getX() + (size / 2),
                    t1x = (x1 - origin.getX()) / direction.getX(),
                    t2x = (x2 - origin.getX()) / direction.getX();
 
@@ -62,8 +70,8 @@ namespace cosig_work02
             tmax = t2x;
 
             // y axis ------------------------------------------------------------
-            double y1 = center.getY() - size / 2,
-                   y2 = center.getY() + size / 2,
+            double y1 = center.getY() - (size / 2),
+                   y2 = center.getY() + (size / 2),
                    t1y = (y1 - origin.getY()) / direction.getY(),
                    t2y = (y2 - origin.getY()) / direction.getY();
 
@@ -82,8 +90,8 @@ namespace cosig_work02
             if (t2y < tmax) tmax = t2y;
 
             // z axis ------------------------------------------------------------
-            double z1 = center.getZ() - size / 2,
-                   z2 = center.getZ() + size / 2,
+            double z1 = center.getZ() - (size / 2),
+                   z2 = center.getZ() + (size / 2),
                    t1z = (z1 - origin.getZ()) / direction.getZ(),
                    t2z = (z2 - origin.getZ()) / direction.getZ();
 

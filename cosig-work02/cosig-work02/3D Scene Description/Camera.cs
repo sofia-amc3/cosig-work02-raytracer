@@ -29,7 +29,7 @@ namespace cosig_work02
 
         public void setIndexOfTransformation(int indexOfTransformation)
         {
-            if (indexOfTransformation < 0) indexOfTransformation = 0;
+            if (indexOfTransformation < 0) this.indexOfTransformation = 0;
             else this.indexOfTransformation = indexOfTransformation;
         }
 
@@ -40,13 +40,13 @@ namespace cosig_work02
 
         public void setDistance(double distance)
         {
-            if (distance <= 0) distance = 0.1;
+            if (distance <= 0) this.distance = 0.1;
             else this.distance = distance;
         }
 
         public void setFieldOfVision(double fieldOfVision)
         {
-            if (fieldOfVision <= 0) fieldOfVision = 0.1;
+            if (fieldOfVision <= 0) this.fieldOfVision = 0.1;
             else this.fieldOfVision = fieldOfVision;
         }
     }

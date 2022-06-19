@@ -135,7 +135,9 @@ namespace cosig_work02
 
         public override bool intersect(Ray ray, Hit hit)
         {
-            this.transformation.applyTransformationToRay(ray); // Ray's Transformation
+            // Transform the Ray according to the object's transformation
+            this.transformation.applyTransformationToRay(ray); 
+
             // Barycentric definition of a plane: P(α, β, γ) = αa + βb + γc, with α + β + γ = 1, meaning that 0 < α, β, γ < 1
             // Since α + β + γ = 1, we can write α = 1 - β - γ, and P(β, γ) = (1 - β - γ)a + βb + γc
             // This simplifies to: P(β, γ) = P(t) = a + β(b - a) + γ(c - a)
