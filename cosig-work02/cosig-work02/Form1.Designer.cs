@@ -410,9 +410,9 @@ namespace cosig_work02
             // 
             this.dividerBottom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.dividerBottom.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.dividerBottom.Location = new System.Drawing.Point(530, 554);
+            this.dividerBottom.Location = new System.Drawing.Point(698, 554);
             this.dividerBottom.Name = "dividerBottom";
-            this.dividerBottom.Size = new System.Drawing.Size(690, 3);
+            this.dividerBottom.Size = new System.Drawing.Size(522, 3);
             this.dividerBottom.TabIndex = 43;
             this.dividerBottom.Text = " ";
             this.dividerBottom.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -880,13 +880,12 @@ namespace cosig_work02
             this.elapsedTimeLabel.BackColor = System.Drawing.Color.Transparent;
             this.elapsedTimeLabel.Font = new System.Drawing.Font("Montserrat", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.elapsedTimeLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(120)))), ((int)(((byte)(120)))));
-            this.elapsedTimeLabel.Location = new System.Drawing.Point(162, 46);
+            this.elapsedTimeLabel.Location = new System.Drawing.Point(528, 542);
             this.elapsedTimeLabel.Name = "elapsedTimeLabel";
             this.elapsedTimeLabel.Size = new System.Drawing.Size(172, 21);
             this.elapsedTimeLabel.TabIndex = 13;
             this.elapsedTimeLabel.Text = "Elapsed time: 00:00:00";
             this.elapsedTimeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.elapsedTimeLabel.Visible = false;
             // 
             // startRenderBtn
             // 

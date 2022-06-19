@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Timers;
 
 namespace cosig_work02
 {
@@ -199,15 +200,28 @@ namespace cosig_work02
 
         private void display3DScene() // called after clicking on "Start"
         {
+            // Resets values
+            elapsedTimeLabel.Text = "Elapsed Time: 00:00:00";
             progressBar.Value = 0;
             progressBar.Maximum = images[0].getVRes() + 1;
+           // System.Timers.Timer timer = new System.Timers.Timer(1000); 
 
             // https://stackoverflow.com/questions/18369823/parallel-image-proccessing-with-c-sharp-5-0
             Task thread = new Task(() =>
             {
-                rays = Ray.createRays(cameras[0], images[0]); // creates initial rays
+                /* Starts timer
+                BeginInvoke((Action)delegate {
+                    timer.Elapsed += (Object source, ElapsedEventArgs e) =>
+                    {
+                        elapsedTimeLabel.Text = "Elapsed Time: " + e.SignalTime.Hour + ":" + e.SignalTime.Minute + ":" + e.SignalTime.Second;
+                    };
+                    timer.Enabled = true;
+                });*/
 
-                Bitmap image = new Bitmap(images[0].getHRes(), images[0].getVRes()); // creates bitmap
+                // Creates initial Rays
+                rays = Ray.createRays(cameras[0], images[0]); 
+                // Creates Bitmap
+                Bitmap image = new Bitmap(images[0].getHRes(), images[0].getVRes()); 
                 ConcurrentBag<Pixel> pixels = new ConcurrentBag<Pixel>();  
 
                 // uses all the cpu threads available by dividing the image into columns (nr of columns = nr of threads)
@@ -242,6 +256,8 @@ namespace cosig_work02
                     }
 
                     progressBar.Value++;
+                    /*timer.Stop(); // stops timer
+                    timer.Dispose();*/
                 });
             });
 
@@ -257,7 +273,7 @@ namespace cosig_work02
 
             if (open.ShowDialog() == DialogResult.OK)
             {
-                clearScene(); // Clears any previous loaded scenes
+                clearScene(); // clears any previous loaded scenes
                 file = open;
                 fileName.Text = Path.GetFileName(file.FileName);
 
@@ -349,6 +365,8 @@ namespace cosig_work02
             fileName.Text = "";
             file = null;
             startError.Visible = false;
+            elapsedTimeLabel.Text = "Elapsed Time: 00:00:00";
+            progressBar.Value = 0;
         }
 
         // RENDER ---------------------------------------------------------------------------------------------------------------------------------------------------------------        
