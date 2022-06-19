@@ -8,6 +8,7 @@ namespace cosig_work02
 {
     class Parser
     {
+        private string path;
         public List<Image> images = new List<Image>();
         public List<Transformation> transformations = new List<Transformation>();
         public List<Material> materials = new List<Material>();
@@ -19,12 +20,12 @@ namespace cosig_work02
 
         public Parser(String path)
         {
-            parseFile(path);
+            this.path = path;
         }
 
-        private void parseFile(String path)
+        public void parseFromFile()
         {
-            StreamReader streamReader = new StreamReader(path);
+            StreamReader streamReader = new StreamReader(this.path);
             string line;
 
             while((line = streamReader.ReadLine()) != null)
@@ -66,6 +67,57 @@ namespace cosig_work02
             }
         }
 
+        public void parseToFile(List<Image> images, List<Transformation> transformations, List<Material> materials, List<Camera> cameras, List<Light> lights, List<Object3D> objects)
+        {
+            StreamWriter sw = File.CreateText(this.path);
+            foreach(Image image in images) sw.WriteLine(writeImage(image));
+            foreach (Transformation transformation in transformations) sw.WriteLine(writeTransformation(transformation));
+            foreach (Material material in materials) sw.WriteLine(writeMaterial(material));
+            foreach (Camera camera in cameras) sw.WriteLine(writeCamera(camera));
+            foreach (Light light in lights) sw.WriteLine(writeLight(light));
+
+            // 3D Objects 
+            List<Sphere> spheres = new List<Sphere>();
+            List<Box> boxes = new List<Box>();
+            List<List<Triangle>> triangles = new List<List<Triangle>>();
+            // separates 3D objects according to their types
+            foreach (Object3D object3D in objects)
+            {
+                if (object3D.GetType() == typeof(Sphere)) spheres.Add(object3D as Sphere);
+                if (object3D.GetType() == typeof(Box)) boxes.Add(object3D as Box);
+                if (object3D.GetType() == typeof(Triangle))
+                {
+                    int indexOfTransformation = object3D.getIndexOfTransformation();
+                    bool addedTriangle = false;
+
+                    // group triangles with the same index of transformation
+                    foreach(List<Triangle> triangleSublist in triangles) 
+                    {
+
+                        if(triangleSublist[0].getIndexOfTransformation() == indexOfTransformation)
+                        {
+                            triangleSublist.Add(object3D as Triangle);
+                            addedTriangle = true;
+                            break;
+                        }
+                    }
+
+                    // creates a new sublist if the triangle wasn't added to any previous one
+                    if(!addedTriangle)
+                    {
+                        List<Triangle> triangleSublist = new List<Triangle>();
+                        triangleSublist.Add(object3D as Triangle);
+                        triangles.Add(triangleSublist);
+                    }
+                }
+            }
+            foreach (Sphere sphere in spheres) sw.WriteLine(writeSphere(sphere));
+            foreach (Box box in boxes) sw.WriteLine(writeBox(box));
+            foreach (List<Triangle> triangleSublist in triangles) sw.WriteLine(writeTriangles(triangleSublist));
+
+            sw.Close();
+        }
+
         private Image readImage(StreamReader streamReader)
         {
             Image image = new Image();
@@ -93,6 +145,16 @@ namespace cosig_work02
 
             return image;
         }
+
+       private string writeImage(Image image)
+       {
+            string text = "Image\n{\n";
+            text += "\t" + image.getHRes() + " " + image.getVRes() + "\n";
+            text += "\t" + Math.Round(image.getColor().getR(), 2) + " " + Math.Round(image.getColor().getG(), 2) + " " + Math.Round(image.getColor().getB(), 2) + "\n"; 
+            text += "}\n";
+
+            return text;
+       }
 
         private Transformation readTransformation(StreamReader streamReader)
         {
@@ -132,6 +194,19 @@ namespace cosig_work02
             return transformation;
         }
 
+        private string writeTransformation(Transformation transformation)
+        {
+            string text = "Transformation\n{\n";
+            text += "\tT " + transformation.getTranslation().getX() + " " + transformation.getTranslation().getY() + " " + transformation.getTranslation().getZ() + "\n"; 
+            text += "\tRx " + transformation.getRotation().getX() + "\n";
+            text += "\tRy " + transformation.getRotation().getY() + "\n";
+            text += "\tRz " + transformation.getRotation().getZ() + "\n";
+            text += "\tS " + transformation.getScale().getX() + " " + transformation.getScale().getY() + " " + transformation.getScale().getZ() + "\n";
+            text += "}\n";
+
+            return text;
+        }
+
         private Material readMaterial(StreamReader streamReader)
         {
             Material material = new Material();
@@ -162,6 +237,16 @@ namespace cosig_work02
             }
 
             return material;
+        }
+
+        private string writeMaterial(Material material)
+        {
+            string text = "Material\n{\n";
+            text += "\t" + material.getColor().getR() + " " + material.getColor().getG() + " " + material.getColor().getB() + "\n";
+            text += "\t" + material.getAmbient() + " " + material.getDiffuse() + " " + material.getSpecular() + " " + material.getRefraction() + " " + material.getIndexOfRefraction() + "\n";
+            text += "}\n";
+
+            return text;
         }
 
         private Camera readCamera(StreamReader streamReader)
@@ -202,6 +287,17 @@ namespace cosig_work02
             return camera;
         }
 
+        private string writeCamera(Camera camera)
+        {
+            string text = "Camera\n{\n";
+            text += "\t" + camera.getIndexOfTransformation() + "\n";
+            text += "\t" + camera.getDistance() + "\n";
+            text += "\t" + camera.getFieldOfVision() + "\n";
+            text += "}\n";
+
+            return text;
+        }
+
         private Light readLight(StreamReader streamReader)
         {
             Light light = new Light();
@@ -228,6 +324,16 @@ namespace cosig_work02
             }
 
             return light;
+        }
+
+        private string writeLight(Light light)
+        {
+            string text = "Light\n{\n";
+            text += "\t" + light.getIndexOfTransformation() + "\n";
+            text += "\t" + light.getColor().getR() + " " + light.getColor().getG() + " " + light.getColor().getB() + "\n";
+            text += "}\n";
+
+            return text;
         }
 
         private Sphere readSphere(StreamReader streamReader)
@@ -264,6 +370,16 @@ namespace cosig_work02
             return sphere;
         }
 
+        private string writeSphere(Sphere sphere)
+        {
+            string text = "Sphere\n{\n";
+            text += "\t" + sphere.getIndexOfTransformation() + "\n";
+            text += "\t" + sphere.getIndexOfMaterial() + "\n";
+            text += "}\n";
+
+            return text;
+        }
+
         private Box readBox(StreamReader streamReader)
         {
             Box box = new Box();
@@ -296,6 +412,16 @@ namespace cosig_work02
             }
 
             return box;
+        }
+
+        private string writeBox(Box box)
+        {
+            string text = "Box\n{\n";
+            text += "\t" + box.getIndexOfTransformation() + "\n";
+            text += "\t" + box.getIndexOfMaterial() + "\n";
+            text += "}\n";
+
+            return text;
         }
 
         private List<Triangle> readTriangles(StreamReader streamReader)
@@ -348,6 +474,33 @@ namespace cosig_work02
             }
 
             return triangles;
+        }
+
+        private string writeTriangles(List<Triangle> triangles)
+        {
+            string text = "Triangles\n{\n";
+            text += "\t" + triangles[0].getIndexOfTransformation() + "\n";
+
+            string writeVertex(Vector3 vertex)
+            {
+                double x = Math.Round(vertex.getX(), 6),
+                       y = Math.Round(vertex.getY(), 6),
+                       z = Math.Round(vertex.getZ(), 6);
+
+                return "\t" + x + " " + y + " " + z + "\n";
+            }
+
+            foreach(Triangle triangle in triangles)
+            {
+                text += "\t" + triangle.getIndexOfMaterial() + "\n";
+                text += writeVertex(triangle.getV1());
+                text += writeVertex(triangle.getV2());
+                text += writeVertex(triangle.getV3());
+            }
+
+            text += "}\n";
+
+            return text;
         }
     }
 }

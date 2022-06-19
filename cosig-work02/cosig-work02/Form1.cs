@@ -228,7 +228,8 @@ namespace cosig_work02
                 fileName.Text = Path.GetFileName(file.FileName);
 
                 // Reads File
-                Parser parser = new Parser(file.FileName); // FileName -> File path
+                Parser parser = new Parser(file.FileName); // FileName = path
+                parser.parseFromFile();
                 images = parser.images;
                 transformations = parser.transformations;
                 materials = parser.materials;
@@ -275,10 +276,24 @@ namespace cosig_work02
             }
         }
 
-        // Save Scene (TXT File)
+        // Save Scene (TXT File) - Reverse Parser
         private void saveSceneBtn_Click(object sender, EventArgs e)
         {
-            // reverse parser #########################################################################################################################################
+            if (imageRender.Image != null)
+            {
+
+                // Saves txt file
+                SaveFileDialog dialog = new SaveFileDialog
+                {
+                    Filter = "Txt|*.txt"
+                };
+
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    Parser parser = new Parser(dialog.FileName); // FileName = path
+                    parser.parseToFile(images, transformations, materials, cameras, lights, objects);
+                }
+            }
         }
 
         private void exitBtn_Click(object sender, EventArgs e)

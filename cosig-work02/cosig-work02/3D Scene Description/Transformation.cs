@@ -10,7 +10,8 @@ namespace cosig_work02
                           inverseTransformMatrix = new double[4, 4],
                           transposeInverseTransformMatrix = new double[4, 4];
         private Vector3 translation = new Vector3(0, 0, 0),
-                        rotation = new Vector3(0, 0, 0);
+                        rotation = new Vector3(0, 0, 0),
+                        scaling = new Vector3(0, 0, 0);
 
         public Transformation()
         {
@@ -22,6 +23,7 @@ namespace cosig_work02
         public double[,] getTransposeInverseTransformationMatrix() { return transposeInverseTransformMatrix; }
         public Vector3 getTranslation() { return translation; }
         public Vector3 getRotation() { return rotation; }
+        public Vector3 getScale() { return scaling; }
 
         public void setTransformationMatrix(double[,] transformMatrix) { this.transformMatrix = transformMatrix; }
 
@@ -171,6 +173,11 @@ namespace cosig_work02
         // and multiplies the composite transformation matrix by the newly created matrix
         public void scale(double x, double y, double z)
         {
+            // adds the new scaling to the previous obtained one 
+            scaling.setX(scaling.getX() + x);
+            scaling.setY(scaling.getY() + y);
+            scaling.setZ(scaling.getZ() + z);
+
             double[,] scaleMatrix = new double[4, 4];
 
             scaleMatrix[0, 0] = x;

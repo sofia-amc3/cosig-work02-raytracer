@@ -306,7 +306,6 @@ namespace cosig_work02
             this.saveSceneBtn.TabIndex = 54;
             this.saveSceneBtn.Text = "SAVE SCENE";
             this.saveSceneBtn.UseVisualStyleBackColor = false;
-            this.saveSceneBtn.Visible = false;
             this.saveSceneBtn.Click += new System.EventHandler(this.saveSceneBtn_Click);
             // 
             // progressBar1
