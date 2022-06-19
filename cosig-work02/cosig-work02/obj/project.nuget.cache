@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "/DMB3gVU/Zyk5BhcNq5cI7OQZi7YRSyQzBC5vF8I+NO9PXSgGlBkaVsBEWfAcygxjxwiUDqs0MeTzK6hhSFcMA==",
+  "dgSpecHash": "yTPhFM2QXnZrrHUv37JZBLRiAtNd/Okl2Mk4sQX7iSxb7+JQ7PfjXHFJ0js+BNuNxKZNu2QGxS6oDXfgk3d6SQ==",
   "success": true,
   "projectFilePath": "D:\\cosig-work02-git\\cosig-work02\\cosig-work02\\cosig-work02\\cosig-work02.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\SAP-PSC6-G7\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.25\\microsoft.netcore.app.host.win-x64.3.1.25.nupkg.sha512"
+  ],
   "logs": []
 }

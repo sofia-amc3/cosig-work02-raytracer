@@ -42,7 +42,7 @@ namespace cosig_work02
             this.startError = new System.Windows.Forms.Label();
             this.fileName = new System.Windows.Forms.Label();
             this.saveSceneBtn = new System.Windows.Forms.Button();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.progressBar = new System.Windows.Forms.ProgressBar();
             this.backgroundColorLabel = new System.Windows.Forms.Label();
             this.bgColorBInput = new System.Windows.Forms.NumericUpDown();
             this.bgColorBLabel = new System.Windows.Forms.Label();
@@ -177,7 +177,7 @@ namespace cosig_work02
             this.application.Controls.Add(this.startError);
             this.application.Controls.Add(this.fileName);
             this.application.Controls.Add(this.saveSceneBtn);
-            this.application.Controls.Add(this.progressBar1);
+            this.application.Controls.Add(this.progressBar);
             this.application.Controls.Add(this.backgroundColorLabel);
             this.application.Controls.Add(this.bgColorBInput);
             this.application.Controls.Add(this.bgColorBLabel);
@@ -308,14 +308,13 @@ namespace cosig_work02
             this.saveSceneBtn.UseVisualStyleBackColor = false;
             this.saveSceneBtn.Click += new System.EventHandler(this.saveSceneBtn_Click);
             // 
-            // progressBar1
+            // progressBar
             // 
-            this.progressBar1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
-            this.progressBar1.Location = new System.Drawing.Point(48, 547);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(440, 10);
-            this.progressBar1.TabIndex = 53;
-            this.progressBar1.Visible = false;
+            this.progressBar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.progressBar.Location = new System.Drawing.Point(48, 547);
+            this.progressBar.Name = "progressBar";
+            this.progressBar.Size = new System.Drawing.Size(440, 10);
+            this.progressBar.TabIndex = 53;
             // 
             // backgroundColorLabel
             // 
@@ -411,7 +410,7 @@ namespace cosig_work02
             // 
             this.dividerBottom.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
             this.dividerBottom.Font = new System.Drawing.Font("Montserrat", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.dividerBottom.Location = new System.Drawing.Point(530, 539);
+            this.dividerBottom.Location = new System.Drawing.Point(530, 554);
             this.dividerBottom.Name = "dividerBottom";
             this.dividerBottom.Size = new System.Drawing.Size(690, 3);
             this.dividerBottom.TabIndex = 43;
@@ -1100,7 +1099,7 @@ namespace cosig_work02
         private System.Windows.Forms.Label bgColorGLabel;
         private System.Windows.Forms.NumericUpDown bgColorRInput;
         private System.Windows.Forms.Label bgColorRLabel;
-        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.Button saveSceneBtn;
         private System.Windows.Forms.Label fileName;
         private System.Windows.Forms.Label startError;

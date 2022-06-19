@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace cosig_work02
@@ -197,21 +199,53 @@ namespace cosig_work02
 
         private void display3DScene() // called after clicking on "Start"
         {
-            rays = Ray.createRays(cameras[0], images[0]); // creates initial rays
+            progressBar.Value = 0;
+            progressBar.Maximum = images[0].getVRes() + 1;
 
-            Bitmap image = new Bitmap(images[0].getHRes(), images[0].getVRes()); // creates bitmap
-
-            for (int i = 0; i < rays.GetLength(0); i++)
+            // https://stackoverflow.com/questions/18369823/parallel-image-proccessing-with-c-sharp-5-0
+            Task thread = new Task(() =>
             {
-                for (int j = 0; j < rays.GetLength(1); j++)
-                {
-                    Color3 pixel = traceRay(rays[i, j], recursionDepth);
-                    Color color = Color3.convertToColor(pixel);
-                    image.SetPixel(i, j, color);
-                }
-            }
+                rays = Ray.createRays(cameras[0], images[0]); // creates initial rays
 
-            imageRender.Image = image; // applies the created bitmap into the picturebox
+                Bitmap image = new Bitmap(images[0].getHRes(), images[0].getVRes()); // creates bitmap
+                ConcurrentBag<Pixel> pixels = new ConcurrentBag<Pixel>();  
+
+                // uses all the cpu threads available by dividing the image into columns (nr of columns = nr of threads)
+                // image's lines are run in parallel 
+                Parallel.For(0, images[0].getVRes(), (i) =>
+                {
+                    // draws the image's columns
+                    for (int j = 0; j < images[0].getHRes(); j++)
+                    {
+                        Color3 pixelColor = traceRay(rays[i, j], recursionDepth);
+                        Color color = Color3.convertToColor(pixelColor);
+                        pixels.Add(new Pixel(i, j, color)); // saves i, j and color in pixel for future use, because some threads are exiting their processes
+
+                        // updates the image pixel and the image itself on the picture box
+                        BeginInvoke((Action)delegate {
+                            image.SetPixel(i, Math.Min(j, images[0].getVRes() - 1), color);
+                            imageRender.Image = image; // applies the created bitmap into the picturebox
+                        });
+                    }
+
+                    BeginInvoke((Action)delegate {
+                        progressBar.Value++; // updates progress bar
+                    });
+                });
+
+                BeginInvoke((Action)delegate {
+                    // rerenders the image with all the pixels created
+                    // due to the threads that are being exited earlier, it prevents acne
+                    foreach (Pixel pixel in pixels.ToList()) {
+                        image.SetPixel(pixel.getI(), pixel.getJ(), pixel.getColor()); 
+                        imageRender.Image = image; // applies the created bitmap into the picturebox
+                    }
+
+                    progressBar.Value++;
+                });
+            });
+
+            thread.Start();
         }
 
         // SCENE CONTROLS ------------------------------------------------------------------------------------------------------------------------------------
@@ -274,14 +308,14 @@ namespace cosig_work02
 
                 if (dialog.ShowDialog() == DialogResult.OK) imageRender.Image.Save(dialog.FileName, ImageFormat.Png);
             }
+            else startError.Visible = true;
         }
 
         // Save Scene (TXT File) - Reverse Parser
         private void saveSceneBtn_Click(object sender, EventArgs e)
         {
-            if (imageRender.Image != null)
+            if (file != null)
             {
-
                 // Saves txt file
                 SaveFileDialog dialog = new SaveFileDialog
                 {
@@ -294,6 +328,7 @@ namespace cosig_work02
                     parser.parseToFile(images, transformations, materials, cameras, lights, objects);
                 }
             }
+            else startError.Visible = true;
         }
 
         private void exitBtn_Click(object sender, EventArgs e)
