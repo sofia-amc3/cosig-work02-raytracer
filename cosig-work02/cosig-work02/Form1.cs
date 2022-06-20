@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Timers;
 
 namespace cosig_work02
 {
@@ -198,26 +198,51 @@ namespace cosig_work02
             else return images[0].getColor(); // else puts the image's background color 
         }
 
+        private void enableUIElements(bool enable)
+        {
+            // Buttons
+            loadSceneBtn.Enabled = enable;
+            saveImgBtn.Enabled = enable;
+            saveSceneBtn.Enabled = enable;
+            exitBtn.Enabled = enable;
+            startRenderBtn.Enabled = enable;
+            // Numeric UpDowns and Checkboxes
+            ambientCheckbox.Enabled = enable;
+            diffuseCheckbox.Enabled = enable;
+            specularCheckbox.Enabled = enable;
+            refractionCheckbox.Enabled = enable;
+            recursionDepthInput.Enabled = enable;
+            transformXInput.Enabled = enable;
+            transformYInput.Enabled = enable;
+            transformZInput.Enabled = enable;
+            transformHInput.Enabled = enable;
+            transformVInput.Enabled = enable;
+            camDistanceInput.Enabled = enable;
+            camFieldInput.Enabled = enable;
+            imageResHInput.Enabled = enable;
+            imageResVInput.Enabled = enable;
+            bgColorRInput.Enabled = enable;
+            bgColorGInput.Enabled = enable;
+            bgColorBInput.Enabled = enable;
+        }
+
         private void display3DScene() // called after clicking on "Start"
         {
             // Resets values
-            elapsedTimeLabel.Text = "Elapsed Time: 00:00:00";
+            elapsedTimeLabel.Text = "Elapsed time: 00:00:00";
             progressBar.Value = 0;
             progressBar.Maximum = images[0].getVRes() + 1;
-           // System.Timers.Timer timer = new System.Timers.Timer(1000); 
+
+            // Starts new stopwatch
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            // Disables all elements not to cause any errors while rendering
+            enableUIElements(false);
 
             // https://stackoverflow.com/questions/18369823/parallel-image-proccessing-with-c-sharp-5-0
             Task thread = new Task(() =>
             {
-                /* Starts timer
-                BeginInvoke((Action)delegate {
-                    timer.Elapsed += (Object source, ElapsedEventArgs e) =>
-                    {
-                        elapsedTimeLabel.Text = "Elapsed Time: " + e.SignalTime.Hour + ":" + e.SignalTime.Minute + ":" + e.SignalTime.Second;
-                    };
-                    timer.Enabled = true;
-                });*/
-
                 // Creates initial Rays
                 rays = Ray.createRays(cameras[0], images[0]); 
                 // Creates Bitmap
@@ -244,6 +269,7 @@ namespace cosig_work02
 
                     BeginInvoke((Action)delegate {
                         progressBar.Value++; // updates progress bar
+                        elapsedTimeLabel.Text = "Elapsed time: Calculating..."; 
                     });
                 });
 
@@ -255,9 +281,13 @@ namespace cosig_work02
                         imageRender.Image = image; // applies the created bitmap into the picturebox
                     }
 
-                    progressBar.Value++;
-                    /*timer.Stop(); // stops timer
-                    timer.Dispose();*/
+                    progressBar.Value++; // stops progress bar
+                    stopwatch.Stop(); // stops timer
+                    var time = TimeSpan.FromMilliseconds(stopwatch.ElapsedMilliseconds);
+                    elapsedTimeLabel.Text = "Elapsed time: " + time.Minutes + ":" + time.Seconds + ":" + time.Milliseconds; // updates elapsed time label
+
+                    // Enables all elements again
+                    enableUIElements(true);
                 });
             });
 
@@ -365,7 +395,7 @@ namespace cosig_work02
             fileName.Text = "";
             file = null;
             startError.Visible = false;
-            elapsedTimeLabel.Text = "Elapsed Time: 00:00:00";
+            elapsedTimeLabel.Text = "Elapsed time: 00:00:00";
             progressBar.Value = 0;
         }
 
